@@ -87,7 +87,7 @@ int main( int argc, char **argv )
      };
 
      int maximum_size = (order == 4) ? 6 : (order + 1);
-     (void)clique_unweighted_find_all(G, maximum_size, maximum_size, FALSE, &opts);
+     (void)clique_unweighted_find_all(G, 2, maximum_size, FALSE, &opts);
 
      /* free graph data structure */
      graph_free(G);
