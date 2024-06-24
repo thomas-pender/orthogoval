@@ -14,7 +14,7 @@ std::unordered_set<AG, AG::hash_func> orth;
 void insert(AG && ag)
 {
      std::lock_guard<std::mutex> lock(mtx1);
-     orth.insert(ag);
+     orth.insert(std::move(ag));
 }
 
 bool find(const AG & ag)
