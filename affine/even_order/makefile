@@ -16,22 +16,23 @@ INT := $(addprefix ${INTDIR}/,main.h matrix.h ag.h)
 CLIQOBJ := $(addprefix ${CLIQDIR}/,cliquer.o graph.o reorder.o)
 
 vpath %.c++ ${IMPDIR}/
+vpath %.c ${IMPDIR}/
 
 .SILENT:
 
 ${OBJDIR}/%.o: %.c++
 	${CXX} ${CXXFLAGS} -c $< -o $@
 
-all: transversal mutually_orthogoval
+all: transversal raw_search #mutually_orthogoval
 
-transversal: ${OBJDIR}/transversal.o ${OBJ} | ${BINDIR}
+transversal: transversal.c++ ${OBJ} ${INT} | ${BINDIR}
 	${CXX} ${CXXFLAGS} $< ${OBJ} -o ${BINDIR}/$@
 
-mutually_orthogoval: | ${BINDIR}
-	${CC} ${CFLAGS} ${IMPDIR}/$@.c ${CLIQOBJ} -o ${BINDIR}/$@
+raw_search: raw_search.c++ ${OBJ} ${INT} | ${BINDIR}
+	${CXX} ${CXXFLAGS} $< ${OBJ} -o ${BINDIR}/$@
 
-${OBJDIR}/transversal.o: transversal.c++ ${INT} | ${OBJDIR}
-	${CXX} ${CXXFLAGS} -c $< -o $@
+mutually_orthogoval: mutually_orthogoval.c ${CLIQOBJ} | ${BINDIR}
+	${CC} ${CFLAGS} $< ${CLIQOBJ} -o ${BINDIR}/$@
 
 ${OBJ}: ${INT} | ${OBJDIR}
 

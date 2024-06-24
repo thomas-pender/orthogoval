@@ -2,7 +2,7 @@
 # include <matrix.h>
 # include <ag.h>
 
-# define NGENS 2
+# define NGENS 3
 
 int main(int argc, char **argv)
 {
@@ -54,7 +54,7 @@ int main(int argc, char **argv)
           std::list<AG> prev_second{};
           for ( const auto & ag : prev_first )
                for ( const auto & gen : gens ) {
-                    AG new_ag = gen * ag;
+                    AG new_ag{gen * ag};
                     if ( auto it = orbit.find(new_ag); it == orbit.end() ) {
                          if ( orthogoval(canonical, new_ag) ) {
                               std::cout << new_ag << '\n' << std::flush;

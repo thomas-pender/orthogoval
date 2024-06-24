@@ -12,6 +12,8 @@ class AG
      friend bool operator==(const AG&, const AG&);
      friend bool orthogoval(const AG&, const AG&);
 
+     friend bool operator<(const AG&, const AG&);
+
 public:
      struct hash_func
      {

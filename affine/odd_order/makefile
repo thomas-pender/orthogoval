@@ -24,14 +24,11 @@ ${OBJDIR}/%.o: %.c++
 
 all: transversal #mutually_orthogoval
 
-transversal: ${OBJDIR}/transversal.o ${OBJ} | ${BINDIR}
+transversal: transversal.c++ ${OBJ} ${INT} | ${BINDIR}
 	${CXX} ${CXXFLAGS} $< ${OBJ} -o ${BINDIR}/$@
 
 mutually_orthogoval: | ${BINDIR}
 	${CC} ${CFLAGS} ${IMPDIR}/$@.c ${CLIQOBJ} -o ${BINDIR}/$@
-
-${OBJDIR}/transversal.o: transversal.c++ ${INT} | ${OBJDIR}
-	${CXX} ${CXXFLAGS} -c $< -o $@
 
 ${OBJ}: ${INT} | ${OBJDIR}
 

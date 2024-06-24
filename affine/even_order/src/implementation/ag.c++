@@ -58,6 +58,11 @@ bool orthogoval(const AG &ag1, const AG &ag2)
      return true;
 }
 
+bool operator<(const AG &ag1, const AG &ag2)
+{
+     return ag1.spread < ag2.spread;
+}
+
 void AG::resize(std::size_t nb, std::size_t lb)
 {
      spread.resize(nb);

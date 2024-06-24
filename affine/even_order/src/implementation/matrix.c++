@@ -28,6 +28,11 @@ void matrix::resize(std::size_t n)
      M.resize(n);
 }
 
+void matrix::swap(std::vector<std::uint32_t> && v)
+{
+     M = std::exchange(v, {});
+}
+
 matrix& matrix::operator=(const matrix &A)
 {
      matrix cpy{A};
@@ -43,6 +48,14 @@ matrix& matrix::operator=(matrix &&A)
 
 matrix::matrix(std::size_t n)
      : M(n,0)
+{}
+
+matrix::matrix(const std::vector<std::uint32_t> &v)
+     : M{v}
+{}
+
+matrix::matrix(std::vector<std::uint32_t> &&v)
+     : M{std::move(v)}
 {}
 
 matrix::matrix(const matrix &A)
