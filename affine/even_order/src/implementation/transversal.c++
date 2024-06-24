@@ -2,7 +2,7 @@
 # include <matrix.h>
 # include <ag.h>
 
-# define NGENS 3
+# define NGENS 2
 
 int main(int argc, char **argv)
 {

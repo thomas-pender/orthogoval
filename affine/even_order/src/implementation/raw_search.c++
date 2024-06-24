@@ -8,18 +8,18 @@
 
 // unordered set ///////////////////////////////////////////////////////////////
 
-std::mutex mtx;
+std::mutex mtx1, mtx2;
 std::unordered_set<AG, AG::hash_func> orth;
 
 void insert(AG && ag)
 {
-     std::lock_guard<std::mutex> lock(mtx);
-     orth.insert(std::move(ag));
+     std::lock_guard<std::mutex> lock(mtx1);
+     orth.insert(ag);
 }
 
 bool find(const AG & ag)
 {
-     std::lock_guard<std::mutex> lock(mtx);
+     std::lock_guard<std::mutex> lock(mtx1);
      if ( auto it = orth.find(ag); it == orth.end() )
           return true;
      return false;
@@ -27,7 +27,7 @@ bool find(const AG & ag)
 
 void print(const AG & ag)
 {
-     std::lock_guard<std::mutex> lock(mtx);
+     std::lock_guard<std::mutex> lock(mtx2);
      std::cout << ag << '\n' << std::flush;
 }
 

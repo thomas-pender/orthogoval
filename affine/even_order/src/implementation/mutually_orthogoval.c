@@ -80,14 +80,16 @@ int main( int argc, char **argv )
           .reorder_map = NULL,
           .time_function = NULL,
           .output = NULL,
-          .user_function = pr,
+          .user_function = NULL,
           .user_data = NULL,
           .clique_list = NULL,
           .clique_list_length = 0,
      };
 
-     int maximum_size = (order == 4) ? 6 : (order + 1);
-     (void)clique_unweighted_find_all(G, 2, maximum_size, FALSE, &opts);
+     int maximum_size = clique_unweighted_max_weight(G, &opts);
+
+     ops.user_function = pr;
+     int num_cliques = clique_unweighted_find_all(G, maximum_size, maximum_size, FALSE, &opts);
 
      /* free graph data structure */
      graph_free(G);
