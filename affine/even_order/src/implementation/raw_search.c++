@@ -14,7 +14,7 @@ std::unordered_set<AG, AG::hash_func> orth;
 void insert(AG && ag)
 {
      std::lock_guard<std::mutex> lock(mtx);
-     orth.insert(ag);
+     orth.insert(std::move(ag));
 }
 
 bool find(const AG & ag)
@@ -177,24 +177,18 @@ int main(int argc, char **argv)
           F.close();
      }
 
-     std::cout << "start = " << start << '\n'
-               << "end = " << end << '\n'
-               << "tot = " << tot << '\n'
-               << "block_len = " << block_len << "\n\n"
-               << canonical;
+     std::uint32_t first;
+     std::vector<std::thread> threads(NTHREADS - 1);
+     for ( std::uint32_t i{0}; i < NTHREADS - 1; i++ ) {
+          first = i * block_len;
+          threads[i] = std::thread(thread_func, first, first + block_len, canonical);
+     }
 
-     // std::uint32_t first;
-     // std::vector<std::thread> threads(NTHREADS - 1);
-     // for ( std::uint32_t i{0}; i < NTHREADS - 1; i++ ) {
-     //      first = i * block_len;
-     //      threads[i] = std::thread(thread_func, first, first + block_len, canonical);
-     // }
+     first = (NTHREADS - 1) * block_len;
+     thread_func(first, end, canonical);
 
-     // first = (NTHREADS - 1) * block_len;
-     // thread_func(first, end, canonical);
-
-     // for ( auto & t : threads )
-     //      if ( t.joinable() ) t.join();
+     for ( auto & t : threads )
+          if ( t.joinable() ) t.join();
 
      return 0;
 }
