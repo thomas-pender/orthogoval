@@ -12,6 +12,14 @@
 std::mutex mtx;
 std::unordered_set<AG, AG::hash_func> orth;
 
+std::uint64_t count = 0;
+
+void inc(void)
+{
+     std::lock_guard<std::mutex> lock(mtx);
+     count++;
+}
+
 // dependency checks ///////////////////////////////////////////////////////////
 
 inline bool
@@ -109,15 +117,16 @@ void thread_func(std::uint32_t _start, std::uint32_t end, const AG & canonical)
                                    if ( dep6(a,b,c,d,e,f) ) continue;
                                    std::vector<std::uint32_t> v{a,b,c,d,e,f};
                                    if ( reduce(v) ) continue;
-                                   matrix A{std::move(v)};
-                                   AG new_ag{A * canonical};
-                                   std::lock_guard<std::mutex> lock(mtx);
-                                   if ( auto it = orth.find(new_ag); it == orth.end() ) {
-                                        if ( orthogoval(new_ag, canonical) ) {
-                                             std::cout << new_ag << '\n' << std::flush;
-                                             orth.insert(std::move(new_ag));
-                                        }
-                                   }
+                                   inc();
+                                   // matrix A{std::move(v)};
+                                   // AG new_ag{A * canonical};
+                                   // std::lock_guard<std::mutex> lock(mtx);
+                                   // if ( auto it = orth.find(new_ag); it == orth.end() ) {
+                                   //      if ( orthogoval(new_ag, canonical) ) {
+                                   //           std::cout << new_ag << '\n' << std::flush;
+                                   //           orth.insert(std::move(new_ag));
+                                   //      }
+                                   // }
                               }
                          }
                     }
@@ -167,6 +176,8 @@ int main(int argc, char **argv)
           if ( t.joinable() ) t.join();
 
      // std::cout << orth.size() - 1 << '\n';
+
+     std::cout << count << '\n';
 
      return 0;
 }
