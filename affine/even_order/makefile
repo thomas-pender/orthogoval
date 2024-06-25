@@ -23,15 +23,12 @@ vpath %.c ${IMPDIR}/
 ${OBJDIR}/%.o: %.c++
 	${CXX} ${CXXFLAGS} -c $< -o $@
 
-all: transversal raw_search raw_search6 #mutually_orthogoval
+all: transversal raw_search #mutually_orthogoval
 
 transversal: transversal.c++ ${OBJ} ${INT} | ${BINDIR}
 	${CXX} ${CXXFLAGS} $< ${OBJ} -o ${BINDIR}/$@
 
 raw_search: raw_search.c++ ${OBJ} ${INT} | ${BINDIR}
-	${CXX} ${CXXFLAGS} $< ${OBJ} -o ${BINDIR}/$@
-
-raw_search6: raw_search6.c++ ${OBJ} ${INT} | ${BINDIR}
 	${CXX} ${CXXFLAGS} $< ${OBJ} -o ${BINDIR}/$@
 
 mutually_orthogoval: mutually_orthogoval.c ${CLIQOBJ} | ${BINDIR}
