@@ -112,13 +112,11 @@ bool reduce(const std::vector<std::uint32_t> & u)
 
 // threads /////////////////////////////////////////////////////////////////////
 
-std::mutex mtx;
-
 void thread_func(std::uint32_t _start, std::uint32_t end, const AG & canonical)
 {
      std::uint32_t start = (_start == 0) ? 1 : _start;
      std::lock_guard<std::mutex> lock(mtx);
-     std::cout << start << " " << end << '\n' std::flush;
+     std::cout << start << " " << end << '\n' << std::flush;
      // std::uint32_t a,b,c,d,e,f,g,h;
      // for ( a = start; a < end; a++ )
      //      for ( b = 1; b < LEN; b++ ) {
