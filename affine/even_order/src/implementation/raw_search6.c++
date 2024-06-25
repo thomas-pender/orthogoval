@@ -5,9 +5,9 @@
 # include <functional>
 
 # define NTHREADS 6
-# define LEN 256
-# define DIM 8
-# define ORDER 16
+# define LEN 64
+# define DIM 6
+# define ORDER 8
 
 // hash table //////////////////////////////////////////////////////////////////
 
@@ -62,26 +62,6 @@ dep6(std::uint32_t a, std::uint32_t b, std::uint32_t c,
      return (f == a) || (f == b) || (f == c) || (f == d) || (f == e);
 }
 
-inline bool
-dep7(std::uint32_t a, std::uint32_t b, std::uint32_t c,
-     std::uint32_t d, std::uint32_t e, std::uint32_t f, std::uint32_t g)
-{
-     /* only checks equality
-      * and g nonzero */
-     return (g == a) || (g == b) || (g == c) ||
-          (g == d) || (g == e) || (g == f);
-}
-
-inline bool
-dep8(std::uint32_t a, std::uint32_t b, std::uint32_t c, std::uint32_t d,
-     std::uint32_t e, std::uint32_t f, std::uint32_t g, std::uint32_t h)
-{
-     /* only checks equality
-      * and h nonzero */
-     return (h == a) || (h == b) || (h == c) ||
-          (h == d) || (h == e) || (h == f) || (h == g);
-}
-
 inline std::uint32_t
 sig_bit(std::uint32_t n)
 {
@@ -117,7 +97,7 @@ bool reduce(const std::vector<std::uint32_t> & u)
 void thread_func(std::uint32_t _start, std::uint32_t end, const AG & canonical)
 {
      std::uint32_t start = (_start == 0) ? 1 : _start;
-     std::uint32_t a,b,c,d,e,f,g,h;
+     std::uint32_t a,b,c,d,e,f;
      for ( a = start; a < end; a++ )
           for ( b = 1; b < LEN; b++ ) {
                if ( dep2(a,b) ) continue;
@@ -129,21 +109,15 @@ void thread_func(std::uint32_t _start, std::uint32_t end, const AG & canonical)
                               if( dep5(a,b,c,d,e) ) continue;
                               for ( f = 1; f < LEN; f++ ) {
                                    if ( dep6(a,b,c,d,e,f) ) continue;
-                                   for ( g = 1; g < LEN; g++ ) {
-                                        if ( dep7(a,b,c,d,e,f,g) ) continue;
-                                        for ( h = 1; h < LEN; h++ ) {
-                                             if ( dep8(a,b,c,d,e,f,g,h) ) continue;
-                                             std::vector<std::uint32_t> v{a,b,c,d,e,f,g,h};
-                                             if ( reduce(v) ) continue;
-                                             matrix A{std::move(v)};
-                                             AG new_ag{A * canonical};
-                                             std::lock_guard<std::mutex> lock(mtx);
-                                             if ( auto it = orth.find(new_ag); it == orth.end() ) {
-                                                  if ( orthogoval(new_ag, canonical) ) {
-                                                       std::cout << new_ag << '\n' << std::flush;
-                                                       orth.insert(std::move(new_ag));
-                                                  }
-                                             }
+                                   std::vector<std::uint32_t> v{a,b,c,d,e,f};
+                                   if ( reduce(v) ) continue;
+                                   matrix A{std::move(v)};
+                                   AG new_ag{A * canonical};
+                                   std::lock_guard<std::mutex> lock(mtx);
+                                   if ( auto it = orth.find(new_ag); it == orth.end() ) {
+                                        if ( orthogoval(new_ag, canonical) ) {
+                                             std::cout << new_ag << '\n' << std::flush;
+                                             orth.insert(std::move(new_ag));
                                         }
                                    }
                               }
@@ -174,7 +148,7 @@ int main(int argc, char **argv)
 
      AG canonical{ORDER + 1, ORDER};
      {
-          std::fstream F("./var/ord16/spread.16.txt", std::ios::in);
+          std::fstream F("./var/ord8/spread.8.txt", std::ios::in);
           F >> canonical;
           F.close();
      }
