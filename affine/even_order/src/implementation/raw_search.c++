@@ -55,9 +55,15 @@ inline bool
 dep6(std::uint32_t a, std::uint32_t b, std::uint32_t c,
      std::uint32_t d, std::uint32_t e, std::uint32_t f)
 {
-     /* only checks equality
+     /* assumes a, b, c, d, and e are independent
       * and f nonzero */
-     return (f == a) || (f == b) || (f == c) || (f == d) || (f == e);
+     return (f == a) || (f == b) || (f == c) || (f == d) || (f == e) ||
+          (f == (a^b)) || (f == (a^c)) || (f == (a^d)) || (f == (a^e)) || (f == (b^c)) ||
+          (f == (b^d)) || (f == (b^e)) || (f == (c^d)) || (f == (c^e)) || (f == (d^e)) ||
+          (f == (a^b^c)) || (f == (a^b^d)) || (f == (a^b^e)) || (f == (a^c^d)) || (f == (a^c^e)) ||
+          (f == (a^d^e)) || (f == (b^c^d)) || (f == (b^c^e)) || (f == (b^d^e)) || (f == (c^d^e)) ||
+          (f == (a^b^c^d)) || (f == (a^b^c^e)) || (f == (a^b^d^e)) || (f == (a^c^d^e)) || (f == (b^c^d^e)) ||
+          (f == (a^b^c^d^e));
 }
 
 inline bool
@@ -115,7 +121,6 @@ bool reduce(const std::vector<std::uint32_t> & u)
 void thread_func(std::uint32_t _start, std::uint32_t end, const AG & canonical)
 {
      std::uint32_t start = (_start == 0) ? 1 : _start;
-     std::lock_guard<std::mutex> lock(mtx);
      std::uint32_t a,b,c,d,e,f,g,h;
      for ( a = start; a < end; a++ )
           for ( b = 1; b < LEN; b++ ) {

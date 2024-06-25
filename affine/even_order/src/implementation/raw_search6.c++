@@ -2,23 +2,13 @@
 # include <matrix.h>
 # include <ag.h>
 
+# include <functional>
+# include <numeric>
+
 # define NTHREADS 6
-# define LEN 64
-# define DIM 6
-# define ORDER 8
-
-// hash table //////////////////////////////////////////////////////////////////
-
-std::mutex mtx;
-std::unordered_set<AG, AG::hash_func> orth;
-
-std::uint64_t count = 0;
-
-void inc(void)
-{
-     std::lock_guard<std::mutex> lock(mtx);
-     count++;
-}
+# define LEN 256
+# define DIM 8
+# define ORDER 16
 
 // dependency checks ///////////////////////////////////////////////////////////
 
@@ -63,44 +53,21 @@ inline bool
 dep6(std::uint32_t a, std::uint32_t b, std::uint32_t c,
      std::uint32_t d, std::uint32_t e, std::uint32_t f)
 {
-     /* only checks equality
+     /* assumes a, b, c, d, and e are independent
       * and f nonzero */
-     return (f == a) || (f == b) || (f == c) || (f == d) || (f == e);
-}
-
-inline std::uint32_t
-sig_bit(std::uint32_t n)
-{
-     return 1U << (31 - __builtin_clz(n));
-}
-
-/* row reduce to check invertibility */
-bool reduce(const std::vector<std::uint32_t> & u)
-{
-     std::vector<std::uint32_t> v{u};
-     std::uint32_t max_bit;
-     std::vector<std::uint32_t>::iterator it1, it2;
-     for ( it1 = v.begin(); it1 != v.end() - 1; it1++ ) {
-          /* find maximum row among those not processed
-           * and swap to first unprocessed position */
-          it2 = std::max_element(it1, v.end());
-          std::swap(*it1, *it2);
-
-          /* get significant bit */
-          max_bit = sig_bit(*it1);
-
-          /* reduce lower rows */
-          for ( it2 = it1 + 1; it2 != v.end(); it2++ ) {
-               if ( max_bit & *it2 ) *it2 ^= *it1;
-               if ( *it2 == 0 ) return true;
-          }
-     }
-     return false;
+     return (f == a) || (f == b) || (f == c) || (f == d) || (f == e) ||
+          (f == (a^b)) || (f == (a^c)) || (f == (a^d)) || (f == (a^e)) || (f == (b^c)) ||
+          (f == (b^d)) || (f == (b^e)) || (f == (c^d)) || (f == (c^e)) || (f == (d^e)) ||
+          (f == (a^b^c)) || (f == (a^b^d)) || (f == (a^b^e)) || (f == (a^c^d)) || (f == (a^c^e)) ||
+          (f == (a^d^e)) || (f == (b^c^d)) || (f == (b^c^e)) || (f == (b^d^e)) || (f == (c^d^e)) ||
+          (f == (a^b^c^d)) || (f == (a^b^c^e)) || (f == (a^b^d^e)) || (f == (a^c^d^e)) || (f == (b^c^d^e)) ||
+          (f == (a^b^c^d^e));
 }
 
 // threads /////////////////////////////////////////////////////////////////////
 
-void thread_func(std::uint32_t _start, std::uint32_t end, const AG & canonical)
+void thread_func(std::uint32_t _start, std::uint32_t end,
+                 std::uint64_t & count, const AG & canonical)
 {
      std::uint32_t start = (_start == 0) ? 1 : _start;
      std::uint32_t a,b,c,d,e,f;
@@ -115,18 +82,7 @@ void thread_func(std::uint32_t _start, std::uint32_t end, const AG & canonical)
                               if( dep5(a,b,c,d,e) ) continue;
                               for ( f = 1; f < LEN; f++ ) {
                                    if ( dep6(a,b,c,d,e,f) ) continue;
-                                   std::vector<std::uint32_t> v{a,b,c,d,e,f};
-                                   if ( reduce(v) ) continue;
-                                   inc();
-                                   // matrix A{std::move(v)};
-                                   // AG new_ag{A * canonical};
-                                   // std::lock_guard<std::mutex> lock(mtx);
-                                   // if ( auto it = orth.find(new_ag); it == orth.end() ) {
-                                   //      if ( orthogoval(new_ag, canonical) ) {
-                                   //           std::cout << new_ag << '\n' << std::flush;
-                                   //           orth.insert(std::move(new_ag));
-                                   //      }
-                                   // }
+                                   count++;
                               }
                          }
                     }
@@ -160,24 +116,21 @@ int main(int argc, char **argv)
           F.close();
      }
 
-     orth.insert(canonical);
-
      std::uint32_t first;
+     std::vector<std::uint64_t> counts(NTHREADS, 0);
      std::vector<std::thread> threads(NTHREADS - 1);
      for ( std::uint32_t i{0}; i < NTHREADS - 1; i++ ) {
           first = i * block_len;
-          threads[i] = std::thread(thread_func, first + start, first + start + block_len, canonical);
+          threads[i] = std::thread(thread_func, first + start, first + start + block_len, std::ref(counts[i]), canonical);
      }
 
      first = (NTHREADS - 1) * block_len;
-     thread_func(first + start, end, canonical);
+     thread_func(first + start, end, std::ref(counts[NTHREADS - 1]), canonical);
 
      for ( auto & t : threads )
           if ( t.joinable() ) t.join();
 
-     // std::cout << orth.size() - 1 << '\n';
-
-     std::cout << count << '\n';
+     std::cout << std::accumulate(counts.begin(), counts.end(), 0) << '\n';
 
      return 0;
 }
