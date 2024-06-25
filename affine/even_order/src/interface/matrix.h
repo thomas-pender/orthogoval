@@ -11,7 +11,6 @@ class matrix
 
 public:
      void resize(std::size_t);
-     void swap(std::vector<std::uint32_t> &&);
 
      matrix& operator=(const matrix&);
      matrix& operator=(matrix&&);

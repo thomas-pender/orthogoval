@@ -28,11 +28,6 @@ void matrix::resize(std::size_t n)
      M.resize(n);
 }
 
-void matrix::swap(std::vector<std::uint32_t> && v)
-{
-     M = std::exchange(v, {});
-}
-
 matrix& matrix::operator=(const matrix &A)
 {
      matrix cpy{A};
