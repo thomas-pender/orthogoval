@@ -124,19 +124,32 @@ void thread_func(std::uint32_t _start, std::uint32_t end, std::uint64_t & count)
 
 // driver //////////////////////////////////////////////////////////////////////
 
-int main(void)
+int main(int argc, char **argv)
 {
-     std::uint32_t first, block_len = LEN / NTHREADS;
+     if ( argc < 3 ) {
+          std::cerr << "USAGE -- requires parameters <start> <end>\n";
+          return 1;
+     }
+
+     std::uint32_t start, end, first, block_len;
+     {
+          std::stringstream ss{argv[1]};
+          ss >> start;
+          ss.clear(); ss.str(argv[2]);
+          ss >> end;
+     }
+     block_len = (end - start) / NTHREADS;
+
      std::vector<std::uint64_t> counts(NTHREADS, 0);
      std::vector<std::thread> threads(NTHREADS - 1);
 
      for ( std::uint32_t i{0}; i < NTHREADS - 1; i++ ) {
-          first = block_len * i;
+          first = (block_len * i) + start;
           threads[i] = std::thread(thread_func, first, first + block_len, std::ref(counts[i]));
      }
 
-     first = block_len * (NTHREADS - 1);
-     thread_func(first, LEN, std::ref(counts[NTHREADS - 1]));
+     first = (block_len * (NTHREADS - 1)) + start;
+     thread_func(first, end, std::ref(counts[NTHREADS - 1]));
 
      for (auto & t : threads) if ( t.joinable() ) t.join();
 
