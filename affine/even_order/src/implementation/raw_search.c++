@@ -116,41 +116,40 @@ void thread_func(std::uint32_t _start, std::uint32_t end, const AG & canonical)
 {
      std::uint32_t start = (_start == 0) ? 1 : _start;
      std::lock_guard<std::mutex> lock(mtx);
-     std::cout << start << " " << end << '\n' << std::flush;
-     // std::uint32_t a,b,c,d,e,f,g,h;
-     // for ( a = start; a < end; a++ )
-     //      for ( b = 1; b < LEN; b++ ) {
-     //           if ( dep2(a,b) ) continue;
-     //           for ( c = 1; c < LEN; c++ ) {
-     //                if ( dep3(a,b,c) ) continue;
-     //                for ( d = 1; d < LEN; d++ ) {
-     //                     if ( dep4(a,b,c,d) ) continue;
-     //                     for ( e = 1; e < LEN; e++ ) {
-     //                          if( dep5(a,b,c,d,e) ) continue;
-     //                          for ( f = 1; f < LEN; f++ ) {
-     //                               if ( dep6(a,b,c,d,e,f) ) continue;
-     //                               for ( g = 1; g < LEN; g++ ) {
-     //                                    if ( dep7(a,b,c,d,e,f,g) ) continue;
-     //                                    for ( h = 1; h < LEN; h++ ) {
-     //                                         if ( dep8(a,b,c,d,e,f,g,h) ) continue;
-     //                                         std::vector<std::uint32_t> v{a,b,c,d,e,f,g,h};
-     //                                         if ( reduce(v) ) continue;
-     //                                         matrix A{std::move(v)};
-     //                                         AG new_ag{A * canonical};
-     //                                         std::lock_guard<std::mutex> lock(mtx);
-     //                                         if ( auto it = orth.find(new_ag); it == orth.end() ) {
-     //                                              if ( orthogoval(new_ag, canonical) ) {
-     //                                                   std::cout << new_ag << '\n' << std::flush;
-     //                                                   orth.insert(std::move(new_ag));
-     //                                              }
-     //                                         }
-     //                                    }
-     //                               }
-     //                          }
-     //                     }
-     //                }
-     //           }
-     //      }
+     std::uint32_t a,b,c,d,e,f,g,h;
+     for ( a = start; a < end; a++ )
+          for ( b = 1; b < LEN; b++ ) {
+               if ( dep2(a,b) ) continue;
+               for ( c = 1; c < LEN; c++ ) {
+                    if ( dep3(a,b,c) ) continue;
+                    for ( d = 1; d < LEN; d++ ) {
+                         if ( dep4(a,b,c,d) ) continue;
+                         for ( e = 1; e < LEN; e++ ) {
+                              if( dep5(a,b,c,d,e) ) continue;
+                              for ( f = 1; f < LEN; f++ ) {
+                                   if ( dep6(a,b,c,d,e,f) ) continue;
+                                   for ( g = 1; g < LEN; g++ ) {
+                                        if ( dep7(a,b,c,d,e,f,g) ) continue;
+                                        for ( h = 1; h < LEN; h++ ) {
+                                             if ( dep8(a,b,c,d,e,f,g,h) ) continue;
+                                             std::vector<std::uint32_t> v{a,b,c,d,e,f,g,h};
+                                             if ( reduce(v) ) continue;
+                                             matrix A{std::move(v)};
+                                             AG new_ag{A * canonical};
+                                             std::lock_guard<std::mutex> lock(mtx);
+                                             if ( auto it = orth.find(new_ag); it == orth.end() ) {
+                                                  if ( orthogoval(new_ag, canonical) ) {
+                                                       std::cout << new_ag << '\n' << std::flush;
+                                                       orth.insert(std::move(new_ag));
+                                                  }
+                                             }
+                                        }
+                                   }
+                              }
+                         }
+                    }
+               }
+          }
 }
 
 // driver //////////////////////////////////////////////////////////////////////

@@ -2,8 +2,6 @@
 # include <matrix.h>
 # include <ag.h>
 
-# include <functional>
-
 # define NTHREADS 6
 # define LEN 64
 # define DIM 6
@@ -97,6 +95,7 @@ bool reduce(const std::vector<std::uint32_t> & u)
 void thread_func(std::uint32_t _start, std::uint32_t end, const AG & canonical)
 {
      std::uint32_t start = (_start == 0) ? 1 : _start;
+     std::lock_guard<std::mutex> lock(mtx);
      std::uint32_t a,b,c,d,e,f;
      for ( a = start; a < end; a++ )
           for ( b = 1; b < LEN; b++ ) {
@@ -159,11 +158,11 @@ int main(int argc, char **argv)
      std::vector<std::thread> threads(NTHREADS - 1);
      for ( std::uint32_t i{0}; i < NTHREADS - 1; i++ ) {
           first = i * block_len;
-          threads[i] = std::thread(thread_func, first, first + block_len, canonical);
+          threads[i] = std::thread(thread_func, first + start, first + start + block_len, canonical);
      }
 
      first = (NTHREADS - 1) * block_len;
-     thread_func(first, end, canonical);
+     thread_func(first + start, end, canonical);
 
      for ( auto & t : threads )
           if ( t.joinable() ) t.join();
