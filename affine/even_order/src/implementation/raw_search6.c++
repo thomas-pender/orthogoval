@@ -6,9 +6,9 @@
 # include <numeric>
 
 # define NTHREADS 6
-# define LEN 256
-# define DIM 8
-# define ORDER 16
+# define LEN 64
+# define DIM 6
+# define ORDER 8
 
 // dependency checks ///////////////////////////////////////////////////////////
 
@@ -66,8 +66,7 @@ dep6(std::uint32_t a, std::uint32_t b, std::uint32_t c,
 
 // threads /////////////////////////////////////////////////////////////////////
 
-void thread_func(std::uint32_t _start, std::uint32_t end,
-                 std::uint64_t & count, const AG & canonical)
+void thread_func(std::uint32_t _start, std::uint32_t end, std::uint64_t & count)
 {
      std::uint32_t start = (_start == 0) ? 1 : _start;
      std::uint32_t a,b,c,d,e,f;
@@ -109,23 +108,23 @@ int main(int argc, char **argv)
           block_len = tot / NTHREADS;
      }
 
-     AG canonical{ORDER + 1, ORDER};
-     {
-          std::fstream F("./var/ord8/spread.8.txt", std::ios::in);
-          F >> canonical;
-          F.close();
-     }
+     // AG canonical{ORDER + 1, ORDER};
+     // {
+     //      std::fstream F("./var/ord8/spread.8.txt", std::ios::in);
+     //      F >> canonical;
+     //      F.close();
+     // }
 
      std::uint32_t first;
      std::vector<std::uint64_t> counts(NTHREADS, 0);
      std::vector<std::thread> threads(NTHREADS - 1);
      for ( std::uint32_t i{0}; i < NTHREADS - 1; i++ ) {
           first = i * block_len;
-          threads[i] = std::thread(thread_func, first + start, first + start + block_len, std::ref(counts[i]), canonical);
+          threads[i] = std::thread(thread_func, first + start, first + start + block_len, std::ref(counts[i]));
      }
 
      first = (NTHREADS - 1) * block_len;
-     thread_func(first + start, end, std::ref(counts[NTHREADS - 1]), canonical);
+     thread_func(first + start, end, std::ref(counts[NTHREADS - 1]));
 
      for ( auto & t : threads )
           if ( t.joinable() ) t.join();
