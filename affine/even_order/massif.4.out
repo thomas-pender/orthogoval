@@ -1,0 +1,787 @@
+desc: (none)
+cmd: ./bin/transversal 4 4 ./var/ord4/generators.4.txt ./var/ord4/spread.4.txt
+time_unit: i
+#-----------
+snapshot=0
+#-----------
+time=0
+mem_heap_B=0
+mem_heap_extra_B=0
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=1
+#-----------
+time=2318115
+mem_heap_B=72704
+mem_heap_extra_B=8
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=2
+#-----------
+time=2445313
+mem_heap_B=73176
+mem_heap_extra_B=24
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=3
+#-----------
+time=2492199
+mem_heap_B=73720
+mem_heap_extra_B=296
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=4
+#-----------
+time=2549455
+mem_heap_B=78536
+mem_heap_extra_B=520
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=5
+#-----------
+time=2600064
+mem_heap_B=79056
+mem_heap_extra_B=680
+mem_stacks_B=0
+heap_tree=detailed
+n3: 79056 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 72704 0x4918939: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+  n1: 72704 0x400647D: call_init.part.0 (dl-init.c:70)
+   n1: 72704 0x4006567: call_init (dl-init.c:33)
+    n1: 72704 0x4006567: _dl_init (dl-init.c:117)
+     n1: 72704 0x40202C9: ??? (in /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2)
+      n1: 72704 0x4: ???
+       n1: 72704 0x1FFF0001A6: ???
+        n1: 72704 0x1FFF0001B8: ???
+         n1: 72704 0x1FFF0001BA: ???
+          n1: 72704 0x1FFF0001BC: ???
+           n0: 72704 0x1FFF0001D8: ???
+ n1: 4096 0x4B38BA3: _IO_file_doallocate (filedoalloc.c:101)
+  n1: 4096 0x4B47CDF: _IO_doallocbuf (genops.c:347)
+   n1: 4096 0x4B46F5F: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:744)
+    n1: 4096 0x4B456D4: _IO_new_file_xsputn (fileops.c:1243)
+     n1: 4096 0x4B456D4: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1196)
+      n1: 4096 0x4B39FD6: fwrite (iofwrite.c:39)
+       n1: 4096 0x499D103: std::ostreambuf_iterator<char, std::char_traits<char> > std::num_put<char, std::ostreambuf_iterator<char, std::char_traits<char> > >::_M_insert_int<unsigned long>(std::ostreambuf_iterator<char, std::char_traits<char> >, std::ios_base&, char, unsigned long) const (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+        n1: 4096 0x49AB3C9: std::ostream& std::ostream::_M_insert<unsigned long>(unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+         n1: 4096 0x110F8D: operator<<(std::ostream&, AG const&) (in /home/thomas/programs/orthogoval/affine/even_order/bin/transversal)
+          n0: 4096 0x10AE00: main (transversal.c++:60)
+ n0: 2256 in 12 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=6
+#-----------
+time=2644217
+mem_heap_B=79056
+mem_heap_extra_B=680
+mem_stacks_B=0
+heap_tree=detailed
+n3: 79056 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 72704 0x4918939: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+  n1: 72704 0x400647D: call_init.part.0 (dl-init.c:70)
+   n1: 72704 0x4006567: call_init (dl-init.c:33)
+    n1: 72704 0x4006567: _dl_init (dl-init.c:117)
+     n1: 72704 0x40202C9: ??? (in /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2)
+      n1: 72704 0x4: ???
+       n1: 72704 0x1FFF0001A6: ???
+        n1: 72704 0x1FFF0001B8: ???
+         n1: 72704 0x1FFF0001BA: ???
+          n1: 72704 0x1FFF0001BC: ???
+           n0: 72704 0x1FFF0001D8: ???
+ n1: 4096 0x4B38BA3: _IO_file_doallocate (filedoalloc.c:101)
+  n1: 4096 0x4B47CDF: _IO_doallocbuf (genops.c:347)
+   n1: 4096 0x4B46F5F: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:744)
+    n1: 4096 0x4B456D4: _IO_new_file_xsputn (fileops.c:1243)
+     n1: 4096 0x4B456D4: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1196)
+      n1: 4096 0x4B39FD6: fwrite (iofwrite.c:39)
+       n1: 4096 0x499D103: std::ostreambuf_iterator<char, std::char_traits<char> > std::num_put<char, std::ostreambuf_iterator<char, std::char_traits<char> > >::_M_insert_int<unsigned long>(std::ostreambuf_iterator<char, std::char_traits<char> >, std::ios_base&, char, unsigned long) const (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+        n1: 4096 0x49AB3C9: std::ostream& std::ostream::_M_insert<unsigned long>(unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+         n1: 4096 0x110F8D: operator<<(std::ostream&, AG const&) (in /home/thomas/programs/orthogoval/affine/even_order/bin/transversal)
+          n0: 4096 0x10AE00: main (transversal.c++:60)
+ n0: 2256 in 12 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=7
+#-----------
+time=2684492
+mem_heap_B=80016
+mem_heap_extra_B=984
+mem_stacks_B=0
+heap_tree=detailed
+n4: 80016 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 72704 0x4918939: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+  n1: 72704 0x400647D: call_init.part.0 (dl-init.c:70)
+   n1: 72704 0x4006567: call_init (dl-init.c:33)
+    n1: 72704 0x4006567: _dl_init (dl-init.c:117)
+     n1: 72704 0x40202C9: ??? (in /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2)
+      n1: 72704 0x4: ???
+       n1: 72704 0x1FFF0001A6: ???
+        n1: 72704 0x1FFF0001B8: ???
+         n1: 72704 0x1FFF0001BA: ???
+          n1: 72704 0x1FFF0001BC: ???
+           n0: 72704 0x1FFF0001D8: ???
+ n1: 4096 0x4B38BA3: _IO_file_doallocate (filedoalloc.c:101)
+  n1: 4096 0x4B47CDF: _IO_doallocbuf (genops.c:347)
+   n1: 4096 0x4B46F5F: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:744)
+    n1: 4096 0x4B456D4: _IO_new_file_xsputn (fileops.c:1243)
+     n1: 4096 0x4B456D4: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1196)
+      n1: 4096 0x4B39FD6: fwrite (iofwrite.c:39)
+       n1: 4096 0x499D103: std::ostreambuf_iterator<char, std::char_traits<char> > std::num_put<char, std::ostreambuf_iterator<char, std::char_traits<char> > >::_M_insert_int<unsigned long>(std::ostreambuf_iterator<char, std::char_traits<char> >, std::ios_base&, char, unsigned long) const (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+        n1: 4096 0x49AB3C9: std::ostream& std::ostream::_M_insert<unsigned long>(unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+         n1: 4096 0x110F8D: operator<<(std::ostream&, AG const&) (in /home/thomas/programs/orthogoval/affine/even_order/bin/transversal)
+          n0: 4096 0x10AE00: main (transversal.c++:60)
+ n0: 2376 in 11 places, all below massif's threshold (1.00%)
+ n2: 840 0x113081: AG::AG(AG const&) (in /home/thomas/programs/orthogoval/affine/even_order/bin/transversal)
+  n2: 840 0x10F335: decltype (::new ((void*)(0)) AG((declval<AG const&>)())) std::construct_at<AG, AG const&>(AG*, AG const&) (stl_construct.h:97)
+   n1: 840 0x10F567: void std::allocator_traits<std::allocator<std::__detail::_Hash_node<AG, true> > >::construct<AG, AG const&>(std::allocator<std::__detail::_Hash_node<AG, true> >&, AG*, AG const&) (alloc_traits.h:518)
+    n1: 840 0x10ED02: std::__detail::_Hash_node<AG, true>* std::__detail::_Hashtable_alloc<std::allocator<std::__detail::_Hash_node<AG, true> > >::_M_allocate_node<AG const&>(AG const&) (hashtable_policy.h:1878)
+     n1: 840 0x10E210: std::__detail::_Hash_node<AG, true>* std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > >::operator()<AG const&>(AG const&) const (hashtable_policy.h:168)
+      n1: 840 0x10D7A2: std::pair<std::__detail::_Node_iterator<AG, true, true>, bool> std::_Hashtable<AG, AG, std::allocator<AG>, std::__detail::_Identity, std::equal_to<AG>, AG::hash_func, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, true, true> >::_M_insert<AG const&, std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > > >(AG const&, std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > > const&, std::integral_constant<bool, true>) (hashtable.h:2108)
+       n1: 840 0x10CE52: std::__detail::_Insert_base<AG, AG, std::allocator<AG>, std::__detail::_Identity, std::equal_to<AG>, AG::hash_func, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, true, true> >::insert(AG const&) (hashtable_policy.h:844)
+        n0: 840 in 2 places, all below massif's threshold (1.00%)
+   n0: 0 in 1 place, below massif's threshold (1.00%)
+  n0: 0 in 2 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=8
+#-----------
+time=2715570
+mem_heap_B=80424
+mem_heap_extra_B=1096
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=9
+#-----------
+time=2773453
+mem_heap_B=80976
+mem_heap_extra_B=1272
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=10
+#-----------
+time=2803447
+mem_heap_B=81456
+mem_heap_extra_B=1416
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=11
+#-----------
+time=2849637
+mem_heap_B=81216
+mem_heap_extra_B=1360
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=12
+#-----------
+time=2878565
+mem_heap_B=82248
+mem_heap_extra_B=1640
+mem_stacks_B=0
+heap_tree=detailed
+n6: 82248 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 72704 0x4918939: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+  n1: 72704 0x400647D: call_init.part.0 (dl-init.c:70)
+   n1: 72704 0x4006567: call_init (dl-init.c:33)
+    n1: 72704 0x4006567: _dl_init (dl-init.c:117)
+     n1: 72704 0x40202C9: ??? (in /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2)
+      n1: 72704 0x4: ???
+       n1: 72704 0x1FFF0001A6: ???
+        n1: 72704 0x1FFF0001B8: ???
+         n1: 72704 0x1FFF0001BA: ???
+          n1: 72704 0x1FFF0001BC: ???
+           n0: 72704 0x1FFF0001D8: ???
+ n1: 4096 0x4B38BA3: _IO_file_doallocate (filedoalloc.c:101)
+  n1: 4096 0x4B47CDF: _IO_doallocbuf (genops.c:347)
+   n1: 4096 0x4B46F5F: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:744)
+    n1: 4096 0x4B456D4: _IO_new_file_xsputn (fileops.c:1243)
+     n1: 4096 0x4B456D4: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1196)
+      n1: 4096 0x4B39FD6: fwrite (iofwrite.c:39)
+       n1: 4096 0x499D103: std::ostreambuf_iterator<char, std::char_traits<char> > std::num_put<char, std::ostreambuf_iterator<char, std::char_traits<char> > >::_M_insert_int<unsigned long>(std::ostreambuf_iterator<char, std::char_traits<char> >, std::ios_base&, char, unsigned long) const (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+        n1: 4096 0x49AB3C9: std::ostream& std::ostream::_M_insert<unsigned long>(unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+         n1: 4096 0x110F8D: operator<<(std::ostream&, AG const&) (in /home/thomas/programs/orthogoval/affine/even_order/bin/transversal)
+          n0: 4096 0x10AE00: main (transversal.c++:60)
+ n0: 1808 in 9 places, all below massif's threshold (1.00%)
+ n2: 1680 0x113081: AG::AG(AG const&) (in /home/thomas/programs/orthogoval/affine/even_order/bin/transversal)
+  n2: 1680 0x10F335: decltype (::new ((void*)(0)) AG((declval<AG const&>)())) std::construct_at<AG, AG const&>(AG*, AG const&) (stl_construct.h:97)
+   n1: 1680 0x10F567: void std::allocator_traits<std::allocator<std::__detail::_Hash_node<AG, true> > >::construct<AG, AG const&>(std::allocator<std::__detail::_Hash_node<AG, true> >&, AG*, AG const&) (alloc_traits.h:518)
+    n1: 1680 0x10ED02: std::__detail::_Hash_node<AG, true>* std::__detail::_Hashtable_alloc<std::allocator<std::__detail::_Hash_node<AG, true> > >::_M_allocate_node<AG const&>(AG const&) (hashtable_policy.h:1878)
+     n1: 1680 0x10E210: std::__detail::_Hash_node<AG, true>* std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > >::operator()<AG const&>(AG const&) const (hashtable_policy.h:168)
+      n1: 1680 0x10D7A2: std::pair<std::__detail::_Node_iterator<AG, true, true>, bool> std::_Hashtable<AG, AG, std::allocator<AG>, std::__detail::_Identity, std::equal_to<AG>, AG::hash_func, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, true, true> >::_M_insert<AG const&, std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > > >(AG const&, std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > > const&, std::integral_constant<bool, true>) (hashtable.h:2108)
+       n2: 1680 0x10CE52: std::__detail::_Insert_base<AG, AG, std::allocator<AG>, std::__detail::_Identity, std::equal_to<AG>, AG::hash_func, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, true, true> >::insert(AG const&) (hashtable_policy.h:844)
+        n1: 1560 0x10C3B2: std::unordered_set<AG, AG::hash_func, std::equal_to<AG>, std::allocator<AG> >::insert(AG const&) (unordered_set.h:422)
+         n0: 1560 0x10AE40: main (transversal.c++:63)
+        n0: 120 in 1 place, below massif's threshold (1.00%)
+   n0: 0 in 1 place, below massif's threshold (1.00%)
+  n0: 0 in 2 places, all below massif's threshold (1.00%)
+ n2: 1120 0x1130D0: AG::AG(AG const&) (in /home/thomas/programs/orthogoval/affine/even_order/bin/transversal)
+  n2: 1120 0x10F335: decltype (::new ((void*)(0)) AG((declval<AG const&>)())) std::construct_at<AG, AG const&>(AG*, AG const&) (stl_construct.h:97)
+   n1: 1120 0x10F567: void std::allocator_traits<std::allocator<std::__detail::_Hash_node<AG, true> > >::construct<AG, AG const&>(std::allocator<std::__detail::_Hash_node<AG, true> >&, AG*, AG const&) (alloc_traits.h:518)
+    n1: 1120 0x10ED02: std::__detail::_Hash_node<AG, true>* std::__detail::_Hashtable_alloc<std::allocator<std::__detail::_Hash_node<AG, true> > >::_M_allocate_node<AG const&>(AG const&) (hashtable_policy.h:1878)
+     n1: 1120 0x10E210: std::__detail::_Hash_node<AG, true>* std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > >::operator()<AG const&>(AG const&) const (hashtable_policy.h:168)
+      n1: 1120 0x10D7A2: std::pair<std::__detail::_Node_iterator<AG, true, true>, bool> std::_Hashtable<AG, AG, std::allocator<AG>, std::__detail::_Identity, std::equal_to<AG>, AG::hash_func, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, true, true> >::_M_insert<AG const&, std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > > >(AG const&, std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > > const&, std::integral_constant<bool, true>) (hashtable.h:2108)
+       n2: 1120 0x10CE52: std::__detail::_Insert_base<AG, AG, std::allocator<AG>, std::__detail::_Identity, std::equal_to<AG>, AG::hash_func, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, true, true> >::insert(AG const&) (hashtable_policy.h:844)
+        n1: 1040 0x10C3B2: std::unordered_set<AG, AG::hash_func, std::equal_to<AG>, std::allocator<AG> >::insert(AG const&) (unordered_set.h:422)
+         n0: 1040 0x10AE40: main (transversal.c++:63)
+        n0: 80 in 1 place, below massif's threshold (1.00%)
+   n0: 0 in 1 place, below massif's threshold (1.00%)
+  n0: 0 in 2 places, all below massif's threshold (1.00%)
+ n1: 840 0x1120FF: AG::AG(unsigned long, unsigned long) (in /home/thomas/programs/orthogoval/affine/even_order/bin/transversal)
+  n1: 840 0x11228A: operator*(matrix const&, AG const&) (in /home/thomas/programs/orthogoval/affine/even_order/bin/transversal)
+   n0: 840 0x10AD73: main (transversal.c++:57)
+#-----------
+snapshot=13
+#-----------
+time=2921402
+mem_heap_B=82784
+mem_heap_extra_B=1808
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=14
+#-----------
+time=2977687
+mem_heap_B=82728
+mem_heap_extra_B=1784
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=15
+#-----------
+time=3017992
+mem_heap_B=83208
+mem_heap_extra_B=1960
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=16
+#-----------
+time=3045748
+mem_heap_B=83264
+mem_heap_extra_B=1984
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=17
+#-----------
+time=3093610
+mem_heap_B=83744
+mem_heap_extra_B=2128
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=18
+#-----------
+time=3129666
+mem_heap_B=83264
+mem_heap_extra_B=1952
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=19
+#-----------
+time=3183555
+mem_heap_B=83984
+mem_heap_extra_B=2200
+mem_stacks_B=0
+heap_tree=detailed
+n6: 83984 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 72704 0x4918939: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+  n1: 72704 0x400647D: call_init.part.0 (dl-init.c:70)
+   n1: 72704 0x4006567: call_init (dl-init.c:33)
+    n1: 72704 0x4006567: _dl_init (dl-init.c:117)
+     n1: 72704 0x40202C9: ??? (in /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2)
+      n1: 72704 0x4: ???
+       n1: 72704 0x1FFF0001A6: ???
+        n1: 72704 0x1FFF0001B8: ???
+         n1: 72704 0x1FFF0001BA: ???
+          n1: 72704 0x1FFF0001BC: ???
+           n0: 72704 0x1FFF0001D8: ???
+ n1: 4096 0x4B38BA3: _IO_file_doallocate (filedoalloc.c:101)
+  n1: 4096 0x4B47CDF: _IO_doallocbuf (genops.c:347)
+   n1: 4096 0x4B46F5F: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:744)
+    n1: 4096 0x4B456D4: _IO_new_file_xsputn (fileops.c:1243)
+     n1: 4096 0x4B456D4: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1196)
+      n1: 4096 0x4B39FD6: fwrite (iofwrite.c:39)
+       n1: 4096 0x499D103: std::ostreambuf_iterator<char, std::char_traits<char> > std::num_put<char, std::ostreambuf_iterator<char, std::char_traits<char> > >::_M_insert_int<unsigned long>(std::ostreambuf_iterator<char, std::char_traits<char> >, std::ios_base&, char, unsigned long) const (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+        n1: 4096 0x49AB3C9: std::ostream& std::ostream::_M_insert<unsigned long>(unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+         n1: 4096 0x110F8D: operator<<(std::ostream&, AG const&) (in /home/thomas/programs/orthogoval/affine/even_order/bin/transversal)
+          n0: 4096 0x10AE00: main (transversal.c++:60)
+ n2: 2640 0x113081: AG::AG(AG const&) (in /home/thomas/programs/orthogoval/affine/even_order/bin/transversal)
+  n2: 2640 0x10F335: decltype (::new ((void*)(0)) AG((declval<AG const&>)())) std::construct_at<AG, AG const&>(AG*, AG const&) (stl_construct.h:97)
+   n1: 2640 0x10F567: void std::allocator_traits<std::allocator<std::__detail::_Hash_node<AG, true> > >::construct<AG, AG const&>(std::allocator<std::__detail::_Hash_node<AG, true> >&, AG*, AG const&) (alloc_traits.h:518)
+    n1: 2640 0x10ED02: std::__detail::_Hash_node<AG, true>* std::__detail::_Hashtable_alloc<std::allocator<std::__detail::_Hash_node<AG, true> > >::_M_allocate_node<AG const&>(AG const&) (hashtable_policy.h:1878)
+     n1: 2640 0x10E210: std::__detail::_Hash_node<AG, true>* std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > >::operator()<AG const&>(AG const&) const (hashtable_policy.h:168)
+      n1: 2640 0x10D7A2: std::pair<std::__detail::_Node_iterator<AG, true, true>, bool> std::_Hashtable<AG, AG, std::allocator<AG>, std::__detail::_Identity, std::equal_to<AG>, AG::hash_func, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, true, true> >::_M_insert<AG const&, std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > > >(AG const&, std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > > const&, std::integral_constant<bool, true>) (hashtable.h:2108)
+       n2: 2640 0x10CE52: std::__detail::_Insert_base<AG, AG, std::allocator<AG>, std::__detail::_Identity, std::equal_to<AG>, AG::hash_func, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, true, true> >::insert(AG const&) (hashtable_policy.h:844)
+        n1: 2520 0x10C3B2: std::unordered_set<AG, AG::hash_func, std::equal_to<AG>, std::allocator<AG> >::insert(AG const&) (unordered_set.h:422)
+         n0: 2520 0x10AE40: main (transversal.c++:63)
+        n0: 120 in 1 place, below massif's threshold (1.00%)
+   n0: 0 in 1 place, below massif's threshold (1.00%)
+  n0: 0 in 2 places, all below massif's threshold (1.00%)
+ n0: 1864 in 9 places, all below massif's threshold (1.00%)
+ n2: 1760 0x1130D0: AG::AG(AG const&) (in /home/thomas/programs/orthogoval/affine/even_order/bin/transversal)
+  n2: 1760 0x10F335: decltype (::new ((void*)(0)) AG((declval<AG const&>)())) std::construct_at<AG, AG const&>(AG*, AG const&) (stl_construct.h:97)
+   n1: 1760 0x10F567: void std::allocator_traits<std::allocator<std::__detail::_Hash_node<AG, true> > >::construct<AG, AG const&>(std::allocator<std::__detail::_Hash_node<AG, true> >&, AG*, AG const&) (alloc_traits.h:518)
+    n1: 1760 0x10ED02: std::__detail::_Hash_node<AG, true>* std::__detail::_Hashtable_alloc<std::allocator<std::__detail::_Hash_node<AG, true> > >::_M_allocate_node<AG const&>(AG const&) (hashtable_policy.h:1878)
+     n1: 1760 0x10E210: std::__detail::_Hash_node<AG, true>* std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > >::operator()<AG const&>(AG const&) const (hashtable_policy.h:168)
+      n1: 1760 0x10D7A2: std::pair<std::__detail::_Node_iterator<AG, true, true>, bool> std::_Hashtable<AG, AG, std::allocator<AG>, std::__detail::_Identity, std::equal_to<AG>, AG::hash_func, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, true, true> >::_M_insert<AG const&, std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > > >(AG const&, std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > > const&, std::integral_constant<bool, true>) (hashtable.h:2108)
+       n2: 1760 0x10CE52: std::__detail::_Insert_base<AG, AG, std::allocator<AG>, std::__detail::_Identity, std::equal_to<AG>, AG::hash_func, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, true, true> >::insert(AG const&) (hashtable_policy.h:844)
+        n1: 1680 0x10C3B2: std::unordered_set<AG, AG::hash_func, std::equal_to<AG>, std::allocator<AG> >::insert(AG const&) (unordered_set.h:422)
+         n0: 1680 0x10AE40: main (transversal.c++:63)
+        n0: 80 in 1 place, below massif's threshold (1.00%)
+   n0: 0 in 1 place, below massif's threshold (1.00%)
+  n0: 0 in 2 places, all below massif's threshold (1.00%)
+ n1: 920 0x10FA71: __gnu_cxx::new_allocator<std::__detail::_Hash_node<AG, true> >::allocate(unsigned long, void const*) (new_allocator.h:127)
+  n1: 920 0x10F51C: allocate (allocator.h:185)
+   n1: 920 0x10F51C: std::allocator_traits<std::allocator<std::__detail::_Hash_node<AG, true> > >::allocate(std::allocator<std::__detail::_Hash_node<AG, true> >&, unsigned long) (alloc_traits.h:464)
+    n1: 920 0x10EC99: std::__detail::_Hash_node<AG, true>* std::__detail::_Hashtable_alloc<std::allocator<std::__detail::_Hash_node<AG, true> > >::_M_allocate_node<AG const&>(AG const&) (hashtable_policy.h:1873)
+     n1: 920 0x10E210: std::__detail::_Hash_node<AG, true>* std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > >::operator()<AG const&>(AG const&) const (hashtable_policy.h:168)
+      n1: 920 0x10D7A2: std::pair<std::__detail::_Node_iterator<AG, true, true>, bool> std::_Hashtable<AG, AG, std::allocator<AG>, std::__detail::_Identity, std::equal_to<AG>, AG::hash_func, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, true, true> >::_M_insert<AG const&, std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > > >(AG const&, std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > > const&, std::integral_constant<bool, true>) (hashtable.h:2108)
+       n2: 920 0x10CE52: std::__detail::_Insert_base<AG, AG, std::allocator<AG>, std::__detail::_Identity, std::equal_to<AG>, AG::hash_func, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, true, true> >::insert(AG const&) (hashtable_policy.h:844)
+        n1: 880 0x10C3B2: std::unordered_set<AG, AG::hash_func, std::equal_to<AG>, std::allocator<AG> >::insert(AG const&) (unordered_set.h:422)
+         n0: 880 0x10AE40: main (transversal.c++:63)
+        n0: 40 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=20
+#-----------
+time=3230253
+mem_heap_B=84888
+mem_heap_extra_B=2464
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=21
+#-----------
+time=3259826
+mem_heap_B=84944
+mem_heap_extra_B=2488
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=22
+#-----------
+time=3307281
+mem_heap_B=84464
+mem_heap_extra_B=2344
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=23
+#-----------
+time=3339235
+mem_heap_B=84888
+mem_heap_extra_B=2464
+mem_stacks_B=0
+heap_tree=detailed
+n6: 84888 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 72704 0x4918939: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+  n1: 72704 0x400647D: call_init.part.0 (dl-init.c:70)
+   n1: 72704 0x4006567: call_init (dl-init.c:33)
+    n1: 72704 0x4006567: _dl_init (dl-init.c:117)
+     n1: 72704 0x40202C9: ??? (in /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2)
+      n1: 72704 0x4: ???
+       n1: 72704 0x1FFF0001A6: ???
+        n1: 72704 0x1FFF0001B8: ???
+         n1: 72704 0x1FFF0001BA: ???
+          n1: 72704 0x1FFF0001BC: ???
+           n0: 72704 0x1FFF0001D8: ???
+ n1: 4096 0x4B38BA3: _IO_file_doallocate (filedoalloc.c:101)
+  n1: 4096 0x4B47CDF: _IO_doallocbuf (genops.c:347)
+   n1: 4096 0x4B46F5F: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:744)
+    n1: 4096 0x4B456D4: _IO_new_file_xsputn (fileops.c:1243)
+     n1: 4096 0x4B456D4: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1196)
+      n1: 4096 0x4B39FD6: fwrite (iofwrite.c:39)
+       n1: 4096 0x499D103: std::ostreambuf_iterator<char, std::char_traits<char> > std::num_put<char, std::ostreambuf_iterator<char, std::char_traits<char> > >::_M_insert_int<unsigned long>(std::ostreambuf_iterator<char, std::char_traits<char> >, std::ios_base&, char, unsigned long) const (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+        n1: 4096 0x49AB3C9: std::ostream& std::ostream::_M_insert<unsigned long>(unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+         n1: 4096 0x110F8D: operator<<(std::ostream&, AG const&) (in /home/thomas/programs/orthogoval/affine/even_order/bin/transversal)
+          n0: 4096 0x10AE00: main (transversal.c++:60)
+ n2: 3120 0x113081: AG::AG(AG const&) (in /home/thomas/programs/orthogoval/affine/even_order/bin/transversal)
+  n2: 3120 0x10F335: decltype (::new ((void*)(0)) AG((declval<AG const&>)())) std::construct_at<AG, AG const&>(AG*, AG const&) (stl_construct.h:97)
+   n1: 3120 0x10F567: void std::allocator_traits<std::allocator<std::__detail::_Hash_node<AG, true> > >::construct<AG, AG const&>(std::allocator<std::__detail::_Hash_node<AG, true> >&, AG*, AG const&) (alloc_traits.h:518)
+    n1: 3120 0x10ED02: std::__detail::_Hash_node<AG, true>* std::__detail::_Hashtable_alloc<std::allocator<std::__detail::_Hash_node<AG, true> > >::_M_allocate_node<AG const&>(AG const&) (hashtable_policy.h:1878)
+     n1: 3120 0x10E210: std::__detail::_Hash_node<AG, true>* std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > >::operator()<AG const&>(AG const&) const (hashtable_policy.h:168)
+      n1: 3120 0x10D7A2: std::pair<std::__detail::_Node_iterator<AG, true, true>, bool> std::_Hashtable<AG, AG, std::allocator<AG>, std::__detail::_Identity, std::equal_to<AG>, AG::hash_func, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, true, true> >::_M_insert<AG const&, std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > > >(AG const&, std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > > const&, std::integral_constant<bool, true>) (hashtable.h:2108)
+       n2: 3120 0x10CE52: std::__detail::_Insert_base<AG, AG, std::allocator<AG>, std::__detail::_Identity, std::equal_to<AG>, AG::hash_func, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, true, true> >::insert(AG const&) (hashtable_policy.h:844)
+        n1: 3000 0x10C3B2: std::unordered_set<AG, AG::hash_func, std::equal_to<AG>, std::allocator<AG> >::insert(AG const&) (unordered_set.h:422)
+         n0: 3000 0x10AE40: main (transversal.c++:63)
+        n0: 120 in 1 place, below massif's threshold (1.00%)
+   n0: 0 in 1 place, below massif's threshold (1.00%)
+  n0: 0 in 2 places, all below massif's threshold (1.00%)
+ n2: 2080 0x1130D0: AG::AG(AG const&) (in /home/thomas/programs/orthogoval/affine/even_order/bin/transversal)
+  n2: 2080 0x10F335: decltype (::new ((void*)(0)) AG((declval<AG const&>)())) std::construct_at<AG, AG const&>(AG*, AG const&) (stl_construct.h:97)
+   n1: 2080 0x10F567: void std::allocator_traits<std::allocator<std::__detail::_Hash_node<AG, true> > >::construct<AG, AG const&>(std::allocator<std::__detail::_Hash_node<AG, true> >&, AG*, AG const&) (alloc_traits.h:518)
+    n1: 2080 0x10ED02: std::__detail::_Hash_node<AG, true>* std::__detail::_Hashtable_alloc<std::allocator<std::__detail::_Hash_node<AG, true> > >::_M_allocate_node<AG const&>(AG const&) (hashtable_policy.h:1878)
+     n1: 2080 0x10E210: std::__detail::_Hash_node<AG, true>* std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > >::operator()<AG const&>(AG const&) const (hashtable_policy.h:168)
+      n1: 2080 0x10D7A2: std::pair<std::__detail::_Node_iterator<AG, true, true>, bool> std::_Hashtable<AG, AG, std::allocator<AG>, std::__detail::_Identity, std::equal_to<AG>, AG::hash_func, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, true, true> >::_M_insert<AG const&, std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > > >(AG const&, std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > > const&, std::integral_constant<bool, true>) (hashtable.h:2108)
+       n2: 2080 0x10CE52: std::__detail::_Insert_base<AG, AG, std::allocator<AG>, std::__detail::_Identity, std::equal_to<AG>, AG::hash_func, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, true, true> >::insert(AG const&) (hashtable_policy.h:844)
+        n1: 2000 0x10C3B2: std::unordered_set<AG, AG::hash_func, std::equal_to<AG>, std::allocator<AG> >::insert(AG const&) (unordered_set.h:422)
+         n0: 2000 0x10AE40: main (transversal.c++:63)
+        n0: 80 in 1 place, below massif's threshold (1.00%)
+   n0: 0 in 1 place, below massif's threshold (1.00%)
+  n0: 0 in 2 places, all below massif's threshold (1.00%)
+ n0: 1848 in 9 places, all below massif's threshold (1.00%)
+ n1: 1040 0x10FA71: __gnu_cxx::new_allocator<std::__detail::_Hash_node<AG, true> >::allocate(unsigned long, void const*) (new_allocator.h:127)
+  n1: 1040 0x10F51C: allocate (allocator.h:185)
+   n1: 1040 0x10F51C: std::allocator_traits<std::allocator<std::__detail::_Hash_node<AG, true> > >::allocate(std::allocator<std::__detail::_Hash_node<AG, true> >&, unsigned long) (alloc_traits.h:464)
+    n1: 1040 0x10EC99: std::__detail::_Hash_node<AG, true>* std::__detail::_Hashtable_alloc<std::allocator<std::__detail::_Hash_node<AG, true> > >::_M_allocate_node<AG const&>(AG const&) (hashtable_policy.h:1873)
+     n1: 1040 0x10E210: std::__detail::_Hash_node<AG, true>* std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > >::operator()<AG const&>(AG const&) const (hashtable_policy.h:168)
+      n1: 1040 0x10D7A2: std::pair<std::__detail::_Node_iterator<AG, true, true>, bool> std::_Hashtable<AG, AG, std::allocator<AG>, std::__detail::_Identity, std::equal_to<AG>, AG::hash_func, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, true, true> >::_M_insert<AG const&, std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > > >(AG const&, std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > > const&, std::integral_constant<bool, true>) (hashtable.h:2108)
+       n2: 1040 0x10CE52: std::__detail::_Insert_base<AG, AG, std::allocator<AG>, std::__detail::_Identity, std::equal_to<AG>, AG::hash_func, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, true, true> >::insert(AG const&) (hashtable_policy.h:844)
+        n1: 1000 0x10C3B2: std::unordered_set<AG, AG::hash_func, std::equal_to<AG>, std::allocator<AG> >::insert(AG const&) (unordered_set.h:422)
+         n0: 1000 0x10AE40: main (transversal.c++:63)
+        n0: 40 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=24
+#-----------
+time=3383167
+mem_heap_B=85424
+mem_heap_extra_B=2632
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=25
+#-----------
+time=3445825
+mem_heap_B=85864
+mem_heap_extra_B=2704
+mem_stacks_B=0
+heap_tree=detailed
+n6: 85864 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 72704 0x4918939: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+  n1: 72704 0x400647D: call_init.part.0 (dl-init.c:70)
+   n1: 72704 0x4006567: call_init (dl-init.c:33)
+    n1: 72704 0x4006567: _dl_init (dl-init.c:117)
+     n1: 72704 0x40202C9: ??? (in /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2)
+      n1: 72704 0x4: ???
+       n1: 72704 0x1FFF0001A6: ???
+        n1: 72704 0x1FFF0001B8: ???
+         n1: 72704 0x1FFF0001BA: ???
+          n1: 72704 0x1FFF0001BC: ???
+           n0: 72704 0x1FFF0001D8: ???
+ n1: 4096 0x4B38BA3: _IO_file_doallocate (filedoalloc.c:101)
+  n1: 4096 0x4B47CDF: _IO_doallocbuf (genops.c:347)
+   n1: 4096 0x4B46F5F: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:744)
+    n1: 4096 0x4B456D4: _IO_new_file_xsputn (fileops.c:1243)
+     n1: 4096 0x4B456D4: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1196)
+      n1: 4096 0x4B39FD6: fwrite (iofwrite.c:39)
+       n1: 4096 0x499D103: std::ostreambuf_iterator<char, std::char_traits<char> > std::num_put<char, std::ostreambuf_iterator<char, std::char_traits<char> > >::_M_insert_int<unsigned long>(std::ostreambuf_iterator<char, std::char_traits<char> >, std::ios_base&, char, unsigned long) const (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+        n1: 4096 0x49AB3C9: std::ostream& std::ostream::_M_insert<unsigned long>(unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+         n1: 4096 0x110F8D: operator<<(std::ostream&, AG const&) (in /home/thomas/programs/orthogoval/affine/even_order/bin/transversal)
+          n0: 4096 0x10AE00: main (transversal.c++:60)
+ n2: 3600 0x113081: AG::AG(AG const&) (in /home/thomas/programs/orthogoval/affine/even_order/bin/transversal)
+  n2: 3600 0x10F335: decltype (::new ((void*)(0)) AG((declval<AG const&>)())) std::construct_at<AG, AG const&>(AG*, AG const&) (stl_construct.h:97)
+   n1: 3600 0x10F567: void std::allocator_traits<std::allocator<std::__detail::_Hash_node<AG, true> > >::construct<AG, AG const&>(std::allocator<std::__detail::_Hash_node<AG, true> >&, AG*, AG const&) (alloc_traits.h:518)
+    n1: 3600 0x10ED02: std::__detail::_Hash_node<AG, true>* std::__detail::_Hashtable_alloc<std::allocator<std::__detail::_Hash_node<AG, true> > >::_M_allocate_node<AG const&>(AG const&) (hashtable_policy.h:1878)
+     n1: 3600 0x10E210: std::__detail::_Hash_node<AG, true>* std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > >::operator()<AG const&>(AG const&) const (hashtable_policy.h:168)
+      n1: 3600 0x10D7A2: std::pair<std::__detail::_Node_iterator<AG, true, true>, bool> std::_Hashtable<AG, AG, std::allocator<AG>, std::__detail::_Identity, std::equal_to<AG>, AG::hash_func, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, true, true> >::_M_insert<AG const&, std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > > >(AG const&, std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > > const&, std::integral_constant<bool, true>) (hashtable.h:2108)
+       n2: 3600 0x10CE52: std::__detail::_Insert_base<AG, AG, std::allocator<AG>, std::__detail::_Identity, std::equal_to<AG>, AG::hash_func, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, true, true> >::insert(AG const&) (hashtable_policy.h:844)
+        n1: 3480 0x10C3B2: std::unordered_set<AG, AG::hash_func, std::equal_to<AG>, std::allocator<AG> >::insert(AG const&) (unordered_set.h:422)
+         n0: 3480 0x10AE40: main (transversal.c++:63)
+        n0: 120 in 1 place, below massif's threshold (1.00%)
+   n0: 0 in 1 place, below massif's threshold (1.00%)
+  n0: 0 in 2 places, all below massif's threshold (1.00%)
+ n2: 2400 0x1130D0: AG::AG(AG const&) (in /home/thomas/programs/orthogoval/affine/even_order/bin/transversal)
+  n2: 2400 0x10F335: decltype (::new ((void*)(0)) AG((declval<AG const&>)())) std::construct_at<AG, AG const&>(AG*, AG const&) (stl_construct.h:97)
+   n1: 2400 0x10F567: void std::allocator_traits<std::allocator<std::__detail::_Hash_node<AG, true> > >::construct<AG, AG const&>(std::allocator<std::__detail::_Hash_node<AG, true> >&, AG*, AG const&) (alloc_traits.h:518)
+    n1: 2400 0x10ED02: std::__detail::_Hash_node<AG, true>* std::__detail::_Hashtable_alloc<std::allocator<std::__detail::_Hash_node<AG, true> > >::_M_allocate_node<AG const&>(AG const&) (hashtable_policy.h:1878)
+     n1: 2400 0x10E210: std::__detail::_Hash_node<AG, true>* std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > >::operator()<AG const&>(AG const&) const (hashtable_policy.h:168)
+      n1: 2400 0x10D7A2: std::pair<std::__detail::_Node_iterator<AG, true, true>, bool> std::_Hashtable<AG, AG, std::allocator<AG>, std::__detail::_Identity, std::equal_to<AG>, AG::hash_func, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, true, true> >::_M_insert<AG const&, std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > > >(AG const&, std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > > const&, std::integral_constant<bool, true>) (hashtable.h:2108)
+       n2: 2400 0x10CE52: std::__detail::_Insert_base<AG, AG, std::allocator<AG>, std::__detail::_Identity, std::equal_to<AG>, AG::hash_func, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, true, true> >::insert(AG const&) (hashtable_policy.h:844)
+        n1: 2320 0x10C3B2: std::unordered_set<AG, AG::hash_func, std::equal_to<AG>, std::allocator<AG> >::insert(AG const&) (unordered_set.h:422)
+         n0: 2320 0x10AE40: main (transversal.c++:63)
+        n0: 80 in 1 place, below massif's threshold (1.00%)
+   n0: 0 in 1 place, below massif's threshold (1.00%)
+  n0: 0 in 2 places, all below massif's threshold (1.00%)
+ n0: 1864 in 9 places, all below massif's threshold (1.00%)
+ n1: 1200 0x10FA71: __gnu_cxx::new_allocator<std::__detail::_Hash_node<AG, true> >::allocate(unsigned long, void const*) (new_allocator.h:127)
+  n1: 1200 0x10F51C: allocate (allocator.h:185)
+   n1: 1200 0x10F51C: std::allocator_traits<std::allocator<std::__detail::_Hash_node<AG, true> > >::allocate(std::allocator<std::__detail::_Hash_node<AG, true> >&, unsigned long) (alloc_traits.h:464)
+    n1: 1200 0x10EC99: std::__detail::_Hash_node<AG, true>* std::__detail::_Hashtable_alloc<std::allocator<std::__detail::_Hash_node<AG, true> > >::_M_allocate_node<AG const&>(AG const&) (hashtable_policy.h:1873)
+     n1: 1200 0x10E210: std::__detail::_Hash_node<AG, true>* std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > >::operator()<AG const&>(AG const&) const (hashtable_policy.h:168)
+      n1: 1200 0x10D7A2: std::pair<std::__detail::_Node_iterator<AG, true, true>, bool> std::_Hashtable<AG, AG, std::allocator<AG>, std::__detail::_Identity, std::equal_to<AG>, AG::hash_func, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, true, true> >::_M_insert<AG const&, std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > > >(AG const&, std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > > const&, std::integral_constant<bool, true>) (hashtable.h:2108)
+       n2: 1200 0x10CE52: std::__detail::_Insert_base<AG, AG, std::allocator<AG>, std::__detail::_Identity, std::equal_to<AG>, AG::hash_func, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, true, true> >::insert(AG const&) (hashtable_policy.h:844)
+        n1: 1160 0x10C3B2: std::unordered_set<AG, AG::hash_func, std::equal_to<AG>, std::allocator<AG> >::insert(AG const&) (unordered_set.h:422)
+         n0: 1160 0x10AE40: main (transversal.c++:63)
+        n0: 40 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=26
+#-----------
+time=3486084
+mem_heap_B=86568
+mem_heap_extra_B=2912
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=27
+#-----------
+time=3515465
+mem_heap_B=86624
+mem_heap_extra_B=2936
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=28
+#-----------
+time=3556718
+mem_heap_B=86808
+mem_heap_extra_B=3000
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=29
+#-----------
+time=3615953
+mem_heap_B=87344
+mem_heap_extra_B=3168
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=30
+#-----------
+time=3645845
+mem_heap_B=87824
+mem_heap_extra_B=3312
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=31
+#-----------
+time=3680180
+mem_heap_B=87704
+mem_heap_extra_B=3240
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=32
+#-----------
+time=3718726
+mem_heap_B=87824
+mem_heap_extra_B=3296
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=33
+#-----------
+time=3748532
+mem_heap_B=88304
+mem_heap_extra_B=3456
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=34
+#-----------
+time=3803674
+mem_heap_B=89264
+mem_heap_extra_B=3744
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=35
+#-----------
+time=3859037
+mem_heap_B=90224
+mem_heap_extra_B=4032
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=36
+#-----------
+time=3897544
+mem_heap_B=89984
+mem_heap_extra_B=3944
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=37
+#-----------
+time=3927844
+mem_heap_B=90464
+mem_heap_extra_B=4088
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=38
+#-----------
+time=3979398
+mem_heap_B=91864
+mem_heap_extra_B=4504
+mem_stacks_B=0
+heap_tree=peak
+n7: 91864 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 72704 0x4918939: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+  n1: 72704 0x400647D: call_init.part.0 (dl-init.c:70)
+   n1: 72704 0x4006567: call_init (dl-init.c:33)
+    n1: 72704 0x4006567: _dl_init (dl-init.c:117)
+     n1: 72704 0x40202C9: ??? (in /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2)
+      n1: 72704 0x4: ???
+       n1: 72704 0x1FFF0001A6: ???
+        n1: 72704 0x1FFF0001B8: ???
+         n1: 72704 0x1FFF0001BA: ???
+          n1: 72704 0x1FFF0001BC: ???
+           n0: 72704 0x1FFF0001D8: ???
+ n2: 5760 0x113081: AG::AG(AG const&) (in /home/thomas/programs/orthogoval/affine/even_order/bin/transversal)
+  n2: 5760 0x10F335: decltype (::new ((void*)(0)) AG((declval<AG const&>)())) std::construct_at<AG, AG const&>(AG*, AG const&) (stl_construct.h:97)
+   n1: 5760 0x10F567: void std::allocator_traits<std::allocator<std::__detail::_Hash_node<AG, true> > >::construct<AG, AG const&>(std::allocator<std::__detail::_Hash_node<AG, true> >&, AG*, AG const&) (alloc_traits.h:518)
+    n1: 5760 0x10ED02: std::__detail::_Hash_node<AG, true>* std::__detail::_Hashtable_alloc<std::allocator<std::__detail::_Hash_node<AG, true> > >::_M_allocate_node<AG const&>(AG const&) (hashtable_policy.h:1878)
+     n1: 5760 0x10E210: std::__detail::_Hash_node<AG, true>* std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > >::operator()<AG const&>(AG const&) const (hashtable_policy.h:168)
+      n1: 5760 0x10D7A2: std::pair<std::__detail::_Node_iterator<AG, true, true>, bool> std::_Hashtable<AG, AG, std::allocator<AG>, std::__detail::_Identity, std::equal_to<AG>, AG::hash_func, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, true, true> >::_M_insert<AG const&, std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > > >(AG const&, std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > > const&, std::integral_constant<bool, true>) (hashtable.h:2108)
+       n2: 5760 0x10CE52: std::__detail::_Insert_base<AG, AG, std::allocator<AG>, std::__detail::_Identity, std::equal_to<AG>, AG::hash_func, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, true, true> >::insert(AG const&) (hashtable_policy.h:844)
+        n1: 5640 0x10C3B2: std::unordered_set<AG, AG::hash_func, std::equal_to<AG>, std::allocator<AG> >::insert(AG const&) (unordered_set.h:422)
+         n0: 5640 0x10AE40: main (transversal.c++:63)
+        n0: 120 in 1 place, below massif's threshold (1.00%)
+   n0: 0 in 1 place, below massif's threshold (1.00%)
+  n0: 0 in 2 places, all below massif's threshold (1.00%)
+ n1: 4096 0x4B38BA3: _IO_file_doallocate (filedoalloc.c:101)
+  n1: 4096 0x4B47CDF: _IO_doallocbuf (genops.c:347)
+   n1: 4096 0x4B46F5F: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:744)
+    n1: 4096 0x4B456D4: _IO_new_file_xsputn (fileops.c:1243)
+     n1: 4096 0x4B456D4: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1196)
+      n1: 4096 0x4B39FD6: fwrite (iofwrite.c:39)
+       n1: 4096 0x499D103: std::ostreambuf_iterator<char, std::char_traits<char> > std::num_put<char, std::ostreambuf_iterator<char, std::char_traits<char> > >::_M_insert_int<unsigned long>(std::ostreambuf_iterator<char, std::char_traits<char> >, std::ios_base&, char, unsigned long) const (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+        n1: 4096 0x49AB3C9: std::ostream& std::ostream::_M_insert<unsigned long>(unsigned long) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+         n1: 4096 0x110F8D: operator<<(std::ostream&, AG const&) (in /home/thomas/programs/orthogoval/affine/even_order/bin/transversal)
+          n0: 4096 0x10AE00: main (transversal.c++:60)
+ n2: 3840 0x1130D0: AG::AG(AG const&) (in /home/thomas/programs/orthogoval/affine/even_order/bin/transversal)
+  n2: 3840 0x10F335: decltype (::new ((void*)(0)) AG((declval<AG const&>)())) std::construct_at<AG, AG const&>(AG*, AG const&) (stl_construct.h:97)
+   n1: 3840 0x10F567: void std::allocator_traits<std::allocator<std::__detail::_Hash_node<AG, true> > >::construct<AG, AG const&>(std::allocator<std::__detail::_Hash_node<AG, true> >&, AG*, AG const&) (alloc_traits.h:518)
+    n1: 3840 0x10ED02: std::__detail::_Hash_node<AG, true>* std::__detail::_Hashtable_alloc<std::allocator<std::__detail::_Hash_node<AG, true> > >::_M_allocate_node<AG const&>(AG const&) (hashtable_policy.h:1878)
+     n1: 3840 0x10E210: std::__detail::_Hash_node<AG, true>* std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > >::operator()<AG const&>(AG const&) const (hashtable_policy.h:168)
+      n1: 3840 0x10D7A2: std::pair<std::__detail::_Node_iterator<AG, true, true>, bool> std::_Hashtable<AG, AG, std::allocator<AG>, std::__detail::_Identity, std::equal_to<AG>, AG::hash_func, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, true, true> >::_M_insert<AG const&, std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > > >(AG const&, std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > > const&, std::integral_constant<bool, true>) (hashtable.h:2108)
+       n2: 3840 0x10CE52: std::__detail::_Insert_base<AG, AG, std::allocator<AG>, std::__detail::_Identity, std::equal_to<AG>, AG::hash_func, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, true, true> >::insert(AG const&) (hashtable_policy.h:844)
+        n1: 3760 0x10C3B2: std::unordered_set<AG, AG::hash_func, std::equal_to<AG>, std::allocator<AG> >::insert(AG const&) (unordered_set.h:422)
+         n0: 3760 0x10AE40: main (transversal.c++:63)
+        n0: 80 in 1 place, below massif's threshold (1.00%)
+   n0: 0 in 1 place, below massif's threshold (1.00%)
+  n0: 0 in 2 places, all below massif's threshold (1.00%)
+ n0: 2104 in 8 places, all below massif's threshold (1.00%)
+ n1: 1920 0x10FA71: __gnu_cxx::new_allocator<std::__detail::_Hash_node<AG, true> >::allocate(unsigned long, void const*) (new_allocator.h:127)
+  n1: 1920 0x10F51C: allocate (allocator.h:185)
+   n1: 1920 0x10F51C: std::allocator_traits<std::allocator<std::__detail::_Hash_node<AG, true> > >::allocate(std::allocator<std::__detail::_Hash_node<AG, true> >&, unsigned long) (alloc_traits.h:464)
+    n1: 1920 0x10EC99: std::__detail::_Hash_node<AG, true>* std::__detail::_Hashtable_alloc<std::allocator<std::__detail::_Hash_node<AG, true> > >::_M_allocate_node<AG const&>(AG const&) (hashtable_policy.h:1873)
+     n1: 1920 0x10E210: std::__detail::_Hash_node<AG, true>* std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > >::operator()<AG const&>(AG const&) const (hashtable_policy.h:168)
+      n1: 1920 0x10D7A2: std::pair<std::__detail::_Node_iterator<AG, true, true>, bool> std::_Hashtable<AG, AG, std::allocator<AG>, std::__detail::_Identity, std::equal_to<AG>, AG::hash_func, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, true, true> >::_M_insert<AG const&, std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > > >(AG const&, std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<AG, true> > > const&, std::integral_constant<bool, true>) (hashtable.h:2108)
+       n2: 1920 0x10CE52: std::__detail::_Insert_base<AG, AG, std::allocator<AG>, std::__detail::_Identity, std::equal_to<AG>, AG::hash_func, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, true, true> >::insert(AG const&) (hashtable_policy.h:844)
+        n1: 1880 0x10C3B2: std::unordered_set<AG, AG::hash_func, std::equal_to<AG>, std::allocator<AG> >::insert(AG const&) (unordered_set.h:422)
+         n0: 1880 0x10AE40: main (transversal.c++:63)
+        n0: 40 in 1 place, below massif's threshold (1.00%)
+ n1: 1440 0x1120FF: AG::AG(unsigned long, unsigned long) (in /home/thomas/programs/orthogoval/affine/even_order/bin/transversal)
+  n1: 1440 0x11228A: operator*(matrix const&, AG const&) (in /home/thomas/programs/orthogoval/affine/even_order/bin/transversal)
+   n0: 1440 0x10AD73: main (transversal.c++:57)
+#-----------
+snapshot=39
+#-----------
+time=4037784
+mem_heap_B=92328
+mem_heap_extra_B=4640
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=40
+#-----------
+time=4079160
+mem_heap_B=90688
+mem_heap_extra_B=4136
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=41
+#-----------
+time=4125877
+mem_heap_B=91096
+mem_heap_extra_B=4280
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=42
+#-----------
+time=4177233
+mem_heap_B=91560
+mem_heap_extra_B=4416
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=43
+#-----------
+time=4228131
+mem_heap_B=92056
+mem_heap_extra_B=4568
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=44
+#-----------
+time=4268977
+mem_heap_B=90824
+mem_heap_extra_B=4176
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=45
+#-----------
+time=4319471
+mem_heap_B=91336
+mem_heap_extra_B=4368
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=46
+#-----------
+time=4353855
+mem_heap_B=90704
+mem_heap_extra_B=4192
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=47
+#-----------
+time=4406822
+mem_heap_B=90944
+mem_heap_extra_B=4264
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=48
+#-----------
+time=4439391
+mem_heap_B=91184
+mem_heap_extra_B=4352
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=49
+#-----------
+time=4485018
+mem_heap_B=90464
+mem_heap_extra_B=4072
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=50
+#-----------
+time=4513150
+mem_heap_B=86608
+mem_heap_extra_B=2880
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=51
+#-----------
+time=4541142
+mem_heap_B=82752
+mem_heap_extra_B=1704
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=52
+#-----------
+time=4569134
+mem_heap_B=78896
+mem_heap_extra_B=528
+mem_stacks_B=0
+heap_tree=empty

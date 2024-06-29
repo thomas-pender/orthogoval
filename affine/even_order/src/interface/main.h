@@ -4,9 +4,11 @@
 # include <iostream>
 # include <fstream>
 # include <sstream>
+# include <memory>
 
 # include <thread>
 # include <mutex>
+# include <functional>
 
 # include <algorithm>
 # include <vector>

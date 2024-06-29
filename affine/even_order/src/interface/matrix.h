@@ -12,6 +12,9 @@ class matrix
 public:
      void resize(std::size_t);
 
+     std::uint32_t& operator[](std::size_t);
+     const std::uint32_t& operator[](std::size_t) const;
+
      matrix& operator=(const matrix&);
      matrix& operator=(matrix&&);
 

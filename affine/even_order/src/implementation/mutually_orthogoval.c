@@ -88,8 +88,9 @@ int main( int argc, char **argv )
 
      int maximum_size = clique_unweighted_max_weight(G, &opts);
 
-     ops.user_function = pr;
+     opts.user_function = pr;
      int num_cliques = clique_unweighted_find_all(G, maximum_size, maximum_size, FALSE, &opts);
+     printf("\nnumber of maximum cliques = %d\n", num_cliques);
 
      /* free graph data structure */
      graph_free(G);

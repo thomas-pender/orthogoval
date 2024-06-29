@@ -39,6 +39,11 @@ bool operator==(const AG &ag1, const AG &ag2)
      return ag1.spread==ag2.spread;
 }
 
+bool operator<(const AG &ag1, const AG &ag2)
+{
+     return ag1.spread < ag2.spread;
+}
+
 bool orthogoval(const AG &ag1, const AG &ag2)
 {
      std::size_t intersect, k1, k2,
@@ -58,11 +63,6 @@ bool orthogoval(const AG &ag1, const AG &ag2)
      return true;
 }
 
-bool operator<(const AG &ag1, const AG &ag2)
-{
-     return ag1.spread < ag2.spread;
-}
-
 void AG::resize(std::size_t nb, std::size_t lb)
 {
      spread.resize(nb);
@@ -80,7 +80,7 @@ AG& AG::operator=(const AG &ag)
 
 AG& AG::operator=(AG &&ag)
 {
-     std::swap(spread,ag.spread);
+     spread=std::move(ag.spread);
      return *this;
 }
 
@@ -97,5 +97,5 @@ AG::AG(const AG &ag)
 {}
 
 AG::AG(AG &&ag)
-     : spread{std::exchange(ag.spread,{})}
+     : spread{std::move(ag.spread)}
 {}

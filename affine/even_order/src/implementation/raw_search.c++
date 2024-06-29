@@ -131,7 +131,7 @@ int main(int argc, char **argv)
           return 1;
      }
 
-     std::uint32_t start, end, first, block_len;
+     std::uint32_t start, end, block_len;
      {
           std::stringstream ss{argv[1]};
           ss >> start;
@@ -140,9 +140,9 @@ int main(int argc, char **argv)
      }
      block_len = (end - start) / NTHREADS;
 
+     std::uint32_t first;
      std::vector<std::uint64_t> counts(NTHREADS, 0);
      std::vector<std::thread> threads(NTHREADS - 1);
-
      for ( std::uint32_t i{0}; i < NTHREADS - 1; i++ ) {
           first = (block_len * i) + start;
           threads[i] = std::thread(thread_func, first, first + block_len, std::ref(counts[i]));
@@ -151,9 +151,13 @@ int main(int argc, char **argv)
      first = (block_len * (NTHREADS - 1)) + start;
      thread_func(first, end, std::ref(counts[NTHREADS - 1]));
 
-     for (auto & t : threads) if ( t.joinable() ) t.join();
+     for ( std::uint32_t i{0}; i < NTHREADS - 1; i++ ) threads[i].join();
 
-     std::cout << std::accumulate(counts.begin(), counts.end(), (std::uint64_t)0) << '\n';
+     std::uint64_t count{0};
+     for ( auto x : counts ) count += x;
+     std::cout << count << '\n';
+
+     // std::cout << "order = " << std::accumulate(counts.begin(), counts.end(), 0) << '\n';
 
      return 0;
 }
