@@ -24,4 +24,4 @@ src_transversal_SOURCES = src/transversal.cpp
 src_transversal_CPPFLAGS = -I$(srcdir)/src
 src_transversal_LDADD = src/libspread.a
 
-EXTRA_DIST = $(srcdir)/var $(srcdir)/massif.4.out $(srcdir)/massif.8.out
+EXTRA_DIST = $(srcdir)/var $(srcdir)/massif.4.out $(srcdir)/massif.8.out README.md
