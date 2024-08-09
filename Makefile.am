@@ -3,7 +3,7 @@ noinst_LTLIBRARIES = src/libcliquer.la src/libspread.la
 src_libcliquer_la_SOURCES = $(top_srcdir)/cliquer-1.21/cliquer.h \
 $(top_srcdir)/cliquer-1.21/set.h $(top_srcdir)/cliquer-1.21/graph.h \
 $(top_srcdir)/cliquer-1.21/misc.h $(top_srcdir)/cliquer-1.21/reorder.h \
-$(top_srcdir)cliquer-1.21/cliquerconf.h $(top_srcdir)/cliquer-1.21/cl.c \
+$(top_srcdir)/cliquer-1.21/cliquerconf.h $(top_srcdir)/cliquer-1.21/cl.c \
 $(top_srcdir)/cliquer-1.21/cliquer.c $(top_srcdir)/cliquer-1.21/graph.c \
 $(top_srcdir)/cliquer-1.21/reorder.c
 src_libcliquer_la_CPPFLAGS = -I$(top_srcdir)/cliquer-1.21 -DENABLE_LONG_OPTIONS
