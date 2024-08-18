@@ -88,6 +88,7 @@ int main( int argc, char **argv )
           .clique_list_length = 0,
      };
 
+     /* find maximum cliques */
      int maximum_size = clique_unweighted_max_weight(G, &opts);
 
      opts.user_function = pr;

@@ -24,6 +24,7 @@ class AG
     });
     return os;
   }
+
   friend std::istream& operator>>(std::istream& is, AG& ag) {
     std::for_each(ag.spread.begin(),ag.spread.end(),[&](auto &x){
       for (std::size_t i{0}; i<x.size(); i++) is >> x[i];
@@ -36,6 +37,7 @@ class AG
   friend bool operator==(AG const& ag1, AG const& ag2) {
     return ag1.spread==ag2.spread;
   }
+
   friend bool operator<(AG const& ag1, AG const& ag2) {
     return ag1.spread < ag2.spread;
   }
