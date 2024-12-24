@@ -47,45 +47,46 @@ auto sig_bit(std::uint32_t n)
 
 matrix operator*(matrix const& A, matrix const& B)
 {
-  assert(A.dim() == B.dim());
-  std::size_t i,j;
-  matrix C{A.dim()}, BT{B.transpose()};
-  for ( i = 0; i < A.dim(); i++ )
-    for ( j = 0; j < A.dim(); j++ )
+  assert(A.ncols() == B.nrows());
+  std::size_t i, j;
+  matrix C{A.nrows(), B.ncols()}, BT{B.transpose()};
+  for ( i = 0; i < A.nrows(); i++ )
+    for ( j = 0; j < B.ncols(); j++ )
       if ( (std::uint32_t)popcount(A[i] & BT[j]) & 1U )
-        C[i] |= (1U << (A.dim() - j - 1));
+        C[i] |= (1U << (B.ncols() - j - 1));
   return C;
 }
 
 std::uint32_t operator*(matrix const& A, std::uint32_t v)
 {
   std::uint32_t u{0};
-  for ( std::size_t i{0}; i < A.dim(); i++ )
+  for ( std::size_t i{0}; i < A.nrows(); i++ )
     if ( (std::uint32_t)popcount(A[i] & v) & 1U )
-      u |= (1U << (A.dim() - i -1));
+      u |= (1U << (A.nrows() - i -1));
   return u;
 }
 
 matrix matrix::transpose() const
 {
-  matrix A{dim()};
-  std::size_t i,j;
-  for ( i = 0; i < dim(); i++ )
-    for ( j = 0; j < dim(); j++ )
-      if ( M[j] & (1U << (dim() - i - 1)) )
-        A[i] |= (1U << (dim() - j - 1));
+  matrix A{ncols(), nrows()};
+  std::size_t i, j;
+  for ( i = 0; i < ncols(); i++ )
+    for ( j = 0; j < nrows(); j++ )
+      if ( M[j] & (1U << (ncols() - i - 1)) )
+        A[i] |= (1U << (nrows() - j - 1));
   return A;
-  }
+}
 
 matrix matrix::inverse() const
 {
-  matrix A{M}, I{identity_matrix32(dim())};
+  assert(nrows() == ncols());
+  matrix A{M}, I{identity_matrix32(nrows())};
 
   std::uint32_t max_bit;
   int i,j,max_index;
-  for ( i = 0; i < dim() - 1; i++ ) {
+  for ( i = 0; i < nrows() - 1; i++ ) {
     max_index = i;
-    for ( j = i + 1; j < dim(); j++ )
+    for ( j = i + 1; j < nrows(); j++ )
       if ( A[max_index] < A[j] ) max_index = j;
     if ( max_index != i ) {
       std::swap(A[i], A[max_index]);
@@ -93,7 +94,7 @@ matrix matrix::inverse() const
     }
 
     max_bit = sig_bit(A[i]);
-    for ( j = 0; j < dim(); j++ ) {
+    for ( j = 0; j < nrows(); j++ ) {
       if ( (j != i) && (max_bit & A[j]) ) {
         A[j] ^= A[i];
         I[j] ^= I[i];
@@ -101,13 +102,76 @@ matrix matrix::inverse() const
     }
   }
 
-  for ( i = dim() - 1; i > 0; i-- ) {
+  for ( i = nrows() - 1; i > 0; i-- ) {
     for ( j = 0; j < i; j++ )
-      if ( A[j] & (1U << dim() - i - 1) ) {
+      if ( A[j] & (1U << nrows() - i - 1) ) {
         A[j] ^= A[i];
         I[j] ^= I[i];
       }
   }
 
   return I;
+}
+
+matrix matrix::gauss_form() const
+{
+  matrix A{M, ncols()};
+
+  std::uint32_t max_bit;
+  int i, j, max_index;
+  for (i = 0; i < nrows() - 1; i++) {
+    max_index = i;
+    for (j = i + 1; j < nrows(); j++)
+      if (A[max_index] < A[j])
+        max_index = j;
+
+    if (max_index != i)
+      std::swap(A[i], A[max_index]);
+
+    max_bit = sig_bit(A[i]);
+    for (j = 0; j < nrows(); j++)
+      if ((j != i) && (max_bit & A[j]))
+        A[j] ^= A[i];
+  }
+
+  return A;
+}
+
+matrix matrix::rref() const
+{
+  boolean_matrix A{M, ncols()};
+
+  std::uint32_t max_bit;
+  int i, j, max_index;
+  for (i = 0; i < nrows() - 1; i++) {
+    max_index = i;
+    for (j = i + 1; j < nrows(); j++)
+      if (A[max_index] < A[j]) max_index = j;
+
+    if (max_index != i) std::swap(A[i], A[max_index]);
+
+    max_bit = sig_bit(A[i]);
+    for (j = 0; j < nrows(); j++)
+      if ((j != i) && (max_bit & A[j])) A[j] ^= A[i];
+  }
+
+  for (i = nrows() - 1; i > 0; i--) {
+    for (j = 0; j < i; j++)
+      if (A[j] & (1U << ncols() - i - 1)) A[j] ^= A[i];
+  }
+
+  return A;
+}
+
+std::size_t matrix::rank() const
+{
+  matrix A{gauss_form()};
+
+  std::size_t _rank{0};
+  for ( std::size_t i{0}; i < nrows(); i++ ) {
+    if ( A[i] == 0 ) break;
+    _rank++;
+  }
+
+  return _rank;
 }

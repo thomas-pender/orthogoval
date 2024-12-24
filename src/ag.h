@@ -2,6 +2,7 @@
 # define AG_H
 
 # include <iostream>
+# include <fstream>
 # include <cstdint>
 # include <cstddef>
 # include <vector>
@@ -67,6 +68,19 @@ public:
     }
   };
 
+  void print() const {
+    std::size_t i, j;
+    for ( auto const& sub : spread ) {
+      for ( auto x : sub ) {
+        for ( i = 0; i < sub.size(); i++ )
+          std::cout << ((x & (1U << (sub.size() - i - 1))) ? 1 : 0) << " ";
+        std::cout << '\n';
+      }
+      std::cout << '\n';
+    }
+    std::cout << std::flush;
+  }
+
   void resize(std::size_t nb,std::size_t lb) {
     spread.resize(nb);
     std::for_each(spread.begin(),spread.end(),[&](auto &x){
@@ -88,7 +102,7 @@ public:
   ~AG() = default;
 
 private:
-  std::vector<std::vector<std::uint32_t>> spread;
+  std::vector<std::vector<std::uint32_t> > spread;
 };
 
 bool orthogoval(AG const&, AG const&);

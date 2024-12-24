@@ -12,10 +12,7 @@
 # include <utility>
 
 /* project headers */
-# include <matrix.h>
-# include <ag.h>
-
-# define NGENS 2
+# include <libspread.h>
 
 /* hashing pairs */
 namespace AG_pair
@@ -38,30 +35,20 @@ namespace AG_pair
 /* driver */
 int main(int argc, char **argv)
 {
-  if ( argc < 5 ) {
-    std::cerr << "USAGE -- requires <degree> <order> <generators> <spread>\n";
+  if ( argc < 4 ) {
+    std::cerr << "USAGE -- requires <degree> <order> <spread>\n";
     return 1;
   }
 
   std::pair<AG, matrix> canonical;
 
-  /* read in generators of matrix group */
-  std::vector<matrix> gens(NGENS);
+  /* construct generators of matrix group */
+  std::vector<matrix> gens{};
   {
     std::size_t n;
     std::stringstream ss(argv[1]);
     ss >> n;
-
-    std::fstream F;
-    F.open(argv[3], std::ios::in);
-
-    std::for_each(gens.begin(), gens.end(), [&](auto &x){
-      x.resize(n);
-      F >> x;
-    });
-
-    F.close();
-
+    gens = generators(n);
     canonical.second = identity_matrix32(n);
   }
 
@@ -74,9 +61,9 @@ int main(int argc, char **argv)
     ss >> order;
 
     std::fstream F;
-    F.open(argv[4], std::ios::in);
+    F.open(argv[3], std::ios::in);
 
-    can.resize(order+1, order);
+    can.resize(order + 1, order);
     F >> can;
 
     F.close();
@@ -85,11 +72,13 @@ int main(int argc, char **argv)
   }
 
   /* calculate intersection of orbit and orthogoval pairs */
-  std::size_t nvertices{0};
+  std::uint64_t nvertices{0};
   std::unordered_set<std::pair<AG, matrix>, AG_pair::hash_func, AG_pair::comp_func> orbit{canonical};
   std::list<std::pair<AG, matrix> > prev_first{canonical};
+  std::unordered_set<matrix, matrix::hash_func> automorphisms{};
 
-  std::fstream trans, auts, verts;
+  std::fstream ortho_trans, trans, auts, verts;
+  ortho_trans.open("orthogoval_transversal.txt", std::ios::out);
   trans.open("transversal.txt", std::ios::out);
   auts.open("automorphisms.txt", std::ios::out);
   verts.open("vertices.txt", std::ios::out);
@@ -103,16 +92,20 @@ int main(int argc, char **argv)
         if ( it == orbit.end() ) {
           if ( orthogoval(canonical.first, new_p.first) ) {
             verts << new_p.first << '\n' << std::flush;
-            new_p.second.print(trans);
-            trans << '\n' << std::flush;
+            new_p.second.print(ortho_trans);
+            ortho_trans << '\n' << std::flush;
             nvertices++;
           }
+
+          new_p.second.print(trans);
+          trans << '\n' << std::flush;
           orbit.insert(new_p);
           prev_second.push_back(std::move(new_p));
         }
         else {
           matrix aut_gen = (*it).second.inverse() * gen * p.second;
-          if ( aut_gen != canonical.second ) {
+          if ( auto it2 = automorphisms.find(aut_gen); it2 == automorphisms.end() ) {
+            automorphisms.insert(aut_gen);
             aut_gen.print(auts);
             auts << '\n' << std::flush;
           }
@@ -122,6 +115,8 @@ int main(int argc, char **argv)
   } while( !prev_first.empty() );
 
   verts << "number of vertices = " << nvertices << '\n';
+
+  ortho_trans.close(); trans.close(); auts.close(); verts.close();
 
   return 0;
 }

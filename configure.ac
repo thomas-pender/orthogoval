@@ -3,7 +3,7 @@ AC_INIT([orthogoval], [0.0])
 
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([build-aux])
-AC_CONFIG_SRCDIR([src/raw_search.cpp])
+AC_CONFIG_SRCDIR([src/feasible_subspaces.cpp])
 AC_CONFIG_HEADERS([src/config.h])
 
 AM_INIT_AUTOMAKE([subdir-objects -Wall -Werror])
@@ -11,7 +11,7 @@ AM_INIT_AUTOMAKE([subdir-objects -Wall -Werror])
 AM_PROG_AR
 
 LT_PREREQ([2.4.6])
-LT_INIT([dlopen])
+LT_INIT([static disable-shared])
 
 : ${CFLAGS="-O3"}
 AC_PROG_CC
