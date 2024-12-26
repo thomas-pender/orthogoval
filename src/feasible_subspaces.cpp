@@ -9,44 +9,59 @@
 
 # include <libspread.h>
 
-matrix A{}, Arref{};
+matrix A{};
+std::vector<matrix> SPREAD_BASES{};
 std::vector<std::vector<matrix> > GENS{};
 std::size_t N{}, K{};
 
-bool lex(std::vector<matrix> const& gens)
+inline
+bool intersection()
 {
-  std::unordered_set<matrix> orbit{Arref};
-  std::list<matrix> prev_first{Arref};
+  std::size_t i{};
+  for ( auto & basis : SPREAD_BASES ) {
+    basis.nrows() = K + A.nrows();
+    for ( i = 0; i < A.nrows(); i++ ) basis[i + 2] = A[i];
+    if ( basis.rank() < A.nrows() + K - 1 ) return false;
+  }
+  return true;
+}
+
+bool lex()
+{
+  std::unordered_set<matrix, matrix::hash_func> orbit{A};
+  std::list<matrix> prev_first{A};
 
   do {
     std::list<matrix> prev_second{};
-    for ( auto const& x : prev_first )
-      for ( auto const& g : gens ) {
-        matrix new_x{(g * x).rref()};
+    for ( auto const &x : prev_first )
+      for ( auto const &g : GENS[A.nrows()] ) {
+        matrix new_x{g * x};
         if ( auto it = orbit.find(new_x); it == orbit.end() ) {
+          if ( new_x < A ) return false;
           orbit.insert(new_x);
           prev_second.push_back(std::move(new_x));
         }
       }
     prev_first = std::move(prev_second);
   } while ( !prev_first.empty() );
+
+  return true;
 }
 
 void dfs(std::size_t l)
 {
   if ( l == K ) {
-    A.print();
+    if ( !lex() ) return;
+    A.row_space();
     std::cout << '\n' << std::flush;
     return;
   }
 
   for ( std::uint32_t i{A[l - 1] + 1}; i < (1U << N); i++ ) {
     A[l] = i;
-    if ( A.rank() < l + 1 ) continue;
-
-    Arref = A.rref();
-    if ( l > 1 && !lex(GENS[l + 1]) ) continue;
-
+    A.nrows() = l + 1;
+    if ( A.rank() < A.nrows() ) continue;
+    if ( !intersection() ) continue;
     dfs(l + 1);
   }
 }
@@ -67,20 +82,17 @@ int main(int argc, char **argv) {
     K = N >> 1U;
     order = 1U << K;
   }
-  for ( i = 0; i < 3; i++ ) GENS.append(std::vector<matrix>{});
-  for ( i = 3; i <= K; i++ ) GENS.append(generators(i));
+  for ( i = 0; i < 2; i++ ) GENS.push_back(std::vector<matrix>{});
+  for ( i = 2; i <= K; i++ ) GENS.push_back(generators(i));
 
   /* read-in spread */
-  // std::vector<matrix> spread_bases(order + 1, matrix{k, n});
-  // {
-  //   std::fstream F;
-  //   F.open(argv[2], std::ios::in);
-  //   for ( auto & x : spread_bases ) {
-  //     F >> x;
-  //     x.resize(n);
-  //   }
-  // }
+  for ( i = 0; i < order + 1; i++ ) {
+    SPREAD_BASES.push_back(matrix{K, N});
+    std::cin >> SPREAD_BASES[i];
+    SPREAD_BASES[i].resize(K << 1U, N);
+  }
 
+  /* effect search */
   A.resize(K, N);
   for ( i = 1; i < (1U << N); i++ ) {
     A[0] = i;

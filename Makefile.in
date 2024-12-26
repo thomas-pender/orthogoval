@@ -91,7 +91,8 @@ build_triplet = @build@
 host_triplet = @host@
 noinst_PROGRAMS = src/mutually_orthogoval$(EXEEXT) \
 	src/transversal$(EXEEXT) src/automorphisms$(EXEEXT) \
-	src/feasible_subspaces$(EXEEXT)
+	src/feasible_subspaces$(EXEEXT) \
+	src/feasible_coverings$(EXEEXT)
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/ax_cxx_compile_stdcxx.m4 \
@@ -131,6 +132,9 @@ am_src_automorphisms_OBJECTS =  \
 	$(top_builddir)/src/src_automorphisms-automorphisms.$(OBJEXT)
 src_automorphisms_OBJECTS = $(am_src_automorphisms_OBJECTS)
 src_automorphisms_DEPENDENCIES = $(top_builddir)/src/libspread.la
+am_src_feasible_coverings_OBJECTS = $(top_builddir)/src/src_feasible_coverings-feasible_coverings.$(OBJEXT)
+src_feasible_coverings_OBJECTS = $(am_src_feasible_coverings_OBJECTS)
+src_feasible_coverings_LDADD = $(LDADD)
 am_src_feasible_subspaces_OBJECTS = $(top_builddir)/src/src_feasible_subspaces-feasible_subspaces.$(OBJEXT)
 src_feasible_subspaces_OBJECTS = $(am_src_feasible_subspaces_OBJECTS)
 src_feasible_subspaces_DEPENDENCIES =  \
@@ -164,6 +168,7 @@ am__depfiles_remade = $(top_builddir)/cliquer-1.21/$(DEPDIR)/src_libcliquer_la-c
 	$(top_builddir)/cliquer-1.21/$(DEPDIR)/src_libcliquer_la-graph.Plo \
 	$(top_builddir)/cliquer-1.21/$(DEPDIR)/src_libcliquer_la-reorder.Plo \
 	$(top_builddir)/src/$(DEPDIR)/src_automorphisms-automorphisms.Po \
+	$(top_builddir)/src/$(DEPDIR)/src_feasible_coverings-feasible_coverings.Po \
 	$(top_builddir)/src/$(DEPDIR)/src_feasible_subspaces-feasible_subspaces.Po \
 	$(top_builddir)/src/$(DEPDIR)/src_libspread_la-ag.Plo \
 	$(top_builddir)/src/$(DEPDIR)/src_libspread_la-matrix.Plo \
@@ -207,10 +212,12 @@ am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
 SOURCES = $(src_libcliquer_la_SOURCES) $(src_libspread_la_SOURCES) \
-	$(src_automorphisms_SOURCES) $(src_feasible_subspaces_SOURCES) \
+	$(src_automorphisms_SOURCES) $(src_feasible_coverings_SOURCES) \
+	$(src_feasible_subspaces_SOURCES) \
 	$(src_mutually_orthogoval_SOURCES) $(src_transversal_SOURCES)
 DIST_SOURCES = $(src_libcliquer_la_SOURCES) \
 	$(src_libspread_la_SOURCES) $(src_automorphisms_SOURCES) \
+	$(src_feasible_coverings_SOURCES) \
 	$(src_feasible_subspaces_SOURCES) \
 	$(src_mutually_orthogoval_SOURCES) $(src_transversal_SOURCES)
 am__can_run_installinfo = \
@@ -424,6 +431,8 @@ src_automorphisms_LDADD = $(top_builddir)/src/libspread.la
 src_feasible_subspaces_SOURCES = $(top_srcdir)/src/feasible_subspaces.cpp
 src_feasible_subspaces_CPPFLAGS = -I$(top_srcdir)/src
 src_feasible_subspaces_LDADD = $(top_builddir)/src/libspread.la
+src_feasible_coverings_SOURCES = $(top_srcdir)/src/feasible_coverings.c
+src_feasible_coverings_CPPFLAGS = -I$(top_srcdir)/src
 EXTRA_DIST = $(top_srcdir)/data $(top_srcdir)/massif.4.out \
 $(top_srcdir)/massif.8.out README.md
 
@@ -545,6 +554,13 @@ $(top_builddir)/src/src_automorphisms-automorphisms.$(OBJEXT):  \
 src/automorphisms$(EXEEXT): $(src_automorphisms_OBJECTS) $(src_automorphisms_DEPENDENCIES) $(EXTRA_src_automorphisms_DEPENDENCIES) src/$(am__dirstamp)
 	@rm -f src/automorphisms$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(src_automorphisms_OBJECTS) $(src_automorphisms_LDADD) $(LIBS)
+$(top_builddir)/src/src_feasible_coverings-feasible_coverings.$(OBJEXT):  \
+	$(top_builddir)/src/$(am__dirstamp) \
+	$(top_builddir)/src/$(DEPDIR)/$(am__dirstamp)
+
+src/feasible_coverings$(EXEEXT): $(src_feasible_coverings_OBJECTS) $(src_feasible_coverings_DEPENDENCIES) $(EXTRA_src_feasible_coverings_DEPENDENCIES) src/$(am__dirstamp)
+	@rm -f src/feasible_coverings$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(src_feasible_coverings_OBJECTS) $(src_feasible_coverings_LDADD) $(LIBS)
 $(top_builddir)/src/src_feasible_subspaces-feasible_subspaces.$(OBJEXT):  \
 	$(top_builddir)/src/$(am__dirstamp) \
 	$(top_builddir)/src/$(DEPDIR)/$(am__dirstamp)
@@ -582,6 +598,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@$(top_builddir)/cliquer-1.21/$(DEPDIR)/src_libcliquer_la-graph.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@$(top_builddir)/cliquer-1.21/$(DEPDIR)/src_libcliquer_la-reorder.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@$(top_builddir)/src/$(DEPDIR)/src_automorphisms-automorphisms.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@$(top_builddir)/src/$(DEPDIR)/src_feasible_coverings-feasible_coverings.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@$(top_builddir)/src/$(DEPDIR)/src_feasible_subspaces-feasible_subspaces.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@$(top_builddir)/src/$(DEPDIR)/src_libspread_la-ag.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@$(top_builddir)/src/$(DEPDIR)/src_libspread_la-matrix.Plo@am__quote@ # am--include-marker
@@ -645,6 +662,20 @@ $(top_builddir)/cliquer-1.21/src_libcliquer_la-reorder.lo: $(top_builddir)/cliqu
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$(top_builddir)/cliquer-1.21/reorder.c' object='$(top_builddir)/cliquer-1.21/src_libcliquer_la-reorder.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(src_libcliquer_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o $(top_builddir)/cliquer-1.21/src_libcliquer_la-reorder.lo `test -f '$(top_builddir)/cliquer-1.21/reorder.c' || echo '$(srcdir)/'`$(top_builddir)/cliquer-1.21/reorder.c
+
+$(top_builddir)/src/src_feasible_coverings-feasible_coverings.o: $(top_builddir)/src/feasible_coverings.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(src_feasible_coverings_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT $(top_builddir)/src/src_feasible_coverings-feasible_coverings.o -MD -MP -MF $(top_builddir)/src/$(DEPDIR)/src_feasible_coverings-feasible_coverings.Tpo -c -o $(top_builddir)/src/src_feasible_coverings-feasible_coverings.o `test -f '$(top_builddir)/src/feasible_coverings.c' || echo '$(srcdir)/'`$(top_builddir)/src/feasible_coverings.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(top_builddir)/src/$(DEPDIR)/src_feasible_coverings-feasible_coverings.Tpo $(top_builddir)/src/$(DEPDIR)/src_feasible_coverings-feasible_coverings.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$(top_builddir)/src/feasible_coverings.c' object='$(top_builddir)/src/src_feasible_coverings-feasible_coverings.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(src_feasible_coverings_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o $(top_builddir)/src/src_feasible_coverings-feasible_coverings.o `test -f '$(top_builddir)/src/feasible_coverings.c' || echo '$(srcdir)/'`$(top_builddir)/src/feasible_coverings.c
+
+$(top_builddir)/src/src_feasible_coverings-feasible_coverings.obj: $(top_builddir)/src/feasible_coverings.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(src_feasible_coverings_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT $(top_builddir)/src/src_feasible_coverings-feasible_coverings.obj -MD -MP -MF $(top_builddir)/src/$(DEPDIR)/src_feasible_coverings-feasible_coverings.Tpo -c -o $(top_builddir)/src/src_feasible_coverings-feasible_coverings.obj `if test -f '$(top_builddir)/src/feasible_coverings.c'; then $(CYGPATH_W) '$(top_builddir)/src/feasible_coverings.c'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/feasible_coverings.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(top_builddir)/src/$(DEPDIR)/src_feasible_coverings-feasible_coverings.Tpo $(top_builddir)/src/$(DEPDIR)/src_feasible_coverings-feasible_coverings.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$(top_builddir)/src/feasible_coverings.c' object='$(top_builddir)/src/src_feasible_coverings-feasible_coverings.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(src_feasible_coverings_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o $(top_builddir)/src/src_feasible_coverings-feasible_coverings.obj `if test -f '$(top_builddir)/src/feasible_coverings.c'; then $(CYGPATH_W) '$(top_builddir)/src/feasible_coverings.c'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/feasible_coverings.c'; fi`
 
 $(top_builddir)/src/src_mutually_orthogoval-mutually_orthogoval.o: $(top_builddir)/src/mutually_orthogoval.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(src_mutually_orthogoval_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT $(top_builddir)/src/src_mutually_orthogoval-mutually_orthogoval.o -MD -MP -MF $(top_builddir)/src/$(DEPDIR)/src_mutually_orthogoval-mutually_orthogoval.Tpo -c -o $(top_builddir)/src/src_mutually_orthogoval-mutually_orthogoval.o `test -f '$(top_builddir)/src/mutually_orthogoval.c' || echo '$(srcdir)/'`$(top_builddir)/src/mutually_orthogoval.c
@@ -1033,6 +1064,7 @@ distclean: distclean-am
 	-rm -f $(top_builddir)/cliquer-1.21/$(DEPDIR)/src_libcliquer_la-graph.Plo
 	-rm -f $(top_builddir)/cliquer-1.21/$(DEPDIR)/src_libcliquer_la-reorder.Plo
 	-rm -f $(top_builddir)/src/$(DEPDIR)/src_automorphisms-automorphisms.Po
+	-rm -f $(top_builddir)/src/$(DEPDIR)/src_feasible_coverings-feasible_coverings.Po
 	-rm -f $(top_builddir)/src/$(DEPDIR)/src_feasible_subspaces-feasible_subspaces.Po
 	-rm -f $(top_builddir)/src/$(DEPDIR)/src_libspread_la-ag.Plo
 	-rm -f $(top_builddir)/src/$(DEPDIR)/src_libspread_la-matrix.Plo
@@ -1090,6 +1122,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f $(top_builddir)/cliquer-1.21/$(DEPDIR)/src_libcliquer_la-graph.Plo
 	-rm -f $(top_builddir)/cliquer-1.21/$(DEPDIR)/src_libcliquer_la-reorder.Plo
 	-rm -f $(top_builddir)/src/$(DEPDIR)/src_automorphisms-automorphisms.Po
+	-rm -f $(top_builddir)/src/$(DEPDIR)/src_feasible_coverings-feasible_coverings.Po
 	-rm -f $(top_builddir)/src/$(DEPDIR)/src_feasible_subspaces-feasible_subspaces.Po
 	-rm -f $(top_builddir)/src/$(DEPDIR)/src_libspread_la-ag.Plo
 	-rm -f $(top_builddir)/src/$(DEPDIR)/src_libspread_la-matrix.Plo

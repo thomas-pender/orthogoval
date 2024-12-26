@@ -129,8 +129,8 @@ matrix matrix::gauss_form() const
       std::swap(A[i], A[max_index]);
 
     max_bit = sig_bit(A[i]);
-    for (j = 0; j < nrows(); j++)
-      if ((j != i) && (max_bit & A[j]))
+    for (j = i + 1; j < nrows(); j++)
+      if (max_bit & A[j])
         A[j] ^= A[i];
   }
 
@@ -139,25 +139,14 @@ matrix matrix::gauss_form() const
 
 matrix matrix::rref() const
 {
-  boolean_matrix A{M, ncols()};
+  matrix A{gauss_form()};
 
   std::uint32_t max_bit;
   int i, j, max_index;
-  for (i = 0; i < nrows() - 1; i++) {
-    max_index = i;
-    for (j = i + 1; j < nrows(); j++)
-      if (A[max_index] < A[j]) max_index = j;
-
-    if (max_index != i) std::swap(A[i], A[max_index]);
-
-    max_bit = sig_bit(A[i]);
-    for (j = 0; j < nrows(); j++)
-      if ((j != i) && (max_bit & A[j])) A[j] ^= A[i];
-  }
-
   for (i = nrows() - 1; i > 0; i--) {
+    max_bit = sig_bit(A[i]);
     for (j = 0; j < i; j++)
-      if (A[j] & (1U << ncols() - i - 1)) A[j] ^= A[i];
+      if ( A[j] & max_bit ) A[j] ^= A[i];
   }
 
   return A;

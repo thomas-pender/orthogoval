@@ -80,9 +80,15 @@ public:
   matrix rref() const;
   std::size_t rank() const;
 
+  void row_space() const {
+    for (std::uint32_t v{0}; v < (rank() << 1U); v++)
+      std::cout << (*this) * v << " ";
+  }
+
   dimensions shape() && { return dims; }
   dimensions const& shape() const & { return dims; }
 
+  std::size_t& nrows() & { return dims.first; }
   std::size_t nrows() && { return dims.first; }
   std::size_t const& nrows() const& { return dims.first; }
 

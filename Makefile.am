@@ -15,7 +15,7 @@ $(top_srcdir)/src/matrix.cpp $(top_srcdir)/src/ag.cpp $(top_srcdir)/src/libsprea
 src_libspread_la_CPPFLAGS = -I$(top_srcdir)/src
 
 noinst_PROGRAMS = src/mutually_orthogoval src/transversal \
-src/automorphisms src/feasible_subspaces
+src/automorphisms src/feasible_subspaces src/feasible_coverings
 
 src_mutually_orthogoval_SOURCES = $(top_srcdir)/src/mutually_orthogoval.c
 src_mutually_orthogoval_CPPFLAGS = -I$(top_srcdir)/cliquer-1.21
@@ -32,6 +32,9 @@ src_automorphisms_LDADD = $(top_builddir)/src/libspread.la
 src_feasible_subspaces_SOURCES = $(top_srcdir)/src/feasible_subspaces.cpp
 src_feasible_subspaces_CPPFLAGS = -I$(top_srcdir)/src
 src_feasible_subspaces_LDADD = $(top_builddir)/src/libspread.la
+
+src_feasible_coverings_SOURCES = $(top_srcdir)/src/feasible_coverings.c
+src_feasible_coverings_CPPFLAGS = -I$(top_srcdir)/src
 
 EXTRA_DIST = $(top_srcdir)/data $(top_srcdir)/massif.4.out \
 $(top_srcdir)/massif.8.out README.md
