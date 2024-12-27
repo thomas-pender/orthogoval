@@ -1,4 +1,5 @@
 ACLOCAL_AMFLAGS = -I m4
+SUBDIRS = lib
 
 noinst_LTLIBRARIES = src/libcliquer.la src/libspread.la
 
@@ -18,8 +19,10 @@ noinst_PROGRAMS = src/mutually_orthogoval src/transversal \
 src/automorphisms src/feasible_subspaces src/feasible_coverings
 
 src_mutually_orthogoval_SOURCES = $(top_srcdir)/src/mutually_orthogoval.c
-src_mutually_orthogoval_CPPFLAGS = -I$(top_srcdir)/cliquer-1.21
-src_mutually_orthogoval_LDADD = $(top_builddir)/src/libcliquer.la
+src_mutually_orthogoval_CPPFLAGS = -I$(top_srcdir)/cliquer-1.21 \
+-I$(top_srcdir)/lib -I$(top_builddir)/lib
+src_mutually_orthogoval_LDADD = $(LTLIBINTL) lib/libgnu.a \
+$(top_builddir)/src/libcliquer.la
 
 src_transversal_SOURCES = $(top_srcdir)/src/transversal.cpp
 src_transversal_CPPFLAGS = -I$(srcdir)/src
@@ -34,7 +37,9 @@ src_feasible_subspaces_CPPFLAGS = -I$(top_srcdir)/src
 src_feasible_subspaces_LDADD = $(top_builddir)/src/libspread.la
 
 src_feasible_coverings_SOURCES = $(top_srcdir)/src/feasible_coverings.c
-src_feasible_coverings_CPPFLAGS = -I$(top_srcdir)/src
+src_feasible_coverings_CPPFLAGS = -I$(top_srcdir)/lib -I$(top_builddir)/lib \
+-I$(top_srcdir)/src
+src_feasible_coverings_LDADD = $(LTLIBINTL) lib/libgnu.a
 
 EXTRA_DIST = $(top_srcdir)/data $(top_srcdir)/massif.4.out \
-$(top_srcdir)/massif.8.out README.md
+$(top_srcdir)/massif.8.out README.md m4/gnulib-cache.m4

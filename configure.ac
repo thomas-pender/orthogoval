@@ -8,13 +8,14 @@ AC_CONFIG_HEADERS([src/config.h])
 
 AM_INIT_AUTOMAKE([subdir-objects -Wall -Werror])
 
+: ${CFLAGS="-O3"}
+AC_PROG_CC
+gl_EARLY
+
 AM_PROG_AR
 
 LT_PREREQ([2.4.6])
 LT_INIT([static disable-shared])
-
-: ${CFLAGS="-O3"}
-AC_PROG_CC
 
 #-------------------------------------------------
 # GNU C++
@@ -48,7 +49,9 @@ CXXFLAGS="$CXXFLAGS $PTHREAD_CXXFLAGS"
 fi
 #-------------------------------------------------
 
-AC_CONFIG_FILES([Makefile])
+gl_INIT
+
+AC_CONFIG_FILES([Makefile lib/Makefile])
 
 AC_OUTPUT
 
