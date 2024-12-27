@@ -30,6 +30,9 @@ class matrix
 
   friend matrix operator*(matrix const&, matrix const&);
   friend std::uint32_t operator*(matrix const&, std::uint32_t);
+  friend std::uint32_t operator*(std::uint32_t v, matrix const& A) {
+    return A.transpose() * v;
+  }
 
 public:
   struct hash_func
@@ -57,21 +60,12 @@ public:
     return *this;
   }
 
-  void print() const {
+  void print(std::ostream &os) const {
     std::size_t i, j;
     for (i = 0; i < nrows(); i++) {
       for (j = 0; j < ncols(); j++)
-        std::cout << at(i, j) << " ";
-      std::cout << '\n';
-    }
-  }
-
-  void print(std::fstream &F) const {
-    std::size_t i, j;
-    for ( i = 0; i < nrows(); i++ ) {
-      for ( j = 0; j < ncols(); j++ )
-        F << at(i, j) << " ";
-      F << '\n';
+        os << at(i, j) << " ";
+      os << '\n';
     }
   }
 
@@ -81,28 +75,33 @@ public:
   std::size_t rank() const;
 
   void row_space() const {
-    for (std::uint32_t v{0}; v < (rank() << 1U); v++)
-      std::cout << (*this) * v << " ";
+    for (std::uint32_t v{1}; v < (1U << rank()); v++)
+      std::cout << v * (*this) << " ";
   }
 
-  dimensions shape() && { return dims; }
-  dimensions const& shape() const & { return dims; }
+  dimensions& shape() & { return dims; }
+  dimensions shape() && { return std::move(dims); }
+  dimensions const& shape() const& { return dims; }
 
   std::size_t& nrows() & { return dims.first; }
-  std::size_t nrows() && { return dims.first; }
+  std::size_t nrows() && { return std::move(dims.first); }
   std::size_t const& nrows() const& { return dims.first; }
 
-  std::size_t ncols() && { return dims.second; }
+  std::size_t& ncols() & { return dims.second; }
+  std::size_t ncols() && { return std::move(dims.second); }
   std::size_t const& ncols() const& { return dims.second; }
 
   std::uint32_t& operator[](std::size_t i) & { return M[i]; }
-  std::uint32_t operator[](std::size_t i) && { return M[i]; }
+  std::uint32_t operator[](std::size_t i) && { return std::move(M[i]); }
   std::uint32_t const& operator[](std::size_t i) const& { return M[i]; }
 
+  container& data() & { return M; }
+  container data() && { return std::move(M); }
   container const& data() const& { return M; }
 
-  std::uint32_t at(std::size_t i, std::size_t j) const
-  { return (M[i] & (1U << (ncols() - j - 1))) ? 1 : 0; }
+  std::uint32_t at(std::size_t i, std::size_t j) const {
+    return (M[i] & (1U << (ncols() - j - 1))) ? 1 : 0;
+  }
 
   void resize(std::size_t n) {
     M.resize(n);
@@ -116,13 +115,9 @@ public:
   }
 
   iterator begin() & { return M.begin(); }
-  iterator begin() && { return M.begin(); }
   iterator end() & { return M.end(); }
-  iterator end() && { return M.end(); }
-  const_iterator cbegin() && { return M.cbegin(); }
-  const_iterator cbegin() const& { return M.cbegin(); }
-  const_iterator cend() && { return M.cend(); }
-  const_iterator cend() const& { return M.cend(); }
+  const_iterator cbegin() const { return M.cbegin(); }
+  const_iterator cend() const { return M.cend(); }
 
   matrix& operator=(matrix && A) & noexcept = default;
   matrix& operator=(matrix const& A) & = default;

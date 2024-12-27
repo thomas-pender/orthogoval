@@ -239,17 +239,17 @@ void dfs(node_t *table,
          unsigned *restrict*restrict feasible,
          size_t nfeasible)
 {
-  if ( nfeasible < SETSIZE + 2 || INDEX == 2 ) {
-    if ( INDEX == 2 ) {
-      print();
-      exit(0);
-    }
-    return;
-  }
-  /* if ( nfeasible < SETSIZE + 2 || INDEX >= 7 ) { */
-  /*   print(); */
+  /* if ( nfeasible < SETSIZE + 2 || INDEX == 2 ) { */
+  /*   if ( INDEX == 2 ) { */
+  /*     print(); */
+  /*     exit(0); */
+  /*   } */
   /*   return; */
   /* } */
+  if ( nfeasible < SETSIZE + 2 || INDEX >= 7 ) {
+    print();
+    return;
+  }
   if ( table[0].right == 0 ) {
     size_t new_nfeasible = 0;
     append_spread(table, solution); INDEX++;
@@ -333,7 +333,7 @@ int main(int argc, char **argv)
   destroy(&table, &solution);
   free_feasible(feasible, nfeasible);
 
-  for ( i = 0; i < 7; i++ ) {
+  for ( i = 0; i < NSOLUTIONS; i++ ) {
     for ( j = 0; j < SETSIZE + 2; j++ ) free(SOLUTION[i][j]);
     free(SOLUTION[i]);
   }

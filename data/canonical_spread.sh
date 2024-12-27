@@ -10,11 +10,7 @@ q2=q**2
 mod=GF(q2).modulus()
 FF.<x>=Zmod(2)[]
 F=list(FF.quotient(mod,'x'))
-
-for z in F[1:]:
-    if len(set(z**k for k in range(q2-1)))==q2-1:
-        g=z
-        break
+g=F[2]
 
 C=[[F[0]]+[g**(j*(q+1)+i) for j in range(q-1)] for i in range(q+1)]
 D=[[c.list() for c in CC] for CC in C]

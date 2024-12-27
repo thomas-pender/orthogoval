@@ -20,8 +20,8 @@ bool intersection()
   std::size_t i{};
   for ( auto & basis : SPREAD_BASES ) {
     basis.nrows() = K + A.nrows();
-    for ( i = 0; i < A.nrows(); i++ ) basis[i + 2] = A[i];
-    if ( basis.rank() < A.nrows() + K - 1 ) return false;
+    for ( i = 0; i < A.nrows(); i++ ) basis[i + K] = A[i];
+    if ( basis.nrows() - basis.rank() > 1 ) return false;
   }
   return true;
 }
