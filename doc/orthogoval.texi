@@ -27,22 +27,16 @@ translation affine planes of even order.
 
 @menu
 
-* Sec 1:: Synopsis
-* Sec 2:: Compilation and Installation
-* Sec 3:: Class Documentation
-* Sec 4:: Executable Documentation
-* Sec 5:: GNU Free Documentation License
+* Sec 1:: Compilation and Installation
+* Sec 2:: Class Documentation
+* Sec 3:: Executable Documentation
+* Sec 4:: GNU Free Documentation License
 
 @end menu
 
 @insertcopying
 
 @node Sec 1
-@chapter Synopsis
-
-hello world
-
-@node Sec 2
 @chapter Compilation and Installation
 
 @enumerate
@@ -55,7 +49,7 @@ running instead @code{../configure CFLAGS="-O3"}.
 subdirectory of the @code{build} directory created in step 2.
 @end enumerate
 
-@node Sec 3
+@node Sec 2
 @chapter Class Documentation
 
 There are two classes in this project:
@@ -1219,7 +1213,7 @@ AG destructor
 
 @raisesections
 
-@node Sec 4
+@node Sec 3
 @chapter Executable Documentation
 
 There are five executables included in this package:
@@ -1363,7 +1357,7 @@ The parameters are as follows:
 @item @code{<2degree>} -- twice the degree of the canonical spread
 @end itemize
 
-@node Sec 5
+@node Sec 4
 @chapter GNU Free Documentation License
 
 @menu
