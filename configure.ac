@@ -51,7 +51,7 @@ fi
 
 gl_INIT
 
-AC_CONFIG_FILES([Makefile lib/Makefile])
+AC_CONFIG_FILES([Makefile lib/Makefile doc/Makefile])
 
 AC_OUTPUT
 

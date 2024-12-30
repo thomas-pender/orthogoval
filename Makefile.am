@@ -1,5 +1,5 @@
 ACLOCAL_AMFLAGS = -I m4
-SUBDIRS = lib
+SUBDIRS = lib doc
 
 noinst_LTLIBRARIES = src/libcliquer.la src/libspread.la
 
