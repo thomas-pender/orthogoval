@@ -247,6 +247,7 @@ void dfs(node_t *table,
   /*   return; */
   /* } */
   if ( nfeasible < SETSIZE + 2 || INDEX >= 7 ) {
+    printf("CLIQUE SIZE = %zu\n\n", INDEX);
     print();
     return;
   }
