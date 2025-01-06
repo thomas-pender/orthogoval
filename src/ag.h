@@ -3,6 +3,7 @@
 
 # include <iostream>
 # include <fstream>
+# include <iterator>
 # include <cstdint>
 # include <cstddef>
 # include <vector>
@@ -86,6 +87,18 @@ public:
     std::for_each(spread.begin(),spread.end(),[&](auto &x){
       x.resize(lb);
     });
+  }
+
+  std::size_t size() const { return spread.size(); }
+
+  std::vector<std::uint32_t>& operator[](std::size_t i) & { return spread[i]; }
+  std::vector<std::uint32_t> const& operator[](std::size_t i) const&
+  {
+    return spread[i];
+  }
+  std::vector<std::uint32_t> operator[](std::size_t i) &&
+  {
+    return std::move(spread[i]);
   }
 
   AG& operator=(AG &&) & noexcept = default;

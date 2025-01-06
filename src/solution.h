@@ -8,6 +8,8 @@
 # include <cstddef>
 # include <vector>
 
+# include <ag.h>
+
 class Solution
 {
   typedef typename std::vector<std::uint32_t> array;
@@ -37,8 +39,21 @@ public:
   {
     array v{};
     for ( auto const& x : M ) v.insert(v.end(), x.begin(), x.end());
-    std::sort(v.begin(), v.end());
     return v;
+  }
+
+  bool check_intersect(AG const& spread) const
+  {
+    std::size_t i{}, j{}, intersection{};
+    for ( i = 0; i < spread.size(); i++ ) {
+      intersection = 0;
+      for ( auto const& x : M )
+        for ( j = 1; j < spread[0].size(); j++ ) {
+          if ( x[j - 1] == spread[i][j] ) intersection++;
+          if ( intersection > 1 ) return false;
+        }
+    }
+    return true;
   }
 
   void emplace_back(array && v) { M.emplace_back(std::move(v)); }

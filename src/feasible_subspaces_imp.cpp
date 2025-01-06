@@ -32,17 +32,13 @@ namespace Vector {
   };
 }
 
-std::size_t N{}, ORDER{}, NONZERO{}, EXP{}, INTERSECT{};
+std::size_t N{}, ORDER{}, NONZERO{}, EXP{};
 Solution SOLUTION{};
 Space SPACE{};
+AG SPREAD{};
 std::unordered_set<std::vector<std::uint32_t>, Vector::hash_func> SUBSPACES{};
 
 // SEARCH ----------------------------------------------------------------------
-
-std::size_t intersect()
-{
-  
-}
 
 void dfs(std::uint32_t c)
 {
@@ -57,10 +53,12 @@ void dfs(std::uint32_t c)
 
   std::vector<std::vector<std::uint32_t> > arr{SPACE.partition(SOLUTION)};
   for ( auto const& v : arr ) {
-    if ( c > *(std::min_element(v.begin(), v.end())) ) continue;
+    if (c > *(std::min_element(v.begin(), v.end())))
+      continue;
     SPACE.cover(v);
     SOLUTION.push_back(v);
-    dfs(c);
+    if (SOLUTION.check_intersect(SPREAD))
+      dfs(c);
     SOLUTION.pop_back();
     SPACE.uncover(v);
   }
@@ -70,8 +68,8 @@ void dfs(std::uint32_t c)
 
 int main(int argc, char **argv)
 {
-  if ( argc < 2 ) {
-    std::cerr << "USAGE: ./feasible_subspaces_imp <exponent> < <spread_file>\n"
+  if (argc < 2) {
+    std::cerr << "USAGE: ./feasible_subspaces_imp <degree> < <spread_file>\n"
               << std::flush;
     return 1;
   }
@@ -83,6 +81,9 @@ int main(int argc, char **argv)
   N = 1UL << (EXP << 1UL);
   ORDER = 1UL << EXP;
   NONZERO = ORDER - 1;
+
+  SPREAD.resize(ORDER + 1, ORDER);
+  std::cin >> SPREAD;
 
   SPACE = Space{N};
   for ( std::uint32_t c{1}; c < N; c++ ) {

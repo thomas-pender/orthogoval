@@ -1,6 +1,7 @@
 # ifndef SPACE_H_INCLUDED
 # define SPACE_H_INCLUDED
 
+# include <algorithm>
 # include <cstddef>
 # include <iostream>
 # include <vector>
@@ -57,6 +58,8 @@ public:
           v[index++] = c ^ (*it2);
 
       cover(v);
+
+      std::sort(v.begin(), v.end());
       arr[arr_index++] = std::move(v);
     }
 

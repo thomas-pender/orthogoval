@@ -43,6 +43,7 @@ src_feasible_subspaces_LDADD = $(top_builddir)/src/libspread.la
 src_feasible_subspaces_imp_SOURCES = $(top_srcdir)/src/feasible_subspaces_imp.cpp \
 $(top_srcdir)/src/ag.h $(top_srcdir)/src/solution.h $(top_srcdir)/src/space.h
 src_feasible_subspaces_imp_CPPFLAGS = -I$(top_srcdir)/src
+src_feasible_subspaces_imp_LDADD = $(top_builddir)/src/libspread.la
 
 src_feasible_coverings_SOURCES = $(top_srcdir)/src/feasible_coverings.c
 src_feasible_coverings_CPPFLAGS = -I$(top_srcdir)/lib -I$(top_builddir)/lib \

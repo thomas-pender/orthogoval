@@ -30,7 +30,8 @@ translation affine planes of even order.
 * Sec 1:: Compilation and Installation
 * Sec 2:: Class Documentation
 * Sec 3:: Executable Documentation
-* Sec 4:: GNU Free Documentation License
+* Sec 4:: Auxiliary Scripts
+* Sec 5:: GNU Free Documentation License
 
 @end menu
 
@@ -52,12 +53,14 @@ subdirectory of the @code{build} directory created in step 2.
 @node Sec 2
 @chapter Class Documentation
 
-There are two classes in this project:
+There are four classes in this project:
 
 @menu
 
 * matrix.h:: A boolean matrix class.
 * ag.h:: A boolean spread class.
+* solution.h:: object to hold temporary fesible subspace
+* space.h:: object to hold ambient vector space for feasibility search
 
 @end menu
 
@@ -1213,10 +1216,913 @@ AG destructor
 
 @raisesections
 
+@node solution.h
+@section solution.h
+
+@menu
+Class Types:
+@itemize
+@item @code{typedef typename std::vector<std::uint32_t> array}
+@item @code{typedef typename std::vector<array>::iterator iterator}
+@item @code{typedef typename std::vector<array>::const_iterator const_iterator}
+@end itemize
+
+Friend Functions:
+* Solution operator<<:: output container
+
+Element Access:
+* Solution operator[]:: subset access
+
+Iterators:
+* Solution begin:: iterator at start of container
+* Solution end:: iterator at end of container
+* Solution cbegin:: constant iterator at start of container
+* Solution cend:: constant iterator at end of container
+
+Member Functions:
+* Solution resize:: resize container
+* Solution size:: return number of subsets
+* Solution total_size:: return number of elements
+* Solution flatten:: return vector of elements
+* Solution check_intersect:: size of intersection with given spread
+* Solution emplace_back:: append subset to container
+* Solution push_back:: append subset to container
+* Solution pop_back:: remove last subset
+* Solution assignment:: assigning solutions
+* Solution constructors/destructor:: constructing and destructing solutions
+@end menu
+
+@lowersections
+
+@node Solution operator<<
+@unnumberedsec Solution operator<<
+
+@deftypefn {friend} std::ostream& operator<<(std{::}ostream&, Solution const&)
+output integer value of each vector in the current subspace
+@end deftypefn
+
+@noindent Example:
+
+@noindent ------------------------------code block------------------------------
+
+@noindent # include <iostream>@*
+# include <vector>@*
+# include <cstddef>@*
+# include <solution.h>
+
+@noindent int main(void)@*
+@{@*
+@ @ Solution S@{@};@*
+@ @ S.emplace_back(std::vector<std::uint32_t>@{1@});@*
+@ @ S.emplace_back(std::vector<std::uint32_t>@{2, 3@});
+
+@noindent @ @ std::cout << S;
+
+@noindent @ @ return 0;@*
+@}
+
+@noindent ----------------------------end code block----------------------------
+
+@noindent Output:@*
+@ @ 1@*
+@ @ 2 3
+
+@node Solution operator[]
+@unnumberedsec Solution operator[]
+
+@deftypefn {member} array& operator[](std::size_t) &
+@deftypefnx {member} array operator[](std::size_t) &&
+@deftypefnx {member} array const& operator[](std::size_t) const&
+subset access
+@end deftypefn
+
+@noindent Example:
+
+@noindent ------------------------------code block------------------------------
+
+@noindent # include <iostream>@*
+# include <cstddef>@*
+# include <vector>@*
+# include <solution.h>
+
+@noindent int main(void)@*
+@{@*
+@ @ Solution S@{@};@*
+@ @ S.emplace_back(std::vector<std::uint32_t>@{1@});@*
+@ @ S.emplace_back(std::vector<std::uint32_t>@{2, 3@});
+
+@noindent @ @ for ( auto x : S[1] ) std::cout << x << " ";@*
+@ @ std::cout << '\n';
+
+@noindent @ @ return 0;@*
+@}
+
+@noindent ----------------------------end code block----------------------------
+
+@noindent Output:@*
+@ @ 2 3
+
+@node Solution begin
+@unnumberedsec Solution begin
+
+@deftypefn {member} std::vector<array>::iterator begin() &
+iterator to front of container
+@end deftypefn
+
+@noindent Example:
+
+@noindent ------------------------------code block------------------------------
+
+@noindent # include <iostream>@*
+# include <cstddef>@*
+# include <vector>@*
+# include <solution.h>
+
+@noindent int main(void)@*
+@{@*
+@ @ Solution S@{@};@*
+@ @ S.emplace_back(std::vector<std::uint32_t>@{1@});@*
+@ @ S.emplace_back(std::vector<std::uint32_t>@{2, 3@});
+
+@noindent @ @ for ( auto it1 = S.begin(); it1 != S.end(); it1++ ) @{@*
+@ @ @ @ for ( auto it2 = (*it1).begin(); it2 != (*it1).end(); it2++ )@*
+@ @ @ @ @ @ std::cout << *it2 << " ";@*
+@ @ @ @ std::cout << '\n';@*
+@ @ @}
+
+@noindent @ @ return 0;@*
+@}
+
+@noindent ----------------------------end code block----------------------------
+
+@noindent Output:@*
+@ @ 1@*
+@ @ 2 3
+
+@node Solution end
+@unnumberedsec Solution end
+
+@deftypefn {member} std::vector<array>::iterator end() &
+iterator to end of container
+@end deftypefn
+
+@noindent Example:
+
+@noindent ------------------------------code block------------------------------
+
+@noindent # include <iostream>@*
+# include <cstddef>@*
+# include <vector>@*
+# include <solution.h>
+
+@noindent int main(void)@*
+@{@*
+@ @ Solution S@{@};@*
+@ @ S.emplace_back(std::vector<std::uint32_t>@{1@});@*
+@ @ S.emplace_back(std::vector<std::uint32_t>@{2, 3@});
+
+@noindent @ @ for ( auto it1 = S.begin(); it1 != S.end(); it1++ ) @{@*
+@ @ @ @ for ( auto it2 = (*it1).begin(); it2 != (*it1).end(); it2++ )@*
+@ @ @ @ @ @ std::cout << *it2 << " ";@*
+@ @ @ @ std::cout << '\n';@*
+@ @ @}
+
+@noindent @ @ return 0;@*
+@}
+
+@noindent ----------------------------end code block----------------------------
+
+@noindent Output:@*
+@ @ 1@*
+@ @ 2 3
+
+@node Solution cbegin
+@unnumberedsec Solution cbegin
+
+@deftypefn {member} std::vector<array>::iterator cbegin() const
+constant iterator to front of container
+@end deftypefn
+
+@noindent Example:
+
+@noindent ------------------------------code block------------------------------
+
+@noindent # include <iostream>@*
+# include <cstddef>@*
+# include <vector>@*
+# include <solution.h>
+
+@noindent int main(void)@*
+@{@*
+@ @ Solution S@{@};@*
+@ @ S.emplace_back(std::vector<std::uint32_t>@{1@});@*
+@ @ S.emplace_back(std::vector<std::uint32_t>@{2, 3@});
+
+@noindent @ @ for ( auto it1 = S.cbegin(); it1 != S.cend(); it1++ ) @{@*
+@ @ @ @ for ( auto it2 = (*it1).cbegin(); it2 != (*it1).cend(); it2++ )@*
+@ @ @ @ @ @ std::cout << *it2 << " ";@*
+@ @ @ @ std::cout << '\n';@*
+@ @ @}
+
+@noindent @ @ return 0;@*
+@}
+
+@noindent ----------------------------end code block----------------------------
+
+@noindent Output:@*
+@ @ 1@*
+@ @ 2 3
+
+@node Solution cend
+@unnumberedsec Solution cend
+
+@deftypefn {member} std::vector<array>::iterator cend() const
+constant iterator to end of container
+@end deftypefn
+
+@noindent Example:
+
+@noindent ------------------------------code block------------------------------
+
+@noindent # include <iostream>@*
+# include <cstddef>@*
+# include <vector>@*
+# include <solution.h>
+
+@noindent int main(void)@*
+@{@*
+@ @ Solution S@{@};@*
+@ @ S.emplace_back(std::vector<std::uint32_t>@{1@});@*
+@ @ S.emplace_back(std::vector<std::uint32_t>@{2, 3@});
+
+@noindent @ @ for ( auto it1 = S.cbegin(); it1 != S.cend(); it1++ ) @{@*
+@ @ @ @ for ( auto it2 = (*it1).cbegin(); it2 != (*it1).cend(); it2++ )@*
+@ @ @ @ @ @ std::cout << *it2 << " ";@*
+@ @ @ @ std::cout << '\n';@*
+@ @ @}
+
+@noindent @ @ return 0;@*
+@}
+
+@noindent ----------------------------end code block----------------------------
+
+@noindent Output:@*
+@ @ 1@*
+@ @ 2 3
+
+@node Solution resize
+@unnumberedsec Solution resize
+
+@deftypefn {member} void resize(std{::}size_t n)
+resize array to @code{n} subsets
+@end deftypefn
+
+@noindent Example:
+
+@noindent ------------------------------code block------------------------------
+
+@noindent # include <iostream>@*
+# include <cstddef>@*
+# include <vector>@*
+# include <solution.h>
+
+@noindent int main(void)@*
+@{@*
+@ @ Solution S@{@};@*
+@ @ S.emplace_back(std::vector<std::uint32_t>@{1@});@*
+@ @ S.emplace_back(std::vector<std::uint32_t>@{2, 3@});
+
+@noindent @ @ S.resize(3);@*
+@ @ S[2] = std::vector<std::uint32_t>@{4, 5, 6@};
+
+@noindent @ @ std::cout << S;
+
+@noindent @ @ return 0;@*
+@}
+
+@noindent ----------------------------end code block----------------------------
+
+@noindent Output:@*
+@ @ 1@*
+@ @ 2 3@*
+@ @ 4 5 6
+
+@node Solution size
+@unnumberedsec Solution size
+
+@deftypefn {member} std::size_t size() const
+return number of subsets in container
+@end deftypefn
+
+@noindent Example:
+
+@noindent ------------------------------code block------------------------------
+
+@noindent # include <iostream>@*
+# include <cstddef>@*
+# include <vector>@*
+# include <solution.h>
+
+@noindent int main(void)@*
+@{@*
+@ @ Solution S@{@};@*
+@ @ S.emplace_back(std::vector<std::uint32_t>@{1@});@*
+@ @ S.emplace_back(std::vector<std::uint32_t>@{2, 3@});
+
+@noindent @ @ std::cout << S.size() << '\n';
+
+@noindent @ @ return 0;@*
+@}
+
+@noindent ----------------------------end code block----------------------------
+
+@noindent Output:@*
+@ @ 2
+
+@node Solution total_size
+@unnumberedsec Solution total_size
+
+@deftypefn {member} std::size_t total_size() const
+return number of elements in container
+@end deftypefn
+
+@noindent Exampe:
+
+@noindent ------------------------------code block------------------------------
+
+@noindent # include <iostream>@*
+# include <cstddef>@*
+# include <vector>@*
+# include <solution.h>
+
+@noindent int main(void)@*
+@{@*
+@ @ Solution S@{@};@*
+@ @ S.emplace_back(std::vector<std::uint32_t>@{1@});@*
+@ @ S.emplace_back(std::vector<std::uint32_t>@{2, 3@});
+
+@noindent @ @ std::cout << S.total_size() << '\n';
+
+@noindent @ @ return 0;@*
+@}
+
+@noindent ----------------------------end code block----------------------------
+
+@noindent Output:@*
+@ @ 3
+
+@node Solution flatten
+@unnumberedsec Solution flatten
+
+@deftypefn {member} array flatten() const
+return @code{array} object that contains sorted vector of elements
+@end deftypefn
+
+@noindent Example:
+
+@noindent ------------------------------code block------------------------------
+
+@noindent # include <iostream>@*
+# include <cstddef>@*
+# include <vector>@*
+# include <solution.h>
+
+@noindent int main(void)@*
+@{@*
+@ @ Solution S@{@};@*
+@ @ S.emplace_back(std::vector<std::uint32_t>@{1@});@*
+@ @ S.emplace_back(std::vector<std::uint32_t>@{2, 3@});
+
+@noindent @ @ std::cout << S << '\n';
+
+@noindent @ @ std::vector<std::uint32_t> v@{S.flatten()@};@*
+@ @ for ( auto x : v ) std::cout << x << " ";@*
+@ @ std::cout << '\n';
+
+@noindent @ @ return 0;@*
+@}
+
+@noindent ----------------------------end code block----------------------------
+
+@noindent Output:@*
+@ @ 1@*
+@ @ 2 3
+
+@noindent @ @ 1 2 3
+
+@node Solution check_intersect
+@unnumberedsec Solution check_intersect
+
+@deftypefn {member} bool check_intersect(AG const&) const
+check if current running subspace can form a spread orthogoval to a given spread, i.e., it intersects the subspaces of a spread in a space of dimension at most 1
+@end deftypefn
+
+@noindent Example:
+
+@noindent ------------------------------code block------------------------------
+
+@noindent # include <iostream>@*
+# include <cstddef>@*
+# include <vector>@*
+# include <solution.h>@*
+# include <ag.h>
+
+@noindent int main(void)@*
+@{@*
+@ @ Solution S@{@};@*
+@ @ S.emplace_back(std::vector<std::uint32_t>@{1@});@*
+@ @ S.emplace_back(std::vector<std::uint32_t>@{2, 3@});
+
+@noindent @ @ AG spread@{@};@*
+@ @ std::cin >> spread;
+
+@noindent @ @ std::cout << (S.check_intersection(spread) ? "true\n" : "false\n");
+
+@noindent @ @ return 0;@*
+@}
+
+@noindent ----------------------------end code block----------------------------
+
+@noindent Input:@*
+@ @ 0 1 6 7@*
+@ @ 0 2 12 14@*
+@ @ 0 4 11 15@*
+@ @ 0 8 5 13@*
+@ @ 0 3 10 9
+
+@noindent Output:@*
+@ @ true
+
+@node Solution emplace_back
+@unnumberedsec Solution emplace_back
+
+@deftypefn {member} void emplace_back(array &&)
+construct @code{array} object in place at end of container
+@end deftypefn
+
+@noindent Example:
+
+@noindent ------------------------------code block------------------------------
+
+@noindent # include <iostream>@*
+# include <cstddef>@*
+# include <vector>@*
+# include <solution.h>@*
+
+@noindent int main(void)@*
+@{@*
+@ @ Solution S@{@};@*
+@ @ S.emplace_back(std::vector<std::uint32_t>@{1@});@*
+@ @ S.emplace_back(std::vector<std::uint32_t>@{2, 3@});
+
+@noindent @ @ std::cout << S;
+
+@noindent @ @ return 0;@*
+@}
+
+@noindent ----------------------------end code block----------------------------
+
+@noindent Output:@*
+@ @ 1@*
+@ @ 2 3
+
+@node Solution push_back
+@unnumberedsec Solution push_back
+
+@deftypefn {member} void push_back(array const&)
+@deftypefnx {member} void push_back(array &&)
+instert @code{array} object into container
+@end deftypefn
+
+@noindent Example:
+
+@noindent ------------------------------code block------------------------------
+
+@noindent # include <iostream>@*
+# include <cstddef>@*
+# include <vector>@*
+# include <solution.h>@*
+
+@noindent int main(void)@*
+@{@*
+@ @ Solution S@{@};@*
+@ @ S.push_back(std::vector<std::uint32_t>@{1@});
+
+@noindent @ @ std::vector<std::uint32_t> v@{2, 3@};@*
+@ @ S.push_back(v);@*
+@ @ std::cout << S;
+
+@noindent @ @ return 0;@*
+@}
+
+@noindent ----------------------------end code block----------------------------
+
+@noindent Output:@*
+@ @ 1@*
+@ @ 2 3
+
+@node Solution pop_back
+@unnumberedsec Solution pop_back
+
+@deftypefn {member} void pop_back()
+remove last subset in container
+@end deftypefn
+
+@noindent Example:
+
+@noindent ------------------------------code block------------------------------
+
+@noindent # include <iostream>@*
+# include <cstddef>@*
+# include <vector>@*
+# include <solution.h>@*
+
+@noindent int main(void)@*
+@{@*
+@ @ Solution S@{@};@*
+@ @ S.emplace_back(std::vector<std::uint32_t>@{1@});@*
+@ @ S.emplace_back(std::vector<std::uint32_t>@{2, 3@});@*
+@ @ std::cout << S << '\n';
+
+@noindent @ @ S.pop_back();@*
+@ @ std::cout << S;
+
+@noindent @ @ return 0;@*
+@}
+
+@noindent ----------------------------end code block----------------------------
+
+@noindent Output:@*
+@ @ 1@*
+@ @ 2 3
+
+@noindent @ @ 1
+
+@node Solution assignment
+@unnumberedsec Solution assignment
+
+@deftypefn {member} Solution& operator=(Solution const&) &
+@deftypefnx {member} Solution& operator=(Solution &&) & noexcept
+assigning solution objects
+@end deftypefn
+
+@noindent Example:
+
+@noindent ------------------------------code block------------------------------
+
+@noindent # include <iostream>@*
+# include <cstddef>@*
+# include <vector>@*
+# include <solution.h>@*
+
+@noindent int main(void)@*
+@{@*
+@ @ Solution S@{@};@*
+@ @ S.emplace_back(std::vector<std::uint32_t>@{1@});@*
+@ @ S.emplace_back(std::vector<std::uint32_t>@{2, 3@});@*
+@ @ std::cout << S << '\n'
+
+@noindent @ @ Solution S1@{@};@*
+@ @ S1 = S;
+@ @ std::cout << S1;
+
+@noindent @ @ return 0;@*
+@}
+
+@noindent ----------------------------end code block----------------------------
+
+@noindent Output:@*
+@ @ 1@*
+@ @ 2 3
+
+@noindent @ @ 1@*
+@ @ 2 3
+
+@node Solution constructors/destructor
+@unnumberedsec Solution constructors/destructor
+
+@deffn member Solution() = default
+@deffnx member Solution(Solution const&) = default
+@deffnx member Solution(Solution &&) noexcept = default
+constructing solution objects
+@end deffn
+
+@deffn member ~Solution() = default
+destructing solution objects
+@end deffn
+
+@noindent Example:
+
+@noindent ------------------------------code block------------------------------
+
+@noindent # include <iostream>@*
+# include <cstddef>@*
+# include <vector>@*
+# include <solution.h>@*
+
+@noindent int main(void)@*
+@{@*
+@ @ Solution S@{@};@*
+@ @ S.emplace_back(std::vector<std::uint32_t>@{1@});@*
+@ @ S.emplace_back(std::vector<std::uint32_t>@{2, 3@});@*
+@ @ std::cout << S << '\n'
+
+@noindent @ @ Solution S1@{S@};@*
+@ @ std::cout << S1;
+
+@noindent @ @ return 0;@*
+@}
+
+@noindent ----------------------------end code block----------------------------
+
+@noindent Output:@*
+@ @ 1@*
+@ @ 2 3
+
+@noindent @ @ 1@*
+@ @ 2 3
+
+@raisesections
+
+@node space.h
+@section space.h
+
+@menu
+Class Types:
+@itemize
+@item @code{typedef typename std::pair<std::uint32_t, std::uint32_t> cell}
+@item @code{typedef typename std::vector<cell> array}
+@item @code{typedef typename std::vector<std::uint32_t> uarray}
+@end itemize
+
+Element Access:
+* Space operator[]:: access vectors of ambient space
+
+Member Functions:
+* Space cover:: remove vector from list
+* Space uncover:: add vector back to list
+* Space partition:: partition remaining vectors into feasible sets
+* Space operator=:: space assignment
+* Space constructors/destructor:: constructing/destructing space objects
+@end menu
+
+@lowersections
+
+@node Space operator[]
+@unnumberedsec Space operator[]
+
+@deftypefn {member} cell& operator[](std{::}size_t) &
+@deftypefnx {member} cell const& operator[](std{::}size_t) const&
+@deftypefnx {member} cell operator[](std{::}size_t) &&
+access cells in container
+@end deftypefn
+
+@noindent Example:
+
+@noindent ------------------------------code block------------------------------
+
+@noindent # include <iostream>@*
+# include <utility>@*
+# include <space.h>
+
+@noindent int main(void)@*
+@{@*
+@ @ Space S@{16@};@*
+@ @ std::pair<std::uint32_t, std::uint32_t> cell@{S[0]@};@*
+@ @ std::cout << "NAME = 0\n";@*
+@ @ std::cout << "PREV = " << cell.first << '\n';@*
+@ @ std::cout << "NEXT = " << cell.second << '\n';
+
+@noindent @ @ return 0;@*
+@}
+
+@noindent ----------------------------end code block----------------------------
+
+@noindent Output:@*
+@ @ NAME = 0@*
+@ @ PREV = 15@*
+@ @ NEXT = 1
+
+@node Space cover
+@unnumberedsec Space cover
+
+@deftypefn {member} void cover(std::uint32_t)
+@deftypefnx {member} void cover(uarray const&)
+remove cell(s) from container
+@end deftypefn
+
+@noindent Example:
+
+@noindent ------------------------------code block------------------------------
+
+@noindent # include <iostream>@*
+# include <utility>@*
+# include <space.h>
+
+@noindent int main(void)@*
+@{@*
+@ @ Space S@{16@};@*
+
+@noindent @ @ std::uint32_t c@{@};@*
+@ @ while ( (c = S[0].second) != 0 ) @{@*
+@ @ @ @ std::cout << c << " ";@*
+@ @ @ @ S.cover(c);@*
+@ @ @}@*
+@ @ std::cout << '\n';@*
+@ @ S = Space@{16@};
+
+@noindent @ @ S.cover(5);@*
+@ @ while ( (c = S[0].second) != 0 ) @{@*
+@ @ @ @ std::cout << c << " ";@*
+@ @ @ @ S.cover(c);@*
+@ @ @}@*
+@ @ std::cout << '\n';
+
+@noindent @ @ return 0;@*
+@}
+
+@noindent ----------------------------end code block----------------------------
+
+@noindent Output:@*
+@ @ 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15@*
+@ @ 0 1 2 3 4 6 7 8 9 10 11 12 13 14 15
+
+@node Space uncover
+@unnumberedsec Space uncover
+
+@deftypefn {member} void uncover(std::uint32_t)
+@deftypefnx {member} void uncover(uarray const&)
+add cell(s) back to container
+@end deftypefn
+
+@noindent Example:
+
+@noindent ------------------------------code block------------------------------
+
+@noindent # include <iostream>@*
+# include <utility>@*
+# include <space.h>
+
+@noindent int main(void)@*
+@{@*
+@ @ Space S@{16@};@*
+
+@noindent @ @ std::uint32_t c@{@};@*
+@ @ while ( (c = S[0].second) != 0 ) @{@*
+@ @ @ @ std::cout << c << " ";@*
+@ @ @ @ S.cover(c);@*
+@ @ @}@*
+@ @ std::cout << '\n';@*
+@ @ S = Space@{16@};
+
+@noindent @ @ S.cover(5);@*
+@ @ while ( (c = S[0].second) != 0 ) @{@*
+@ @ @ @ std::cout << c << " ";@*
+@ @ @ @ S.cover(c);@*
+@ @ @}@*
+@ @ std::cout << '\n';
+
+@noindent @ @ return 0;@*
+@}
+
+@noindent ----------------------------end code block----------------------------
+
+@noindent Output:@*
+@ @ 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15@*
+@ @ 0 1 2 3 4 6 7 8 9 10 11 12 13 14 15
+
+@node Space partition
+@unnumberedsec Space partition
+
+@deftypefn {member} std::vector<uarray> partition(Solution const&)
+partition the remaining vectors in the ambient space into subsets which when joined to the current solution form a linear subspace
+@end deftypefn
+
+@noindent ------------------------------code block------------------------------
+
+@noindent # include <iostream>@*
+# include <utility>@*
+# include <solution.h>@*
+# include <space.h>
+
+@noindent int main(void)@*
+@{@*
+@ @ Space S@{16@};@*
+@ @ Solution Sol@{@};@*
+@ @ Sol.emplace_back(std::vector<std::uint32_t>@{1@});@*
+@ @ S.cover(1);
+
+@noindent @ @ std::vector<std::vector<std::uint32_t> > arr@{S.partition(Sol)@};@*
+@ @ for ( auto const& x : arr ) @{@*
+@ @ @ @ for ( auto y : x ) std::cout << y << " ";@*
+@ @ @ @ std::cout << '\n';@*
+@ @ @}
+
+@noindent @ @ return 0;@*
+@}
+
+@noindent ----------------------------end code block----------------------------
+
+@noindent Output:@*
+@ @ 2 3@*
+@ @ 4 5@*
+@ @ 6 7@*
+@ @ 8 9@*
+@ @ 10 11@*
+@ @ 12 13@*
+@ @ 14 15
+
+@node Space operator=
+@unnumberedsec Space operator=
+
+@deftypefn {member} Space& operator=(Space const&) &
+@deftypefnx {member} Space& operator=(Space &&) & noexcept
+assign space object
+@end deftypefn
+
+@noindent Example:
+
+@noindent ------------------------------code block------------------------------
+
+@noindent # include <iostream>@*
+# include <utility>@*
+# include <solution.h>@*
+# include <space.h>
+
+@noindent int main(void)@*
+@{@*
+@ @ Space S@{16@}, T@{@};@*
+@ @ T = S;
+
+@noindent @ @ std::uint32_t c@{@};@*
+@ @ while ( (c = S[0].second) != 0 ) @{@*
+@ @ @ @ std::cout << c << " ";@*
+@ @ @ @ S.cover(c);@*
+@ @ @}@*
+@ @ std::cout << '\n';
+
+@noindent @ @ while ( (c = T[0].second) != 0 ) @{@*
+@ @ @ @ std::cout << c << " ";@*
+@ @ @ @ T.cover(c);@*
+@ @ @}@*
+@ @ std::cout << '\n';
+
+@noindent @ @ return 0;@*
+@}
+
+@noindent ----------------------------end code block----------------------------
+
+@noindent Output:@*
+@ @ 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15@*
+@ @ 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+
+@node Space constructors/destructor
+@unnumberedsec Space constructors/destructor
+
+@deffn member Space() = default
+@deffnx member Space(Space const&) = default
+@deffnx member Space(Space &&) noexcept = default
+@deffnx member Space(std::size_t)
+construct space object
+@end deffn
+
+@deffn member ~Space() = default
+destruct space object
+@end deffn
+
+@noindent Example:
+
+@noindent ------------------------------code block------------------------------
+
+@noindent # include <iostream>@*
+# include <utility>@*
+# include <space.h>
+
+@noindent int main(void)@*
+@{@*
+@ @ Space S@{16@};
+
+@noindent @ @ std::uint32_t c@{@};@*
+@ @ while ( (c = S[0].second) != 0 ) @{@*
+@ @ @ @ std::cout << c << " ";@*
+@ @ @ @ S.cover(c);@*
+@ @ @}@*
+@ @ std::cout << '\n';
+
+@noindent @ @ return 0;@*
+@}
+
+@noindent ----------------------------end code block----------------------------
+
+@noindent Output:@*
+@ @ 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+
+@raisesections
+
 @node Sec 3
 @chapter Executable Documentation
 
-There are five executables included in this package:
+There are six executables included in this package:
 
 @menu
 
@@ -1225,6 +2131,7 @@ There are five executables included in this package:
 * mutually_orthogoval:: find maximal sets of mutually orthogoval sets via clique search
 * feasible_coverings:: find maximal sets of mutually orthogoval sets via exact cover search
 * feasible_subspaces:: find all subspaces capable of forming a spread orthogoval to the canonical spread
+* feasible_subspaces_imp:: additional routine to find all subspaces capable of forming a spread orthogoval to the canonical spread
 
 @end menu
 
@@ -1342,22 +2249,99 @@ a space of dimension at most 1.
 
 @noindent From the top of the build directory, run
 
-@code{./src/feasible_subspaces <degree>}
+@code{./src/feasible_subspaces <2degree>}
 
 @noindent Bases for the canonical spread are read from @code{stdin} and can be
 generated by the script @code{spread_basis.sh} contained in the @code{data}
-directory. The feasible subspaces are written to @code{stdout}. From the top of the
-build directory run
+directory. The feasible subspaces are written to @code{stdout}.
 
-@code{./src/feasible_subspaces <2degree>}
-
-The parameters are as follows:
+@noindent The parameters are as follows:
 
 @itemize
 @item @code{<2degree>} -- twice the degree of the canonical spread
 @end itemize
 
+@node feasible_subspaces_imp
+@unnumberedsec feasible_subspaces_imp
+
+Let @code{L} be the canonical spread. The executable
+@code{feasible_subspaces} generates all those subspaces of the
+appropriate size which intersect each subspace contained in @code{L} in
+a space of dimension at most 1.
+
+@noindent Usage:
+
+@noindent From the top of the build directory, run
+
+@code{./src/feasible_subspaces_imp <degree>}
+
+@noindent The canonical spread is read from @code{stdin} and can be
+generated by the script @code{canonical_spread.sh} contained in the @code{data}
+directory. The feasible subspaces are written to @code{stdout}.
+
+@code{./src/feasible_subspaces_imp <degree>}
+
+@noindent The parameters are as follows:
+
+@itemize
+@item @code{<degree>} -- the degree of the canonical spread
+@end itemize
+
 @node Sec 4
+@chapter Auxiliary Scripts
+
+There are two auxiliary Bourne shell scripts given as part of this
+package. They reside in the folder @code{data}. Each of thes scripts
+requires that @code{sagemath} is installed on the user's computer and
+executable with @code{sage}.
+
+@menu
+* canonical_spread.sh:: generate canonical line spread
+* spread_basis.sh:: generate basis for canonical spread
+@end menu
+
+@node canonical_spread.sh
+@unnumberedsec canonical_spread.sh
+
+This script generates the even order canonical line spread of a given degree.
+
+@noindent Usage:
+
+@noindent From the top of the @code{data} directory, run
+
+@code{sh canonical_spread.sh <degree>}
+
+@noindent The parameters are as follows:
+
+@itemize
+@item <degree> -- degree of the associated affine plane
+@end itemize
+
+@noindent The spread is written to the file @code{canonical_spread.q.txt} where
+@code{q} is the order of the associated affine plane.
+
+@node spread_basis.sh
+@unnumberedsec spread_basis.sh
+
+This script generates a basis for the even order canonical line spread
+of a given degree.
+
+@noindent Usage:
+
+@noindent From the top of the @code{data} directory, run
+
+@code{sh spread_basis.sh <degree>}
+
+@noindent The parameters are as follows:
+
+@itemize
+@item <degree> -- degree of the extension over @code{Z_2}
+@end itemize
+
+@noindent The spread is written to the file @code{spread_basis.q.txt} where
+@code{q} is the order of the associated affine plane.
+
+@node Sec 5
 @chapter GNU Free Documentation License
 
 @menu

@@ -68,7 +68,7 @@ void dfs(std::size_t l)
 
 int main(int argc, char **argv) {
   if (argc < 2) {
-    std::cerr << "USAGE -- requires <degree> < <spread_file>\n";
+    std::cerr << "USAGE -- requires <2degree> < <spread_file>\n";
     return 1;
   }
 
