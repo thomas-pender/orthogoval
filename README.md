@@ -8,4 +8,6 @@ and can be read by executing
 
 <tt>info orthogoval.info</tt>
 
-from the top of the directory <tt>data</tt>.
+from the top of the directory <tt>data</tt>. See the [GNU
+documentation](https://www.gnu.org/software/texinfo/) for the usage of
+<tt>Texinfo</tt>.
