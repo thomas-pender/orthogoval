@@ -16,6 +16,9 @@
 
 class AG
 {
+  typedef typename std::vector<std::vector<std::uint32_t> >::iterator iterator;
+  typedef typename std::vector<std::vector<std::uint32_t>>::const_iterator const_iterator;
+
   friend AG operator*(matrix const&, AG const&);
 
   friend std::ostream& operator<<(std::ostream& os, AG const& ag) {
@@ -90,6 +93,11 @@ public:
   }
 
   std::size_t size() const { return spread.size(); }
+
+  iterator begin() & { return spread.begin(); }
+  iterator end() & { return spread.end(); }
+  const_iterator cbegin() const { return spread.cbegin(); }
+  const_iterator cend() const { return spread.cend(); }
 
   std::vector<std::uint32_t>& operator[](std::size_t i) & { return spread[i]; }
   std::vector<std::uint32_t> const& operator[](std::size_t i) const&

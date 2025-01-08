@@ -239,18 +239,19 @@ void dfs(node_t *table,
          unsigned *restrict*restrict feasible,
          size_t nfeasible)
 {
-  /* if ( nfeasible < SETSIZE + 2 || INDEX == 2 ) { */
-  /*   if ( INDEX == 2 ) { */
-  /*     print(); */
-  /*     exit(0); */
-  /*   } */
-  /*   return; */
-  /* } */
-  if ( nfeasible < SETSIZE + 2 || INDEX >= 7 ) {
-    printf("CLIQUE SIZE = %zu\n\n", INDEX);
-    print();
+  if ( nfeasible < SETSIZE + 2 || INDEX >= 3 ) {
+    if ( INDEX >= 3 ) {
+      printf("CLIQUE SIZE = %zu\n\n", INDEX);
+      print();
+      /* exit(0); */
+    }
     return;
   }
+  /* if ( nfeasible < SETSIZE + 2 || INDEX >= 7 ) { */
+  /*   printf("CLIQUE SIZE = %zu\n\n", INDEX); */
+  /*   print(); */
+  /*   return; */
+  /* } */
   if ( table[0].right == 0 ) {
     size_t new_nfeasible = 0;
     append_spread(table, solution); INDEX++;

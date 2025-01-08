@@ -39,17 +39,20 @@ public:
   {
     array v{};
     for ( auto const& x : M ) v.insert(v.end(), x.begin(), x.end());
+    std::sort(v.begin(),v.end());
     return v;
   }
 
-  bool check_intersect(AG const& spread) const
+  bool check_intersect(AG &spread) const
   {
-    std::size_t i{}, j{}, intersection{};
-    for ( i = 0; i < spread.size(); i++ ) {
+    std::size_t i1{}, i2{}, intersection{};
+    for ( auto const& x1 : spread ) {
       intersection = 0;
-      for ( auto const& x : M )
-        for ( j = 1; j < spread[0].size(); j++ ) {
-          if ( x[j - 1] == spread[i][j] ) intersection++;
+      for ( auto const& x2 : M )
+        for ( i1 = 0, i2 = 0; i1 < x1.size() && i2 < x2.size(); ) {
+          if ( x1[i1] == x2[i2] ) { intersection++; i1++; i2++; }
+          else if ( x1[i1] < x2[i2] ) i1++;
+          else i2++;
           if ( intersection > 1 ) return false;
         }
     }

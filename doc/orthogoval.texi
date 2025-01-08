@@ -876,24 +876,36 @@ matrix destructor
 @section ag.h
 
 @menu
+Class Types:
+@itemize
+@item @code{typedef typename std::vector<std::vector<std::uint32_t> >::iterator iterator}
+@item @code{typedef typename std::vector<std::vector<std::uint32_t> >::const_iterator const_iterator}
+@end itemize
+
 Friend Functions:
-* ag operator<<:: output container
-* ag operator>>:: input container
-* ag operator*:: multiplicative arithmetic
-* ag operator==:: check spreads for equality
-* ag operator<:: total ordering on spreads
-* ag orthogoval:: check if two spreads are orthogoval
+* AG operator<<:: output container
+* AG operator>>:: input container
+* AG operator*:: multiplicative arithmetic
+* AG operator==:: check spreads for equality
+* AG operator<:: total ordering on spreads
+* AG orthogoval:: check if two spreads are orthogoval
+
+Iterators:
+* AG begin:: iterator at start of container
+* AG end:: iterator at end of container
+* AG cbegin:: constant iterator at start of container
+* AG cend:: constant iterator at end of container
 
 Member Functions:
-* ag print:: print matrix in standard/array form
-* ag resize:: resize matrix to new dimensions
-* ag assignment:: assigning spreads
-* ag constructors/destructor:: constructing and destructing spreads
+* AG print:: print matrix in standard/array form
+* AG resize:: resize matrix to new dimensions
+* AG assignment:: assigning spreads
+* AG constructors/destructor:: constructing and destructing spreads
 @end menu
 
 @lowersections
 
-@node ag operator<<
+@node AG operator<<
 @unnumberedsec operator<<
 
 @deftypefn {friend} std::ostream& operator<<(std::ostream&, AG const&)
@@ -922,7 +934,7 @@ output container
 @ @ 0 0 0@*
 @ @ 0 0 0@*
 
-@node ag operator>>
+@node AG operator>>
 @unnumberedsec operator>>
 
 @deftypefn {friend} std::istream& operator>>(std::istream&, AG&)
@@ -956,7 +968,7 @@ input container
 @ @ 1 2 3@*
 @ @ 4 5 6
 
-@node ag operator*
+@node AG operator*
 @unnumberedsec operator*
 
 @deftypefn {friend} AG operator*(matrix const&, AG const&)
@@ -1009,7 +1021,7 @@ apply matrix/linear transform to each space in spread
 @ @ 0 4 4@*
 @ @ 0 0 4
 
-@node ag operator==
+@node AG operator==
 @unnumberedsec operator==
 
 @deftypefn {friend} bool operator==(AG const&, AG const&)
@@ -1044,7 +1056,7 @@ check spreads for equality
 @ @ true@*
 @ @ false
 
-@node ag operator<
+@node AG operator<
 @unnumberedsec operator<
 
 @deftypefn {friend} bool operator<(AG const&, AG const&)
@@ -1079,7 +1091,7 @@ total ordering on spreads
 @ @ false@*
 @ @ true
 
-@node ag orthogoval
+@node AG orthogoval
 @unnumberedsec orthogoval
 
 @deftypefn {friend} bool orthogoval(AG const&, AG const&)
@@ -1112,7 +1124,171 @@ check if two spreads are orthogoval
 @noindent Output:@*
 @ @ true@*
 
-@node ag print
+@node AG begin
+@unnumberedsec begin
+
+@deftypefn {member} std::vector<std::vector<ts::uint32_t> >::iterator begin() &
+iterator to front of container
+@end deftypefn
+
+@noindent Example:
+
+@noindent ------------------------------code block------------------------------
+
+@noindent # include <iostream>@*
+# include <algorithm>@*
+# include <iterator>@*
+# include <ag.h>
+
+@noindent int main(void)@*
+@{@*
+@ @ AG A@{5, 4@};@*
+@ @ std::cin >> A;
+
+@noindent @ @ for ( auto it  = A.begin(); it != A.end(); it++ ) @{@*
+@ @ @ @ std::copy((*it).begin(), (*it).end(), std::ostream_iterator<std::uint32_t>(std::cout << " "));@*
+@ @ @ @ std::cout << '\n';@*
+@ @ @}
+
+@noindent @ @ return 0;@*
+@}
+
+@noindent ----------------------------end code block----------------------------
+
+@noindent Input:@*
+@ @ 0 1 6 7 0 2 12 14 0 4 11 15 0 8 5 13 0 3 10 9
+
+@noindent Output:@*
+@ @ 0 1 6 7@*
+@ @ 0 2 12 14@*
+@ @ 0 4 11 15@*
+@ @ 0 8 5 13@*
+@ @ 0 3 10 9
+
+@node AG end
+@unnumberedsec end
+
+@deftypefn {member} std::vector<std::vector<ts::uint32_t> >::iterator end() &
+iterator to end of container
+@end deftypefn
+
+@noindent Example:
+
+@noindent ------------------------------code block------------------------------
+
+@noindent # include <iostream>@*
+# include <algorithm>@*
+# include <iterator>@*
+# include <ag.h>
+
+@noindent int main(void)@*
+@{@*
+@ @ AG A@{5, 4@};@*
+@ @ std::cin >> A;
+
+@noindent @ @ for ( auto it  = A.begin(); it != A.end(); it++ ) @{@*
+@ @ @ @ std::copy((*it).begin(), (*it).end(), std::ostream_iterator<std::uint32_t>(std::cout << " "));@*
+@ @ @ @ std::cout << '\n';@*
+@ @ @}
+
+@noindent @ @ return 0;@*
+@}
+
+@noindent ----------------------------end code block----------------------------
+
+@noindent Input:@*
+@ @ 0 1 6 7 0 2 12 14 0 4 11 15 0 8 5 13 0 3 10 9
+
+@noindent Output:@*
+@ @ 0 1 6 7@*
+@ @ 0 2 12 14@*
+@ @ 0 4 11 15@*
+@ @ 0 8 5 13@*
+@ @ 0 3 10 9
+
+@node AG cbegin
+@unnumberedsec cbegin
+
+@deftypefn {member} std::vector<std::vector<ts::uint32_t> >::iterator cbegin() const
+constant iterator to front of container
+@end deftypefn
+
+@noindent Example:
+
+@noindent ------------------------------code block------------------------------
+
+@noindent # include <iostream>@*
+# include <algorithm>@*
+# include <iterator>@*
+# include <ag.h>
+
+@noindent int main(void)@*
+@{@*
+@ @ AG A@{5, 4@};@*
+@ @ std::cin >> A;
+
+@noindent @ @ for ( auto it  = A.cbegin(); it != A.cend(); it++ ) @{@*
+@ @ @ @ std::copy((*it).cbegin(), (*it).cend(), std::ostream_iterator<std::uint32_t>(std::cout << " "));@*
+@ @ @ @ std::cout << '\n';@*
+@ @ @}
+
+@noindent @ @ return 0;@*
+@}
+
+@noindent ----------------------------end code block----------------------------
+
+@noindent Input:@*
+@ @ 0 1 6 7 0 2 12 14 0 4 11 15 0 8 5 13 0 3 10 9
+
+@noindent Output:@*
+@ @ 0 1 6 7@*
+@ @ 0 2 12 14@*
+@ @ 0 4 11 15@*
+@ @ 0 8 5 13@*
+@ @ 0 3 10 9
+
+@node AG cend
+@unnumberedsec cend
+
+@deftypefn {member} std::vector<std::vector<ts::uint32_t> >::iterator cend() const
+constant iterator to end of container
+@end deftypefn
+
+@noindent Example:
+
+@noindent ------------------------------code block------------------------------
+
+@noindent # include <iostream>@*
+# include <algorithm>@*
+# include <iterator>@*
+# include <ag.h>
+
+@noindent int main(void)@*
+@{@*
+@ @ AG A@{5, 4@};@*
+@ @ std::cin >> A;
+
+@noindent @ @ for ( auto it  = A.cbegin(); it != A.cend(); it++ ) @{@*
+@ @ @ @ std::copy((*it).cbegin(), (*it).cend(), std::ostream_iterator<std::uint32_t>(std::cout << " "));@*
+@ @ @ @ std::cout << '\n';@*
+@ @ @}
+
+@noindent @ @ return 0;@*
+@}
+
+@noindent ----------------------------end code block----------------------------
+
+@noindent Input:@*
+@ @ 0 1 6 7 0 2 12 14 0 4 11 15 0 8 5 13 0 3 10 9
+
+@noindent Output:@*
+@ @ 0 1 6 7@*
+@ @ 0 2 12 14@*
+@ @ 0 4 11 15@*
+@ @ 0 8 5 13@*
+@ @ 0 3 10 9
+
+@node AG print
 @unnumberedsec print
 
 @deftypefn {member} void print() const
@@ -1152,7 +1328,7 @@ print matrix in standard/array form
 @ @ 1 1 0 0@*
 @ @ 1 1 1 0
 
-@node ag resize
+@node AG resize
 @unnumberedsec resize
 
 @deftypefn {member} void resize(std::size_t, std::size_t)
@@ -1192,7 +1368,7 @@ resize matrix to new dimensions
 @ @ 0 2 12 14@*
 @ @ 0 0 0 0
 
-@node ag assignment
+@node AG assignment
 @unnumberedsec assignment
 
 @deftypefn {member} AG& operator=(AG &&) & noexcept = default
@@ -1200,7 +1376,7 @@ resize matrix to new dimensions
 assigning spreads
 @end deftypefn
 
-@node ag constructors/destructor
+@node AG constructors/destructor
 @unnumberedsec constructors/destructor
 
 @deffn {member} AG() = default

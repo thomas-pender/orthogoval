@@ -53,12 +53,10 @@ void dfs(std::uint32_t c)
 
   std::vector<std::vector<std::uint32_t> > arr{SPACE.partition(SOLUTION)};
   for ( auto const& v : arr ) {
-    if (c > *(std::min_element(v.begin(), v.end())))
-      continue;
+    if ( c > *(std::min_element(v.begin(), v.end())) ) continue;
     SPACE.cover(v);
     SOLUTION.push_back(v);
-    if (SOLUTION.check_intersect(SPREAD))
-      dfs(c);
+    if ( SOLUTION.check_intersect(SPREAD) ) dfs(c);
     SOLUTION.pop_back();
     SPACE.uncover(v);
   }
