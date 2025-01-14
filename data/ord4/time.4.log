@@ -1,0 +1,17 @@
+feasible_subspaces:
+
+real	0m0.003s
+user	0m0.003s
+sys	0m0.000s
+
+feasible_subspaces_imp:
+
+real	0m0.003s
+user	0m0.003s
+sys	0m0.000s
+
+coverings:
+
+real	0m0.181s
+user	0m0.157s
+sys	0m0.024s
