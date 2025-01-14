@@ -17,7 +17,7 @@ src_libspread_la_CPPFLAGS = -I$(top_srcdir)/src
 
 noinst_PROGRAMS = src/mutually_orthogoval src/transversal \
 src/automorphisms src/feasible_subspaces src/feasible_coverings \
-src/feasible_subspaces_imp
+src/feasible_subspaces_imp src/feasible_coverings_cost
 
 src_mutually_orthogoval_SOURCES = $(top_srcdir)/src/mutually_orthogoval.c
 src_mutually_orthogoval_CPPFLAGS = -I$(top_srcdir)/cliquer-1.21 \
@@ -50,5 +50,9 @@ src_feasible_coverings_CPPFLAGS = -I$(top_srcdir)/lib -I$(top_builddir)/lib \
 -I$(top_srcdir)/src
 src_feasible_coverings_LDADD = $(LTLIBINTL) lib/libgnu.a
 
-EXTRA_DIST = $(top_srcdir)/data $(top_srcdir)/massif.4.out \
-$(top_srcdir)/massif.8.out README.md m4/gnulib-cache.m4
+src_feasible_coverings_cost_SOURCES = $(top_srcdir)/src/feasible_coverings_cost.c
+src_feasible_coverings_cost_CPPFLAGS = -I$(top_srcdir)/lib -I$(top_builddir)/lib \
+-I$(top_srcdir)/src
+src_feasible_coverings_cost_LDADD = $(LTLIBINTL) lib/libgnu.a
+
+EXTRA_DIST = $(top_srcdir)/data README.md m4/gnulib-cache.m4

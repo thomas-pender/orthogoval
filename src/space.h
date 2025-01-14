@@ -11,9 +11,9 @@
 
 class Space
 {
-  typedef typename std::pair<std::uint32_t, std::uint32_t> cell;
-  typedef typename std::vector<cell> array;
-  typedef typename std::vector<std::uint32_t> uarray;
+  using cell = std::pair<std::uint32_t, std::uint32_t>;
+  using array = std::vector<cell>;
+  using uarray = std::vector<std::uint32_t>;
 
 public:
   void cover(std::uint32_t c)
@@ -53,8 +53,8 @@ public:
 
       index = 0;
       v[index++] = c;
-      for ( auto it1 = S.cbegin(); it1 != S.cend(); it1++ )
-        for ( auto it2 = (*it1).cbegin(); it2 != (*it1).cend(); it2++ )
+      for ( auto it1 = S.begin(); it1 != S.end(); it1++ )
+        for ( auto it2 = (*it1).begin(); it2 != (*it1).end(); it2++ )
           v[index++] = c ^ (*it2);
 
       cover(v);

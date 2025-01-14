@@ -41,10 +41,8 @@ boolean pr(set_t s, graph_t *G, clique_options *opts)
 
 int main( int argc, char **argv )
 {
-  if ( argc < 3 ) {
-    fputs("USAGE -- requires parameters <nvertices> <order>\n", stderr);
-    exit(1);
-  }
+  if ( argc < 3 )
+    error(1, errno, "USAGE -- requires parameters <nvertices> <order>\n");
 
   /* read in parameters */
   size_t nvertices, order, nb;

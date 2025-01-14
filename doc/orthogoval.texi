@@ -70,16 +70,20 @@ There are four classes in this project:
 @menu
 Class Types:
 @itemize
-@item @code{typedef typename std::pair<std::size_t, std::size_t> dimensions}
-@item @code{typedef typename std::vector<std::uint32_t> container}
-@item @code{typedef typename container::iterator iterator}
-@item @code{typedef typename container::const_iterator const_iterator}
+@item @code{using dimensions = std::pair<std::size_t, std::size_t>;}
+@item @code{using container = std::vector<std::uint32_t>;}
+@item @code{using iterator = container::iterator;}
+@item @code{using const_iterator = container::const_iterator;}
 @end itemize
 
 Friend Functions:
 * matrix operator<<:: output container
 * matrix operator>>:: input container
 * matrix operator*:: multiplicative arithmetic
+
+Iterators:
+* begin:: start of container
+* end:: end of container
 
 Element Access:
 * matrix operator[]:: row access
@@ -237,6 +241,70 @@ vector-matrix multiplication
 
 @noindent @ @ u = 1@*
 @ @ u = 2
+
+@node begin
+@unnumberedsec begin
+
+@deftypefn {member} iterator begin() &
+@deftypefnx {member} const_iterator begin() const&
+return iterator to start of container
+@end deftypefn
+
+@noindent Example:
+
+@noindent ------------------------------code block------------------------------
+
+@noindent # include <iostream>@*
+# include <vector>@*
+# include <matrix.h>
+
+@noindent int main(void)@*
+@{@*
+@ @ matrix A@{std::vector<std::uint32_t>@{1, 2@}, 5@};
+
+@noindent @ @ for ( auto it = A.begin(); it !+ A.end(); it++ )@*
+@ @ @ @ std::cout << *it << << '\n';
+
+@noindent@ @ return 0;@*
+@}
+
+@noindent ----------------------------end code block----------------------------
+
+@noindent Output:@*
+1@*
+2
+
+@node end
+@unnumberedsec end
+
+@deftypefn {member} iterator end() &
+@deftypefnx {member} const_iterator end() const&
+return iterator to end of container
+@end deftypefn
+
+@noindent Example:
+
+@noindent ------------------------------code block------------------------------
+
+@noindent # include <iostream>@*
+# include <vector>@*
+# include <matrix.h>
+
+@noindent int main(void)@*
+@{@*
+@ @ matrix A@{std::vector<std::uint32_t>@{1, 2@}, 5@};
+
+@noindent @ @ for ( auto it = A.begin(); it !+ A.end(); it++ )@*
+@ @ @ @ std::cout << *it << << '\n';
+
+@noindent@ @ return 0;@*
+@}
+
+@noindent ----------------------------end code block----------------------------
+
+@noindent Output:@*
+1@*
+2
 
 @node matrix operator[]
 @unnumberedsec operator[]
@@ -857,10 +925,8 @@ matrix assignment operation
 @deffn {member} matrix() = default
 @deffnx {member} matrix(matrix const&) = default
 @deffnx {member} matrix(matrix &&) noexcept = default
-@deffnx {member} explicit matrix(container const&)
-@deffnx {member} explicit matrix(container &&)
-@deffnx {member} matrix(container const&, std::size_t)
-@deffnx {member} matrix(container &&, std::size_t)
+@deffnx {member} template<typename T>@* @ @ requires std::is_covertible_v<T, container>@* @ @ explicit matrix(T&&)
+@deffnx {member} template<typename T>@* @ @ requires std::is_covertible_v<T, container>@* @ @ matrix(T&&, std::size_t)
 @deffnx {member} explicit matrix(std::size_t)
 @deffnx {member} matrix(std::size_t, std::size_t)
 matrix constructors
@@ -878,8 +944,8 @@ matrix destructor
 @menu
 Class Types:
 @itemize
-@item @code{typedef typename std::vector<std::vector<std::uint32_t> >::iterator iterator}
-@item @code{typedef typename std::vector<std::vector<std::uint32_t> >::const_iterator const_iterator}
+@item @code{using iterator = std::vector<std::vector<std::uint32_t> >::iterator;}
+@item @code{using const_iteraotr = std::vector<std::vector<std::uint32_t> >::const_iterator;}
 @end itemize
 
 Friend Functions:
@@ -893,8 +959,6 @@ Friend Functions:
 Iterators:
 * AG begin:: iterator at start of container
 * AG end:: iterator at end of container
-* AG cbegin:: constant iterator at start of container
-* AG cend:: constant iterator at end of container
 
 Member Functions:
 * AG print:: print matrix in standard/array form
@@ -1128,6 +1192,7 @@ check if two spreads are orthogoval
 @unnumberedsec begin
 
 @deftypefn {member} std::vector<std::vector<ts::uint32_t> >::iterator begin() &
+@deftypefnx {member} std::vector<std::vector<ts::uint32_t> >::iterator begin() const&
 iterator to front of container
 @end deftypefn
 
@@ -1169,6 +1234,7 @@ iterator to front of container
 @unnumberedsec end
 
 @deftypefn {member} std::vector<std::vector<ts::uint32_t> >::iterator end() &
+@deftypefnx {member} std::vector<std::vector<ts::uint32_t> >::iterator end() const&
 iterator to end of container
 @end deftypefn
 
@@ -1188,88 +1254,6 @@ iterator to end of container
 
 @noindent @ @ for ( auto it  = A.begin(); it != A.end(); it++ ) @{@*
 @ @ @ @ std::copy((*it).begin(), (*it).end(), std::ostream_iterator<std::uint32_t>(std::cout << " "));@*
-@ @ @ @ std::cout << '\n';@*
-@ @ @}
-
-@noindent @ @ return 0;@*
-@}
-
-@noindent ----------------------------end code block----------------------------
-
-@noindent Input:@*
-@ @ 0 1 6 7 0 2 12 14 0 4 11 15 0 8 5 13 0 3 10 9
-
-@noindent Output:@*
-@ @ 0 1 6 7@*
-@ @ 0 2 12 14@*
-@ @ 0 4 11 15@*
-@ @ 0 8 5 13@*
-@ @ 0 3 10 9
-
-@node AG cbegin
-@unnumberedsec cbegin
-
-@deftypefn {member} std::vector<std::vector<ts::uint32_t> >::iterator cbegin() const
-constant iterator to front of container
-@end deftypefn
-
-@noindent Example:
-
-@noindent ------------------------------code block------------------------------
-
-@noindent # include <iostream>@*
-# include <algorithm>@*
-# include <iterator>@*
-# include <ag.h>
-
-@noindent int main(void)@*
-@{@*
-@ @ AG A@{5, 4@};@*
-@ @ std::cin >> A;
-
-@noindent @ @ for ( auto it  = A.cbegin(); it != A.cend(); it++ ) @{@*
-@ @ @ @ std::copy((*it).cbegin(), (*it).cend(), std::ostream_iterator<std::uint32_t>(std::cout << " "));@*
-@ @ @ @ std::cout << '\n';@*
-@ @ @}
-
-@noindent @ @ return 0;@*
-@}
-
-@noindent ----------------------------end code block----------------------------
-
-@noindent Input:@*
-@ @ 0 1 6 7 0 2 12 14 0 4 11 15 0 8 5 13 0 3 10 9
-
-@noindent Output:@*
-@ @ 0 1 6 7@*
-@ @ 0 2 12 14@*
-@ @ 0 4 11 15@*
-@ @ 0 8 5 13@*
-@ @ 0 3 10 9
-
-@node AG cend
-@unnumberedsec cend
-
-@deftypefn {member} std::vector<std::vector<ts::uint32_t> >::iterator cend() const
-constant iterator to end of container
-@end deftypefn
-
-@noindent Example:
-
-@noindent ------------------------------code block------------------------------
-
-@noindent # include <iostream>@*
-# include <algorithm>@*
-# include <iterator>@*
-# include <ag.h>
-
-@noindent int main(void)@*
-@{@*
-@ @ AG A@{5, 4@};@*
-@ @ std::cin >> A;
-
-@noindent @ @ for ( auto it  = A.cbegin(); it != A.cend(); it++ ) @{@*
-@ @ @ @ std::copy((*it).cbegin(), (*it).cend(), std::ostream_iterator<std::uint32_t>(std::cout << " "));@*
 @ @ @ @ std::cout << '\n';@*
 @ @ @}
 
@@ -1398,9 +1382,9 @@ AG destructor
 @menu
 Class Types:
 @itemize
-@item @code{typedef typename std::vector<std::uint32_t> array}
-@item @code{typedef typename std::vector<array>::iterator iterator}
-@item @code{typedef typename std::vector<array>::const_iterator const_iterator}
+@item @code{using array = std::vector<std::uint32_t>;}
+@item @code{using iterator = std::vector<array>::iterator;}
+@item @code{using const_iterator = std::vector<array>::const_iterator;}
 @end itemize
 
 Friend Functions:
@@ -1412,8 +1396,6 @@ Element Access:
 Iterators:
 * Solution begin:: iterator at start of container
 * Solution end:: iterator at end of container
-* Solution cbegin:: constant iterator at start of container
-* Solution cend:: constant iterator at end of container
 
 Member Functions:
 * Solution resize:: resize container
@@ -1449,8 +1431,8 @@ output integer value of each vector in the current subspace
 @noindent int main(void)@*
 @{@*
 @ @ Solution S@{@};@*
-@ @ S.emplace_back(std::vector<std::uint32_t>@{1@});@*
-@ @ S.emplace_back(std::vector<std::uint32_t>@{2, 3@});
+@ @ S.push_back(std::vector<std::uint32_t>@{1@});@*
+@ @ S.push_back(std::vector<std::uint32_t>@{2, 3@});
 
 @noindent @ @ std::cout << S;
 
@@ -1484,8 +1466,8 @@ subset access
 @noindent int main(void)@*
 @{@*
 @ @ Solution S@{@};@*
-@ @ S.emplace_back(std::vector<std::uint32_t>@{1@});@*
-@ @ S.emplace_back(std::vector<std::uint32_t>@{2, 3@});
+@ @ S.push_back(std::vector<std::uint32_t>@{1@});@*
+@ @ S.push_back(std::vector<std::uint32_t>@{2, 3@});
 
 @noindent @ @ for ( auto x : S[1] ) std::cout << x << " ";@*
 @ @ std::cout << '\n';
@@ -1502,6 +1484,7 @@ subset access
 @unnumberedsec Solution begin
 
 @deftypefn {member} std::vector<array>::iterator begin() &
+@deftypefnx {member} std::vector<array>::iterator begin() const&
 iterator to front of container
 @end deftypefn
 
@@ -1517,8 +1500,8 @@ iterator to front of container
 @noindent int main(void)@*
 @{@*
 @ @ Solution S@{@};@*
-@ @ S.emplace_back(std::vector<std::uint32_t>@{1@});@*
-@ @ S.emplace_back(std::vector<std::uint32_t>@{2, 3@});
+@ @ S.push_back(std::vector<std::uint32_t>@{1@});@*
+@ @ S.push_back(std::vector<std::uint32_t>@{2, 3@});
 
 @noindent @ @ for ( auto it1 = S.begin(); it1 != S.end(); it1++ ) @{@*
 @ @ @ @ for ( auto it2 = (*it1).begin(); it2 != (*it1).end(); it2++ )@*
@@ -1539,6 +1522,7 @@ iterator to front of container
 @unnumberedsec Solution end
 
 @deftypefn {member} std::vector<array>::iterator end() &
+@deftypefnx {member} std::vector<array>::iterator end() const&
 iterator to end of container
 @end deftypefn
 
@@ -1554,85 +1538,11 @@ iterator to end of container
 @noindent int main(void)@*
 @{@*
 @ @ Solution S@{@};@*
-@ @ S.emplace_back(std::vector<std::uint32_t>@{1@});@*
-@ @ S.emplace_back(std::vector<std::uint32_t>@{2, 3@});
+@ @ S.push_back(std::vector<std::uint32_t>@{1@});@*
+@ @ S.push_back(std::vector<std::uint32_t>@{2, 3@});
 
 @noindent @ @ for ( auto it1 = S.begin(); it1 != S.end(); it1++ ) @{@*
 @ @ @ @ for ( auto it2 = (*it1).begin(); it2 != (*it1).end(); it2++ )@*
-@ @ @ @ @ @ std::cout << *it2 << " ";@*
-@ @ @ @ std::cout << '\n';@*
-@ @ @}
-
-@noindent @ @ return 0;@*
-@}
-
-@noindent ----------------------------end code block----------------------------
-
-@noindent Output:@*
-@ @ 1@*
-@ @ 2 3
-
-@node Solution cbegin
-@unnumberedsec Solution cbegin
-
-@deftypefn {member} std::vector<array>::iterator cbegin() const
-constant iterator to front of container
-@end deftypefn
-
-@noindent Example:
-
-@noindent ------------------------------code block------------------------------
-
-@noindent # include <iostream>@*
-# include <cstddef>@*
-# include <vector>@*
-# include <solution.h>
-
-@noindent int main(void)@*
-@{@*
-@ @ Solution S@{@};@*
-@ @ S.emplace_back(std::vector<std::uint32_t>@{1@});@*
-@ @ S.emplace_back(std::vector<std::uint32_t>@{2, 3@});
-
-@noindent @ @ for ( auto it1 = S.cbegin(); it1 != S.cend(); it1++ ) @{@*
-@ @ @ @ for ( auto it2 = (*it1).cbegin(); it2 != (*it1).cend(); it2++ )@*
-@ @ @ @ @ @ std::cout << *it2 << " ";@*
-@ @ @ @ std::cout << '\n';@*
-@ @ @}
-
-@noindent @ @ return 0;@*
-@}
-
-@noindent ----------------------------end code block----------------------------
-
-@noindent Output:@*
-@ @ 1@*
-@ @ 2 3
-
-@node Solution cend
-@unnumberedsec Solution cend
-
-@deftypefn {member} std::vector<array>::iterator cend() const
-constant iterator to end of container
-@end deftypefn
-
-@noindent Example:
-
-@noindent ------------------------------code block------------------------------
-
-@noindent # include <iostream>@*
-# include <cstddef>@*
-# include <vector>@*
-# include <solution.h>
-
-@noindent int main(void)@*
-@{@*
-@ @ Solution S@{@};@*
-@ @ S.emplace_back(std::vector<std::uint32_t>@{1@});@*
-@ @ S.emplace_back(std::vector<std::uint32_t>@{2, 3@});
-
-@noindent @ @ for ( auto it1 = S.cbegin(); it1 != S.cend(); it1++ ) @{@*
-@ @ @ @ for ( auto it2 = (*it1).cbegin(); it2 != (*it1).cend(); it2++ )@*
 @ @ @ @ @ @ std::cout << *it2 << " ";@*
 @ @ @ @ std::cout << '\n';@*
 @ @ @}
@@ -1665,8 +1575,8 @@ resize array to @code{n} subsets
 @noindent int main(void)@*
 @{@*
 @ @ Solution S@{@};@*
-@ @ S.emplace_back(std::vector<std::uint32_t>@{1@});@*
-@ @ S.emplace_back(std::vector<std::uint32_t>@{2, 3@});
+@ @ S.push_back(std::vector<std::uint32_t>@{1@});@*
+@ @ S.push_back(std::vector<std::uint32_t>@{2, 3@});
 
 @noindent @ @ S.resize(3);@*
 @ @ S[2] = std::vector<std::uint32_t>@{4, 5, 6@};
@@ -1702,8 +1612,8 @@ return number of subsets in container
 @noindent int main(void)@*
 @{@*
 @ @ Solution S@{@};@*
-@ @ S.emplace_back(std::vector<std::uint32_t>@{1@});@*
-@ @ S.emplace_back(std::vector<std::uint32_t>@{2, 3@});
+@ @ S.push_back(std::vector<std::uint32_t>@{1@});@*
+@ @ S.push_back(std::vector<std::uint32_t>@{2, 3@});
 
 @noindent @ @ std::cout << S.size() << '\n';
 
@@ -1734,8 +1644,8 @@ return number of elements in container
 @noindent int main(void)@*
 @{@*
 @ @ Solution S@{@};@*
-@ @ S.emplace_back(std::vector<std::uint32_t>@{1@});@*
-@ @ S.emplace_back(std::vector<std::uint32_t>@{2, 3@});
+@ @ S.push_back(std::vector<std::uint32_t>@{1@});@*
+@ @ S.push_back(std::vector<std::uint32_t>@{2, 3@});
 
 @noindent @ @ std::cout << S.total_size() << '\n';
 
@@ -1766,8 +1676,8 @@ return @code{array} object that contains sorted vector of elements
 @noindent int main(void)@*
 @{@*
 @ @ Solution S@{@};@*
-@ @ S.emplace_back(std::vector<std::uint32_t>@{1@});@*
-@ @ S.emplace_back(std::vector<std::uint32_t>@{2, 3@});
+@ @ S.push_back(std::vector<std::uint32_t>@{1@});@*
+@ @ S.push_back(std::vector<std::uint32_t>@{2, 3@});
 
 @noindent @ @ std::cout << S << '\n';
 
@@ -1806,8 +1716,8 @@ check if current running subspace can form a spread orthogoval to a given spread
 @noindent int main(void)@*
 @{@*
 @ @ Solution S@{@};@*
-@ @ S.emplace_back(std::vector<std::uint32_t>@{1@});@*
-@ @ S.emplace_back(std::vector<std::uint32_t>@{2, 3@});
+@ @ S.push_back(std::vector<std::uint32_t>@{1@});@*
+@ @ S.push_back(std::vector<std::uint32_t>@{2, 3@});
 
 @noindent @ @ AG spread@{@};@*
 @ @ std::cin >> spread;
@@ -1832,7 +1742,7 @@ check if current running subspace can form a spread orthogoval to a given spread
 @node Solution emplace_back
 @unnumberedsec Solution emplace_back
 
-@deftypefn {member} void emplace_back(array &&)
+@deftypefn {member} template<typename... Args>@* @ @ void emplace_back(Args&&)
 construct @code{array} object in place at end of container
 @end deftypefn
 
@@ -1843,13 +1753,14 @@ construct @code{array} object in place at end of container
 @noindent # include <iostream>@*
 # include <cstddef>@*
 # include <vector>@*
+# include <initializer_list>
 # include <solution.h>@*
 
 @noindent int main(void)@*
 @{@*
 @ @ Solution S@{@};@*
-@ @ S.emplace_back(std::vector<std::uint32_t>@{1@});@*
-@ @ S.emplace_back(std::vector<std::uint32_t>@{2, 3@});
+@ @ S.emplace_back(std::initializer_list<std::uint32_t>@{1@});@*
+@ @ S.emplace_back(std::initializer_list<std::uint32_t>@{2, 3@});
 
 @noindent @ @ std::cout << S;
 
@@ -1865,8 +1776,7 @@ construct @code{array} object in place at end of container
 @node Solution push_back
 @unnumberedsec Solution push_back
 
-@deftypefn {member} void push_back(array const&)
-@deftypefnx {member} void push_back(array &&)
+@deftypefn {member} template<typename T>@* @ @ requires std::is_convertible_v<T, array>@* @ @ void push_back(T&&)
 instert @code{array} object into container
 @end deftypefn
 
@@ -1916,8 +1826,8 @@ remove last subset in container
 @noindent int main(void)@*
 @{@*
 @ @ Solution S@{@};@*
-@ @ S.emplace_back(std::vector<std::uint32_t>@{1@});@*
-@ @ S.emplace_back(std::vector<std::uint32_t>@{2, 3@});@*
+@ @ S.push_back(std::vector<std::uint32_t>@{1@});@*
+@ @ S.push_back(std::vector<std::uint32_t>@{2, 3@});@*
 @ @ std::cout << S << '\n';
 
 @noindent @ @ S.pop_back();@*
@@ -1954,8 +1864,8 @@ assigning solution objects
 @noindent int main(void)@*
 @{@*
 @ @ Solution S@{@};@*
-@ @ S.emplace_back(std::vector<std::uint32_t>@{1@});@*
-@ @ S.emplace_back(std::vector<std::uint32_t>@{2, 3@});@*
+@ @ S.push_back(std::vector<std::uint32_t>@{1@});@*
+@ @ S.push_back(std::vector<std::uint32_t>@{2, 3@});@*
 @ @ std::cout << S << '\n'
 
 @noindent @ @ Solution S1@{@};@*
@@ -1999,8 +1909,8 @@ destructing solution objects
 @noindent int main(void)@*
 @{@*
 @ @ Solution S@{@};@*
-@ @ S.emplace_back(std::vector<std::uint32_t>@{1@});@*
-@ @ S.emplace_back(std::vector<std::uint32_t>@{2, 3@});@*
+@ @ S.push_back(std::vector<std::uint32_t>@{1@});@*
+@ @ S.push_back(std::vector<std::uint32_t>@{2, 3@});@*
 @ @ std::cout << S << '\n'
 
 @noindent @ @ Solution S1@{S@};@*
@@ -2026,9 +1936,9 @@ destructing solution objects
 @menu
 Class Types:
 @itemize
-@item @code{typedef typename std::pair<std::uint32_t, std::uint32_t> cell}
-@item @code{typedef typename std::vector<cell> array}
-@item @code{typedef typename std::vector<std::uint32_t> uarray}
+@item @code{using cell = std::pair<std::uint32_t, std::uint32_t>;}
+@item @code{using array = std::vector<cell>;}
+@item @code{using uarray = std::vector<std::uint32_t>;}
 @end itemize
 
 Element Access:
@@ -2185,7 +2095,7 @@ partition the remaining vectors in the ambient space into subsets which when joi
 @{@*
 @ @ Space S@{16@};@*
 @ @ Solution Sol@{@};@*
-@ @ Sol.emplace_back(std::vector<std::uint32_t>@{1@});@*
+@ @ Sol.push_back(std::vector<std::uint32_t>@{1@});@*
 @ @ S.cover(1);
 
 @noindent @ @ std::vector<std::vector<std::uint32_t> > arr@{S.partition(Sol)@};@*
@@ -2298,7 +2208,7 @@ destruct space object
 @node Sec 3
 @chapter Executable Documentation
 
-There are six executables included in this package:
+There are seven executables included in this package:
 
 @menu
 
@@ -2306,6 +2216,7 @@ There are six executables included in this package:
 * automorphisms:: calculate orbit and autorphism group of canonical spread
 * mutually_orthogoval:: find maximal sets of mutually orthogoval sets via clique search
 * feasible_coverings:: find maximal sets of mutually orthogoval sets via exact cover search
+* feasible_coverings_cost:: time estimate for @code{feasible_coverings}
 * feasible_subspaces:: find all subspaces capable of forming a spread orthogoval to the canonical spread
 * feasible_subspaces_imp:: additional routine to find all subspaces capable of forming a spread orthogoval to the canonical spread
 
@@ -2413,6 +2324,29 @@ coverings are written to @code{stdout}. The parameters are as follows:
 @item @code{<optsize>} -- number of nozero vectors in feasible subspace
 @end itemize
 
+@node feasible_coverings_cost
+@unnumberedsec feasible_coverings_cost
+
+The executable @code{feasible_coverings_cost} takes the nonzero vectors
+of the feasible subspaces generated by the executable
+@code{feasible_subspaces} and estimates the time cost of running Knuth's
+Algorithm X.
+
+@noindent Usage:
+
+@noindent From the top of the build directory, run
+
+@code{./src/feasible_coverings_cost <nitems> <noptions> <optsize>}
+
+@noindent The options (feasible subspaces) are read from @code{stdin}. The
+estimate is written to @code{stdout}. The parameters are as follows:
+
+@itemize
+@item @code{<nitems>} -- number of nonzero vectors in the ambient vector space
+@item @code{<noptions>} -- number of feasible subspaces
+@item @code{<optsize>} -- number of nozero vectors in feasible subspace
+@end itemize
+
 @node feasible_subspaces
 @unnumberedsec feasible_subspaces
 
@@ -2466,14 +2400,15 @@ directory. The feasible subspaces are written to @code{stdout}.
 @node Sec 4
 @chapter Auxiliary Scripts
 
-There are two auxiliary Bourne shell scripts given as part of this
-package. They reside in the folder @code{data}. Each of thes scripts
-requires that @code{sagemath} is installed on the user's computer and
+There are three auxiliary Bourne shell scripts given as part of this
+package. They reside in the folder @code{data}. Two of these scripts
+require that @code{sagemath} is installed on the user's computer and
 executable with @code{sage}.
 
 @menu
 * canonical_spread.sh:: generate canonical line spread
 * spread_basis.sh:: generate basis for canonical spread
+* cost.sh:: time estimates for Knuth's Algorithm X
 @end menu
 
 @node canonical_spread.sh
@@ -2516,6 +2451,31 @@ of a given degree.
 
 @noindent The spread is written to the file @code{spread_basis.q.txt} where
 @code{q} is the order of the associated affine plane.
+
+@node cost.sh
+@unnumberedsec cost.sh
+
+This script calls the executable @code{feasible_coverings_cost} and runs
+1000 trials in order to estimate the run time of the executable
+@code{feasible_coverings}. The random number generator @code{Mersenne
+Twister} was used for randomized branching.
+
+@noindent Usage:
+
+@noindent From the top of the @code{data} directory, run
+
+@code{sh cost.sh <nitems> <noptions> <optsize> <subspace_file>}
+
+@noindent The parameters are as follows:
+
+@itemize
+@item <nitems> -- number of items to cover
+@item <noptions> -- number of options with which to cover the items
+@item <optsize> -- constant size of each option
+@item <subspace_file> -- file containing the options (subspaces less zero vector)
+@end itemize
+
+The time estimates are stored in the file @code{cost.$(( <optsize> + 1 )).log}.
 
 @node Sec 5
 @chapter GNU Free Documentation License

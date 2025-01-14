@@ -61,8 +61,6 @@ int main(int argc, char **argv)
 
     canonical.resize(order+1, order);
     F >> canonical;
-
-    F.close();
   }
 
   /* calculate intersection of orbit and orthogoval pairs */

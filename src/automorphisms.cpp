@@ -66,8 +66,6 @@ int main(int argc, char **argv)
     can.resize(order + 1, order);
     F >> can;
 
-    F.close();
-
     canonical.first = can;
   }
 

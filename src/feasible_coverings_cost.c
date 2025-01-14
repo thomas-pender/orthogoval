@@ -3,28 +3,31 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <stddef.h>
+# include <stdint.h>
+# include <time.h>
 # include <errno.h>
 # include <error.h>
 
 typedef struct {
-  unsigned left, right, down, up, top;
+  uint32_t left, right, down, up, top;
 } node_t;
 
-unsigned N, NSOLS, SETSIZE, INDEX = 0, NSOLUTIONS = 7;
-unsigned ***SOLUTION = NULL;
+long double S = 0.0;
+int64_t D = 1;
+uint32_t N, NSOLS, SETSIZE, INDEX = 0, NSOLUTIONS = 7, ***SOLUTION = NULL;
 
 // initialize ------------------------------------------------------------------
 
 void initialize(node_t **table,
-                unsigned **solution,
-                unsigned **feasible,
-                unsigned nfeasible)
+                uint32_t **solution,
+                uint32_t **feasible,
+                uint32_t nfeasible)
 {
-  unsigned i, j, k, item, p;
+  uint32_t i, j, k, item, p;
 
-  unsigned z = N + (nfeasible * SETSIZE);
+  uint32_t z = N + (nfeasible * SETSIZE);
   *table = (node_t*)malloc((z + 1) * sizeof(node_t));
-  *solution = (unsigned*)malloc(NSOLS * sizeof(unsigned));
+  *solution = (uint32_t*)malloc(NSOLS * sizeof(uint32_t));
 
   /* initialize left/right links in header */
   for ( i = 1; i <= N; i++ ) {
@@ -74,7 +77,7 @@ void initialize(node_t **table,
 }
 
 static inline
-void destroy(node_t **table, unsigned **solution)
+void destroy(node_t **table, uint32_t **solution)
 {
   if ( *table != NULL ) free(*table);
   if ( *solution != NULL ) free(*solution);
@@ -82,9 +85,9 @@ void destroy(node_t **table, unsigned **solution)
 
 // covering/uncovering----------------------------------------------------------
 
-void cover(node_t *table, unsigned c)
+void cover(node_t *table, uint32_t c)
 {
-  unsigned i, j, r, l, u, d;
+  uint32_t i, j, r, l, u, d;
 
   /* cover c in header */
   l = table[c].left;
@@ -103,9 +106,9 @@ void cover(node_t *table, unsigned c)
     }
 }
 
-void uncover(node_t *table, unsigned c)
+void uncover(node_t *table, uint32_t c)
 {
-  unsigned i, j, r, l, u, d;
+  uint32_t i, j, r, l, u, d;
 
   /* unhide every item in any option containing c */
   for ( i = table[c].up; i != c; i = table[i].up )
@@ -127,9 +130,9 @@ void uncover(node_t *table, unsigned c)
 // find min --------------------------------------------------------------------
 
 static inline
-unsigned min(node_t *table, unsigned nfeasible)
+uint32_t min(node_t *table, uint32_t nfeasible)
 {
-  unsigned c, j, s = nfeasible;
+  uint32_t c, j, s = nfeasible;
   for ( j = table[0].right; j != 0; j = table[j].right )
     if ( table[j].top < s ) {
       c = j;
@@ -142,8 +145,8 @@ unsigned min(node_t *table, unsigned nfeasible)
 
 int cmp(const void *_a, const void *_b)
 {
-  unsigned a = *(unsigned*)_a;
-  unsigned b = *(unsigned*)_b;
+  uint32_t a = *(uint32_t*)_a;
+  uint32_t b = *(uint32_t*)_b;
   if ( a < b ) return -1;
   if (a > b) return 1;
   return 0;
@@ -151,18 +154,18 @@ int cmp(const void *_a, const void *_b)
 
 int line_cmp(const void *_a, const void *_b)
 {
-  unsigned *a = *(unsigned**)_a;
-  unsigned *b = *(unsigned**)_b;
-  for ( unsigned i = 0; i < SETSIZE; i++ ) {
+  uint32_t *a = *(uint32_t**)_a;
+  uint32_t *b = *(uint32_t**)_b;
+  for ( uint32_t i = 0; i < SETSIZE; i++ ) {
     if ( a[i] == b[i] ) continue;
     if ( a[i] < b[i] ) return -1;
     return 1;
   }
 }
 
-void append_spread(node_t *table, unsigned *solution)
+void append_spread(node_t *table, uint32_t *solution)
 {
-  unsigned i, j, s, index;
+  uint32_t i, j, s, index;
   for ( i = 0; i < NSOLS; i++ ) {
     s = solution[i];
     j = s;
@@ -171,14 +174,14 @@ void append_spread(node_t *table, unsigned *solution)
       SOLUTION[INDEX][i][index++] = table[j].top;
       j = table[j].right;
     } while ( j != s );
-    qsort(SOLUTION[INDEX][i], SETSIZE, sizeof(unsigned), cmp);
+    qsort(SOLUTION[INDEX][i], SETSIZE, sizeof(uint32_t), cmp);
   }
-  qsort(SOLUTION[INDEX], SETSIZE + 2, sizeof(unsigned*), line_cmp);
+  qsort(SOLUTION[INDEX], SETSIZE + 2, sizeof(uint32_t*), line_cmp);
 }
 
-unsigned check_intersect(unsigned *feasible)
+uint32_t check_intersect(uint32_t *feasible)
 {
-  unsigned k1, k2, i, intersect;
+  uint32_t k1, k2, i, intersect;
   for ( i = 0; i < NSOLS; i++ ) {
     intersect = 0;
     for ( k1 = 0, k2 = 0; k1 < SETSIZE && k2 < SETSIZE; ) {
@@ -193,15 +196,15 @@ unsigned check_intersect(unsigned *feasible)
   return 1;
 }
 
-unsigned **make_new_feasible(unsigned **old_feasible,
-                             unsigned nfeasible,
-                             unsigned *new_nfeasible)
+uint32_t **make_new_feasible(uint32_t **old_feasible,
+                             uint32_t nfeasible,
+                             uint32_t *new_nfeasible)
 {
-  unsigned i, j, index;
-  unsigned **new_feasible = (unsigned**)malloc(nfeasible * sizeof(unsigned*));
+  uint32_t i, j, index;
+  uint32_t **new_feasible = (uint32_t**)malloc(nfeasible * sizeof(uint32_t*));
   for ( i = 0, index = 0; i < nfeasible; i++ ) {
     if ( check_intersect(old_feasible[i]) == 1 ) {
-      new_feasible[index] = (unsigned*)malloc(SETSIZE * sizeof(unsigned));
+      new_feasible[index] = (uint32_t*)malloc(SETSIZE * sizeof(uint32_t));
       for ( j = 0; j < SETSIZE; j++ ) new_feasible[index][j] = old_feasible[i][j];
       index++;
     }
@@ -211,80 +214,144 @@ unsigned **make_new_feasible(unsigned **old_feasible,
 }
 
 static inline
-void free_feasible(unsigned **feasible, unsigned nfeasible)
+void free_feasible(uint32_t **feasible, uint32_t nfeasible)
 {
-  for ( unsigned i = 0; i < nfeasible; i++ )
+  for ( uint32_t i = 0; i < nfeasible; i++ )
     if ( feasible[i] != NULL ) free(feasible[i]);
   free(feasible);
 }
 
+// Mersenne Twister ------------------------------------------------------------
+
+/* period parameters */
+# define MT_N 624
+# define MT_M 397
+# define MATRIX_A 0x9908b0df
+# define UPPER_MASK 0x80000000
+# define LOWER_MASK 0x7fffffff
+
+/* tempering parameters */
+# define TEMPERING_MASK_B 0x9d2c5680
+# define TEMPERING_MASK_C 0xefc60000
+# define TEMPERING_SHIFT_U(y) ((y) >> 11UL)
+# define TEMPERING_SHIFT_S(y) ((y) << 7UL)
+# define TEMPERING_SHIFT_T(y) ((y) << 15UL)
+# define TEMPERING_SHIFT_L(y) ((y) >> 18UL)
+
+uint32_t MT[MT_N];       /* state vector */
+uint32_t MTI = MT_N + 1;
+
+static inline
+void sgenrand(uint32_t seed)
+{
+  MT[0] = seed & 0xffffffff;
+  for ( MTI = 1; MTI < MT_N; MTI++ )
+    MT[MTI] = (69069UL * MT[MTI - 1]) & 0xffffffff;
+}
+
+long double genrand()
+{
+  uint32_t y;
+  static uint32_t mag01[2] = {0x0, MATRIX_A};
+
+  if ( MTI >= MT_N ) {
+    size_t k;
+    if ( MTI == MT_N + 1 ) sgenrand(4357);
+
+    for ( k = 0; k < MT_N - MT_M; k++ ) {
+      y = (MT[k] & UPPER_MASK) | (MT[k + 1] & LOWER_MASK);
+      MT[k] = MT[k + MT_M] ^ (y >> 1UL) ^ mag01[y & 0x1];
+    }
+    for ( ; k < MT_N - 1; k++ ) {
+      y = (MT[k] & UPPER_MASK) | (MT[k + 1] & LOWER_MASK);
+      MT[k] = MT[k + MT_M - MT_N] ^ (y >> 1UL) ^ mag01[y & 0x1];
+    }
+    y = (MT[MT_N - 1] & UPPER_MASK) | (MT[0] & LOWER_MASK);
+    MT[MT_N - 1] = MT[MT_M - 1] ^ (y >> 1UL) ^ mag01[y & 0x1];
+    MTI = 0;
+  }
+
+  y = MT[MTI++];
+  y ^= TEMPERING_SHIFT_U(y);
+  y ^= TEMPERING_SHIFT_S(y) & TEMPERING_MASK_B;
+  y ^= TEMPERING_SHIFT_T(y) & TEMPERING_MASK_C;
+  y ^= TEMPERING_SHIFT_L(y);
+
+  return (long double)y / (uint32_t)0xffffffff;
+}
+
+static inline
+uint32_t uniform_int(uint32_t _d)
+{
+  return genrand() * _d;
+}
+
 // algorithm X -----------------------------------------------------------------
 
+static inline
 void print(void)
 {
-  unsigned i, j, k;
-  for ( i = 0; i < INDEX; i++ ) {
-    for ( j = 0; j < SETSIZE + 2; j++ ) {
-      for ( k = 0; k < SETSIZE; k++ ) printf("%u ", SOLUTION[i][j][k]);
-      printf("\n");
-    }
-    printf("\n");
-  }
-  printf("\n##############################################################\n\n");
+  printf("%Lf\n", S / 3600);
   fflush(stdout);
 }
 
+_Noreturn
 void dfs(node_t *table,
-         unsigned *restrict solution,
-         unsigned k,
-         unsigned *restrict*restrict feasible,
-         unsigned nfeasible)
+         uint32_t *restrict solution,
+         uint32_t k,
+         uint32_t *restrict*restrict feasible,
+         uint32_t nfeasible)
 {
-  if ( nfeasible < SETSIZE + 2 || INDEX >= 7 ) {
-    printf("CLIQUE SIZE = %u\n\n", INDEX);
+  clock_t begin = clock();
+
+  if ( nfeasible < SETSIZE + 2 || INDEX >= 3 ) {
     print();
-    return;
+    exit(0);
   }
-  /* if ( nfeasible < SETSIZE + 2 || INDEX >= 3 ) { */
-  /*   if (INDEX >= 3) { */
-  /*     printf("CLIQUE SIZE = %u\n\n", INDEX); */
-  /*     print(); */
-  /*     exit(0); */
-  /*   } */
-  /*   return; */
-  /* } */
   if ( table[0].right == 0 ) {
-    unsigned new_nfeasible = 0;
+    uint32_t new_nfeasible = 0;
     append_spread(table, solution); INDEX++;
-    unsigned **new_feasible = make_new_feasible(feasible, nfeasible,
+    uint32_t **new_feasible = make_new_feasible(feasible, nfeasible,
                                                 &new_nfeasible);
     node_t *new_table;
-    unsigned *new_solution;
+    uint32_t *new_solution;
     initialize(&new_table, &new_solution, new_feasible, new_nfeasible);
+
+    clock_t end = clock();
+    long double cost = (long double)(end - begin) / CLOCKS_PER_SEC;
+    S += D * cost;
+
     dfs(new_table, new_solution, 0, new_feasible, new_nfeasible);
-    destroy(&new_table, &new_solution);
-    free_feasible(new_feasible, new_nfeasible);
-    INDEX--;
-    return;
+
+    error(1, errno, "ERROR -- return failure 1");
   }
 
-  unsigned j, c, r;
+  uint32_t j, c, r, R, p;
 
   c = min(table, nfeasible);
   cover(table, c);
 
-  for ( r = table[c].down; r != c; r = table[r].down ) {
-    solution[k] = r;
-    for ( j = table[r].right; j != r; j = table[j].right )
-      cover(table, table[j].top);
-    dfs(table, solution, k + 1, feasible, nfeasible);
-    r = solution[k];
-    c = table[r].top;
-    for ( j = table[r].left; j != r; j = table[j].left )
-      uncover(table, table[j].top);
+  if ( table[c].top == 0 ) {
+    print();
+    exit(0);
   }
+  D *= table[c].top;
+  if ( D < 0 ) error(1, errno, "ERROR -- overload error");
 
-  uncover(table, c);
+  R = uniform_int(table[c].top);
+  for ( p = 0, r = table[c].down; r != c && p < R; r = table[r].down, p++ );
+
+  solution[k] = r;
+  for ( j = table[r].right; j != r; j = table[j].right )
+    cover(table, table[j].top);
+
+  clock_t end = clock();
+  long double cost = (long double)(end - begin) / CLOCKS_PER_SEC;
+  S += D * cost;
+
+  dfs(table, solution, k + 1, feasible, nfeasible);
+
+  error(1, errno, "ERROR -- return failure 2");
 }
 
 // driver ----------------------------------------------------------------------
@@ -294,7 +361,7 @@ int main(int argc, char **argv)
   if ( argc < 4 )
     error(1, errno, "USAGE: ./feasible_coverings <nitems> <noptions> <optsize> < <ifile>");
 
-  unsigned i, j, nfeasible;
+  uint32_t i, j, nfeasible;
 
   if ( sscanf(argv[1], "%u", &N) == EOF )
     error(1, errno, "ERROR: could not read <nitems>");
@@ -303,11 +370,11 @@ int main(int argc, char **argv)
   if ( sscanf(argv[3], "%u", &SETSIZE) == EOF )
     error(1, errno, "ERROR: could not read <optsize>");
 
-  SOLUTION = (unsigned***)malloc(NSOLUTIONS * sizeof(unsigned**));
+  SOLUTION = (uint32_t***)malloc(NSOLUTIONS * sizeof(uint32_t**));
   for ( i = 0; i < NSOLUTIONS; i++ ) {
-    SOLUTION[i] = (unsigned**)malloc((SETSIZE + 2) * sizeof(unsigned*));
+    SOLUTION[i] = (uint32_t**)malloc((SETSIZE + 2) * sizeof(uint32_t*));
     for ( j = 0; j < SETSIZE + 2; j ++ )
-      SOLUTION[i][j] = (unsigned*)malloc(SETSIZE * sizeof(unsigned));
+      SOLUTION[i][j] = (uint32_t*)malloc(SETSIZE * sizeof(uint32_t));
   }
 
   NSOLS = N / SETSIZE;
@@ -317,29 +384,24 @@ int main(int argc, char **argv)
   if ( NSOLS > nfeasible )
     error(1, errno, "ERROR: not enough options to cover items");
 
-  unsigned **feasible = (unsigned**)malloc(nfeasible * sizeof(unsigned*));
+  uint32_t **feasible = (uint32_t**)malloc(nfeasible * sizeof(uint32_t*));
   for ( i = 0; i < nfeasible; i++ ) {
-    feasible[i] = (unsigned*)malloc(SETSIZE * sizeof(unsigned));
+    feasible[i] = (uint32_t*)malloc(SETSIZE * sizeof(uint32_t));
     for ( j = 0; j < SETSIZE; j++ )
       if ( scanf("%u", &feasible[i][j]) == EOF )
         error(1, errno, "ERROR: failed to read option %u item %u", i + 1, j + 1);
-    qsort(feasible[i], SETSIZE, sizeof(unsigned), cmp);
+    qsort(feasible[i], SETSIZE, sizeof(uint32_t), cmp);
   }
 
   node_t *table;
-  unsigned *solution;
+  uint32_t *solution;
   initialize(&table, &solution, feasible, nfeasible);
+
+  sgenrand(time(NULL));
 
   dfs(table, solution, 0, feasible, nfeasible);
 
-  destroy(&table, &solution);
-  free_feasible(feasible, nfeasible);
-
-  for ( i = 0; i < NSOLUTIONS; i++ ) {
-    for ( j = 0; j < SETSIZE + 2; j++ ) free(SOLUTION[i][j]);
-    free(SOLUTION[i]);
-  }
-  free(SOLUTION);
+  error(1, errno, "ERROR -- return failure 3");
 
   exit(0);
 }

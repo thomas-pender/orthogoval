@@ -7,14 +7,16 @@
 # include <numeric>
 # include <cstddef>
 # include <vector>
+# include <type_traits>
+# include <utility>
 
 # include <ag.h>
 
 class Solution
 {
-  typedef typename std::vector<std::uint32_t> array;
-  typedef typename std::vector<array>::iterator iterator;
-  typedef typename std::vector<array>::const_iterator const_iterator;
+  using array = std::vector<std::uint32_t>;
+  using iterator = std::vector<array>::iterator;
+  using const_iterator = std::vector<array>::const_iterator;
 
   friend std::ostream& operator<<(std::ostream& os, Solution const& S)
   {
@@ -59,9 +61,16 @@ public:
     return true;
   }
 
-  void emplace_back(array && v) { M.emplace_back(std::move(v)); }
-  void push_back(array const& v) { M.push_back(v); }
-  void push_back(array && v) { M.push_back(std::move(v)); }
+  template<typename... Args>
+  void emplace_back(Args&&... args)
+  {
+    M.emplace_back(std::forward<Args>(args)...);
+  }
+
+  template <typename T>
+  requires std::is_convertible_v<T, array>
+  void push_back(T&& v) { M.push_back(std::forward<T>(v)); }
+
   void pop_back() { M.pop_back(); }
 
   array& operator[](std::size_t i) & { return M[i]; }
@@ -69,9 +78,10 @@ public:
   array operator[](std::size_t i) && { return std::move(M[i]); }
 
   iterator begin() & { return M.begin(); }
+  const_iterator begin() const& { return M.begin(); }
+
   iterator end() & { return M.end(); }
-  const_iterator cbegin() const { return M.cbegin(); }
-  const_iterator cend() const { return M.cend(); }
+  const_iterator end() const& { return M.end(); }
 
   Solution& operator=(Solution const&) & = default;
   Solution& operator=(Solution &&) & noexcept = default;

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ $# -eq 0 ]; then echo "Error -- expects exponent as parameter." ; exit 1 ; fi
+if [ $# -eq 0 ]; then echo "ERROR -- expects exponent as parameter." ; exit 1 ; fi
 
 sage -q 1> /dev/null 2>&1 <<EOF
 n=$1

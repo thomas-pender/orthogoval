@@ -8,16 +8,18 @@
 # include <cstddef>
 # include <iterator>
 # include <cassert>
+# include <type_traits>
+# include <utility>
 
 class matrix
 {
-  typedef typename std::pair<std::size_t, std::size_t> dimensions;
-  typedef typename std::vector<std::uint32_t> container;
-  typedef typename container::iterator iterator;
-  typedef typename container::const_iterator const_iterator;
+  using dimensions = std::pair<std::size_t, std::size_t>;
+  using container = std::vector<std::uint32_t>;
+  using iterator = container::iterator;
+  using const_iterator = container::const_iterator;
 
   friend std::ostream& operator<<(std::ostream& os, matrix const& A) {
-    std::copy(A.cbegin(), A.cend(),
+    std::copy(A.begin(), A.end(),
               std::ostream_iterator<std::uint32_t>(os, " "));
     os << '\n';
     return os;
@@ -84,11 +86,9 @@ public:
   dimensions const& shape() const& { return dims; }
 
   std::size_t& nrows() & { return dims.first; }
-  std::size_t nrows() && { return std::move(dims.first); }
   std::size_t const& nrows() const& { return dims.first; }
 
   std::size_t& ncols() & { return dims.second; }
-  std::size_t ncols() && { return std::move(dims.second); }
   std::size_t const& ncols() const& { return dims.second; }
 
   std::uint32_t& operator[](std::size_t i) & { return M[i]; }
@@ -115,9 +115,10 @@ public:
   }
 
   iterator begin() & { return M.begin(); }
+  const_iterator begin() const& { return M.begin(); }
+
   iterator end() & { return M.end(); }
-  const_iterator cbegin() const { return M.cbegin(); }
-  const_iterator cend() const { return M.cend(); }
+  const_iterator end() const& { return M.end(); }
 
   matrix& operator=(matrix && A) & noexcept = default;
   matrix& operator=(matrix const& A) & = default;
@@ -125,19 +126,18 @@ public:
   matrix() = default;
   matrix(matrix const&) = default;
   matrix(matrix &&) noexcept = default;
-  explicit matrix(container const& v) :
-    M{v}, dims{M.size(), M.size()} {}
-  explicit matrix(container && v) :
-    M{std::move(v)}, dims{M.size(), M.size()} {}
-  matrix(container const& v, std::size_t j) :
-    M{v}, dims{M.size(), j} {}
-  matrix(container && v, std::size_t j) :
-    M{std::move(v)}, dims{M.size(), j} {}
-  explicit matrix(std::size_t n) :
-    M(n, 0), dims{n, n} {}
-  matrix(std::size_t i, std::size_t j) :
-    M(i,0), dims{i, j} {}
   ~matrix() = default;
+
+  template <typename T>
+  requires std::is_convertible_v<T, container>
+  explicit matrix(T &&v) : M{std::forward<T>(v)}, dims{M.size(), M.size()} {}
+
+  template <typename T>
+  requires std::is_convertible_v<T, container>
+  matrix(T&& v, std::size_t j) : M{std::forward<T>(v)}, dims{M.size(), j} {}
+
+  explicit matrix(std::size_t n) : M(n, 0), dims{n, n} {}
+  matrix(std::size_t i, std::size_t j) : M(i,0), dims{i, j} {}
 
 private:
   container M;
