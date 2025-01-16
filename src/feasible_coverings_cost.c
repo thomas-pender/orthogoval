@@ -223,61 +223,81 @@ void free_feasible(uint32_t **feasible, uint32_t nfeasible)
 
 // Mersenne Twister ------------------------------------------------------------
 
-/* period parameters */
-# define MT_N 624
-# define MT_M 397
-# define MATRIX_A 0x9908b0df
-# define UPPER_MASK 0x80000000
-# define LOWER_MASK 0x7fffffff
+/* /\* period parameters *\/ */
+/* # define MT_N 624 */
+/* # define MT_M 397 */
+/* # define MATRIX_A 0x9908b0df */
+/* # define UPPER_MASK 0x80000000 */
+/* # define LOWER_MASK 0x7fffffff */
 
-/* tempering parameters */
-# define TEMPERING_MASK_B 0x9d2c5680
-# define TEMPERING_MASK_C 0xefc60000
-# define TEMPERING_SHIFT_U(y) ((y) >> 11UL)
-# define TEMPERING_SHIFT_S(y) ((y) << 7UL)
-# define TEMPERING_SHIFT_T(y) ((y) << 15UL)
-# define TEMPERING_SHIFT_L(y) ((y) >> 18UL)
+/* /\* tempering parameters *\/ */
+/* # define TEMPERING_MASK_B 0x9d2c5680 */
+/* # define TEMPERING_MASK_C 0xefc60000 */
+/* # define TEMPERING_SHIFT_U(y) ((y) >> 11UL) */
+/* # define TEMPERING_SHIFT_S(y) ((y) << 7UL) */
+/* # define TEMPERING_SHIFT_T(y) ((y) << 15UL) */
+/* # define TEMPERING_SHIFT_L(y) ((y) >> 18UL) */
 
-uint32_t MT[MT_N];       /* state vector */
-uint32_t MTI = MT_N + 1;
+/* uint32_t MT[MT_N];       /\* state vector *\/ */
+/* uint32_t MTI = MT_N + 1; */
+
+/* static inline */
+/* void sgenrand(uint32_t seed) */
+/* { */
+/*   MT[0] = seed & 0xffffffff; */
+/*   for ( MTI = 1; MTI < MT_N; MTI++ ) */
+/*     MT[MTI] = (69069UL * MT[MTI - 1]) & 0xffffffff; */
+/* } */
+
+/* long double genrand(void) */
+/* { */
+/*   uint32_t y; */
+/*   static uint32_t mag01[2] = {0x0, MATRIX_A}; */
+
+/*   if ( MTI >= MT_N ) { */
+/*     size_t k; */
+/*     if ( MTI == MT_N + 1 ) sgenrand(4357); */
+
+/*     for ( k = 0; k < MT_N - MT_M; k++ ) { */
+/*       y = (MT[k] & UPPER_MASK) | (MT[k + 1] & LOWER_MASK); */
+/*       MT[k] = MT[k + MT_M] ^ (y >> 1UL) ^ mag01[y & 0x1]; */
+/*     } */
+/*     for ( ; k < MT_N - 1; k++ ) { */
+/*       y = (MT[k] & UPPER_MASK) | (MT[k + 1] & LOWER_MASK); */
+/*       MT[k] = MT[k + MT_M - MT_N] ^ (y >> 1UL) ^ mag01[y & 0x1]; */
+/*     } */
+/*     y = (MT[MT_N - 1] & UPPER_MASK) | (MT[0] & LOWER_MASK); */
+/*     MT[MT_N - 1] = MT[MT_M - 1] ^ (y >> 1UL) ^ mag01[y & 0x1]; */
+/*     MTI = 0; */
+/*   } */
+
+/*   y = MT[MTI++]; */
+/*   y ^= TEMPERING_SHIFT_U(y); */
+/*   y ^= TEMPERING_SHIFT_S(y) & TEMPERING_MASK_B; */
+/*   y ^= TEMPERING_SHIFT_T(y) & TEMPERING_MASK_C; */
+/*   y ^= TEMPERING_SHIFT_L(y); */
+
+/*   return (long double)y / (uint32_t)0xffffffff; */
+/* } */
+
+/* static inline */
+/* uint32_t uniform_int(uint32_t _d) */
+/* { */
+/*   return genrand() * _d; */
+/* } */
+
+// C rand ----------------------------------------------------------------------
 
 static inline
-void sgenrand(uint32_t seed)
+sgenrand(uint32_t seed)
 {
-  MT[0] = seed & 0xffffffff;
-  for ( MTI = 1; MTI < MT_N; MTI++ )
-    MT[MTI] = (69069UL * MT[MTI - 1]) & 0xffffffff;
+  srand(seed);
 }
 
-long double genrand()
+static inline
+long double genrand(void)
 {
-  uint32_t y;
-  static uint32_t mag01[2] = {0x0, MATRIX_A};
-
-  if ( MTI >= MT_N ) {
-    size_t k;
-    if ( MTI == MT_N + 1 ) sgenrand(4357);
-
-    for ( k = 0; k < MT_N - MT_M; k++ ) {
-      y = (MT[k] & UPPER_MASK) | (MT[k + 1] & LOWER_MASK);
-      MT[k] = MT[k + MT_M] ^ (y >> 1UL) ^ mag01[y & 0x1];
-    }
-    for ( ; k < MT_N - 1; k++ ) {
-      y = (MT[k] & UPPER_MASK) | (MT[k + 1] & LOWER_MASK);
-      MT[k] = MT[k + MT_M - MT_N] ^ (y >> 1UL) ^ mag01[y & 0x1];
-    }
-    y = (MT[MT_N - 1] & UPPER_MASK) | (MT[0] & LOWER_MASK);
-    MT[MT_N - 1] = MT[MT_M - 1] ^ (y >> 1UL) ^ mag01[y & 0x1];
-    MTI = 0;
-  }
-
-  y = MT[MTI++];
-  y ^= TEMPERING_SHIFT_U(y);
-  y ^= TEMPERING_SHIFT_S(y) & TEMPERING_MASK_B;
-  y ^= TEMPERING_SHIFT_T(y) & TEMPERING_MASK_C;
-  y ^= TEMPERING_SHIFT_L(y);
-
-  return (long double)y / (uint32_t)0xffffffff;
+  return (long double)rand() / RAND_MAX;
 }
 
 static inline
