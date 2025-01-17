@@ -311,7 +311,7 @@ uint32_t uniform_int(uint32_t _d)
 static inline
 void print(void)
 {
-  printf("%Lf\n", S / 3600);
+  printf("%Lf\t%ld\n", S / 3600, D);
   fflush(stdout);
 }
 
@@ -355,8 +355,6 @@ void dfs(node_t *table,
     print();
     exit(0);
   }
-  D *= table[c].top;
-  if ( D < 0 ) error(1, errno, "ERROR -- overload error");
 
   R = uniform_int(table[c].top);
   for ( p = 0, r = table[c].down; r != c && p < R; r = table[r].down, p++ );
@@ -368,6 +366,10 @@ void dfs(node_t *table,
   clock_t end = clock();
   long double cost = (long double)(end - begin) / CLOCKS_PER_SEC;
   S += D * cost;
+
+  D *= table[c].top;
+  if (D < 0)
+    error(1, errno, "ERROR -- overload error");
 
   dfs(table, solution, k + 1, feasible, nfeasible);
 
@@ -404,6 +406,8 @@ int main(int argc, char **argv)
   if ( NSOLS > nfeasible )
     error(1, errno, "ERROR: not enough options to cover items");
 
+  clock_t begin = clock();
+
   uint32_t **feasible = (uint32_t**)malloc(nfeasible * sizeof(uint32_t*));
   for ( i = 0; i < nfeasible; i++ ) {
     feasible[i] = (uint32_t*)malloc(SETSIZE * sizeof(uint32_t));
@@ -418,6 +422,9 @@ int main(int argc, char **argv)
   initialize(&table, &solution, feasible, nfeasible);
 
   sgenrand(time(NULL));
+
+  clock_t end = clock();
+  S += (long double)(end - begin) / CLOCKS_PER_SEC;
 
   dfs(table, solution, 0, feasible, nfeasible);
 
